@@ -6,7 +6,7 @@ import java.util.Set;
 
 import org.hibernate.validator.constraints.br.CPF;
 
-import com.wallace.spring.boot.exceptions.DomainException;
+import com.wallace.spring.boot.exceptions.ContaJaExistenteException;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -41,7 +41,7 @@ public class Cliente {
 	public void adicionarNovaConta(Conta novaConta) {
 		for(Conta contasDoCliente : this.contas) {
 			if(contasDoCliente.getClass().equals(novaConta.getClass())) {
-				throw new DomainException("Só pode haver uma conta corrente por cliente!");
+				throw new ContaJaExistenteException("Só pode haver uma conta corrente por cliente!");
 			}
 		}
 		this.contas.add(novaConta);
