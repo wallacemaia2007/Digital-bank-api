@@ -3,9 +3,11 @@ package com.wallace.spring.boot.model.entities;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
+import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 
 @Entity
+@DiscriminatorValue("CP")
 public class ContaPoupanca extends Conta {
 
 	public BigDecimal simularRendimento(BigDecimal taxaJurosMensal, long meses) {

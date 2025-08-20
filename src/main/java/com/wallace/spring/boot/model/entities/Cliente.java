@@ -4,19 +4,38 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
+import org.hibernate.validator.constraints.br.CPF;
+
 import com.wallace.spring.boot.exceptions.DomainException;
 
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Size;
 
 @Entity
 @Table(name = "clientes")
 public class Cliente {
-
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "cliente_id")
 	private Integer id;
+	
+	@Size(max = 100, min = 3, message = "O nome deve conter no mínimo 3 caracteres ne máximo 100")
+	@Column(name = "Nome", nullable = false)
 	private String nome;
+	
+	@CPF(message = "Cpf inválido")
+	@Column(name = "Cpf")
 	private String cpf;
 
+	@OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
 	private Set<Conta> contas = new HashSet<Conta>();
 
 	public void adicionarNovaConta(Conta novaConta) {
