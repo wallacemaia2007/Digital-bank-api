@@ -33,10 +33,10 @@ public class ClienteService {
 	//POST
 	@Transactional
 	public Cliente cadastrarCliente(ClienteRequestDTO clienteRequestDTO) {
-		if (clienterepository.findByCpf(clienteRequestDTO.getCpf()).isPresent()) {
+		if (clienterepository.findByCpf(clienteRequestDTO.cpf()).isPresent()) {
 			throw new CpfJaExistenteException("CPF já cadastrado no sistema.");
 		}
-		Cliente novoCliente = new Cliente(clienteRequestDTO.getNome(), clienteRequestDTO.getCpf());
+		Cliente novoCliente = new Cliente(clienteRequestDTO.nome(), clienteRequestDTO.cpf());
 		clienterepository.save(novoCliente);
 		return novoCliente;
 	}
@@ -45,11 +45,11 @@ public class ClienteService {
 	@Transactional
 	public Cliente alterarDadosClientePorCPF(String cpf,ClienteRequestDTO clienteRequestDTO) {
 		Cliente cliente = buscarClientePorCPF(cpf);
-		if (!cliente.getCpf().equals(clienteRequestDTO.getCpf()) && clienterepository.findByCpf(clienteRequestDTO.getCpf()).isPresent()) {
+		if (!cliente.getCpf().equals(clienteRequestDTO.cpf()) && clienterepository.findByCpf(clienteRequestDTO.cpf()).isPresent()) {
 			throw new CpfJaExistenteException("CPF já cadastrado no sistema.");
 		}
-		cliente.setNome(clienteRequestDTO.getNome());
-		cliente.setCpf(clienteRequestDTO.getCpf());
+		cliente.setNome(clienteRequestDTO.nome());
+		cliente.setCpf(clienteRequestDTO.cpf());
 
 		clienterepository.save(cliente);
 		return cliente;

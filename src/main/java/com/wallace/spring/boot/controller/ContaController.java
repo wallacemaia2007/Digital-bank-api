@@ -51,22 +51,22 @@ public class ContaController {
 	
 	@PutMapping(path = "/depositar")
 	public ResponseEntity<ContaResponseDTO> depositar(@RequestBody OperacaoRequestDTO operacaoRequestDTO){
-		Conta conta =  contaService.depositar(operacaoRequestDTO.getValor(), operacaoRequestDTO.getContaId());
+		Conta conta =  contaService.depositar(operacaoRequestDTO.valor(), operacaoRequestDTO.contaId());
 		ContaResponseDTO contaResponseDTO = new ContaResponseDTO(conta);
 	    return ResponseEntity.ok(contaResponseDTO);		
 	}
 	
 	@PutMapping(path = "/sacar")
 	public ResponseEntity<ContaResponseDTO> sacar(@RequestBody OperacaoRequestDTO operacaoRequestDTO){
-		Conta conta =  contaService.sacar(operacaoRequestDTO.getValor(), operacaoRequestDTO.getContaId());
+		Conta conta =  contaService.sacar(operacaoRequestDTO.valor(), operacaoRequestDTO.contaId());
 		ContaResponseDTO contaResponseDTO = new ContaResponseDTO(conta);
 		return ResponseEntity.ok(contaResponseDTO);		
 	}
 	@PutMapping(path = "/transferir")
 	public ResponseEntity<List<ContaResponseDTO>> transferir(@RequestBody TransferenciaRequestDTO transferenciaRequestDTO){
-		List<Conta> contas =  contaService.transferir(transferenciaRequestDTO.getContaIdEntrada(),
-				transferenciaRequestDTO.getValor(),
-				transferenciaRequestDTO.getContaIdSaida());
+		List<Conta> contas =  contaService.transferir(transferenciaRequestDTO.contaIdEntrada(),
+				transferenciaRequestDTO.valor(),
+				transferenciaRequestDTO.contaIdSaida());
 		
 		List<ContaResponseDTO> contasResponseDTO = contas.stream().map(ContaResponseDTO::new).toList();
 		

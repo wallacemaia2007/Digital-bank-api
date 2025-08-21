@@ -6,6 +6,7 @@ import java.util.Set;
 
 import org.hibernate.validator.constraints.br.CPF;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.wallace.spring.boot.exceptions.ContaJaExistenteException;
 
 import jakarta.persistence.CascadeType;
@@ -35,6 +36,7 @@ public class Cliente {
 	@Column(name = "Cpf")
 	private String cpf;
 
+	@JsonManagedReference
 	@OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
 	private Set<Conta> contas = new HashSet<Conta>();
 

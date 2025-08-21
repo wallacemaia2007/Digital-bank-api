@@ -121,14 +121,14 @@ public class ContaService {
 	@Transactional
 	public Conta criarConta(ContaRequestDTO contaRequestDTO) {
 
-		Cliente cliente = clienteRepository.findById(contaRequestDTO.getClienteId())
+		Cliente cliente = clienteRepository.findById(contaRequestDTO.clienteId())
 				.orElseThrow(() -> new ClienteNaoEncontradoException(
-						"Cliente não encontrado com o ID: " + contaRequestDTO.getClienteId()));
+						"Cliente não encontrado com o ID: " + contaRequestDTO.clienteId()));
 
 		Conta novaConta;
-		if ("CC".equalsIgnoreCase(contaRequestDTO.getTipoConta())) {
+		if ("CC".equalsIgnoreCase(contaRequestDTO.tipoConta())) {
 			novaConta = new ContaCorrente();
-		} else if ("CP".equalsIgnoreCase(contaRequestDTO.getTipoConta())) {
+		} else if ("CP".equalsIgnoreCase(contaRequestDTO.tipoConta())) {
 			novaConta = new ContaPoupanca();
 		} else {
 			throw new TipoDeContaInvalidaException(

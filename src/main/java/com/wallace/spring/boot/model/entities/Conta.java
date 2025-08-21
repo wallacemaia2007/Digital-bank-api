@@ -3,18 +3,26 @@ package com.wallace.spring.boot.model.entities;
 import java.math.BigDecimal;
 import java.util.Objects;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.Column;
+import jakarta.persistence.DiscriminatorColumn;
+import jakarta.persistence.DiscriminatorType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Inheritance;
+import jakarta.persistence.InheritanceType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "contas")
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE) 
+@DiscriminatorColumn(name = "tipo_conta", discriminatorType = DiscriminatorType.STRING)
 public abstract class Conta {
 
 	@Id
@@ -25,6 +33,7 @@ public abstract class Conta {
 	@Column(name = "Saldo", precision = 12, scale = 3)
 	protected BigDecimal saldo;
 	
+	@JsonBackReference 
 	@ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "cliente_id", nullable = false)
 	protected Cliente cliente;

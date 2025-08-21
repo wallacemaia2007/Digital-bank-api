@@ -1,15 +1,14 @@
 package com.wallace.spring.boot.exceptions;
 
-public class ValorMenorQueZeroException extends DomainException{
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+@ResponseStatus(HttpStatus.BAD_REQUEST)
+public class ValorMenorQueZeroException extends DomainException{
+private static final long serialVersionUID = 1L;
 
 	public ValorMenorQueZeroException(String msg) {
 		super(msg);
-		// TODO Auto-generated constructor stub
 	}
 
 }
