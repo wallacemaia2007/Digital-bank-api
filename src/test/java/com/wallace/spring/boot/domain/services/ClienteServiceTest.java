@@ -2,13 +2,20 @@ package com.wallace.spring.boot.domain.services;
 
 import java.util.Optional;
 
-import org.junit.jupiter.api.Assertions;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
+import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.never;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.wallace.spring.boot.dto.ClienteRequestDTO;
@@ -27,21 +34,24 @@ public class ClienteServiceTest {
 	@InjectMocks
 	private ClienteService clienteService;
 
+	@Captor
+	private ArgumentCaptor<Cliente> clienteCaptor;
+
 	@Test
 	@DisplayName("Deve buscar um cliente com sucesso")
 	void deveBuscarUmClienteComSucesso() {
 		String cpf = "123.456.789-00";
 		Cliente clienteMock = new Cliente("Wallace", cpf);
 
-		Mockito.when(clienteRepository.findByCpf(cpf)).thenReturn(Optional.of(clienteMock));
+		when(clienteRepository.findByCpf(cpf)).thenReturn(Optional.of(clienteMock));
 
 		Cliente cliente = clienteService.buscarClientePorCPF(cpf);
 
-		Assertions.assertNotNull(cliente);
-		Assertions.assertEquals(clienteMock.getNome(), cliente.getNome());
-		Assertions.assertEquals(clienteMock.getCpf(), cliente.getCpf());
+		assertNotNull(cliente);
+		assertEquals(clienteMock.getNome(), cliente.getNome());
+		assertEquals(clienteMock.getCpf(), cliente.getCpf());
 
-		Mockito.verify(clienteRepository).findByCpf(cpf);
+		verify(clienteRepository).findByCpf(cpf);
 	}
 
 	@Test
@@ -49,13 +59,13 @@ public class ClienteServiceTest {
 	void deveLancarExcecaoAoBuscarClientePorCpfInexistente() {
 		String cpfInexistente = "000.000.000-00";
 
-		Mockito.when(clienteRepository.findByCpf(cpfInexistente)).thenReturn(Optional.empty());
+		when(clienteRepository.findByCpf(cpfInexistente)).thenReturn(Optional.empty());
 
-		Assertions.assertThrows(ClienteNaoEncontradoException.class, () -> {
+		assertThrows(ClienteNaoEncontradoException.class, () -> {
 			clienteService.buscarClientePorCPF(cpfInexistente);
 		});
 
-		Mockito.verify(clienteRepository).findByCpf(cpfInexistente);
+		verify(clienteRepository).findByCpf(cpfInexistente);
 	}
 
 	@Test
@@ -64,15 +74,16 @@ public class ClienteServiceTest {
 		String cpf = "123.456.789-00";
 		ClienteRequestDTO clienteMock = new ClienteRequestDTO("Wallace", cpf);
 
-		Mockito.when(clienteRepository.findByCpf(clienteMock.cpf())).thenReturn(Optional.empty());
+		when(clienteRepository.findByCpf(clienteMock.cpf())).thenReturn(Optional.empty());
 
-		Cliente clienteSalvo = clienteService.cadastrarCliente(clienteMock);
+		clienteService.cadastrarCliente(clienteMock);
 
-		Assertions.assertNotNull(clienteSalvo);
-		Assertions.assertEquals(clienteMock.nome(), clienteSalvo.getNome());
-		Assertions.assertEquals(clienteMock.cpf(), clienteSalvo.getCpf());
+		verify(clienteRepository).findByCpf(cpf);
+		verify(clienteRepository).save(clienteCaptor.capture());
+		Cliente clientePersistido = clienteCaptor.getValue();
 
-		Mockito.verify(clienteRepository).save(Mockito.any(Cliente.class));
+		assertEquals(clienteMock.nome(), clientePersistido.getNome());
+		assertEquals(clienteMock.cpf(), clientePersistido.getCpf());
 	}
 
 	@Test
@@ -83,13 +94,13 @@ public class ClienteServiceTest {
 
 		Cliente clienteExistente = new Cliente("Cliente Antigo", clienteRequestDTO.cpf());
 
-		Mockito.when(clienteRepository.findByCpf(clienteRequestDTO.cpf())).thenReturn(Optional.of(clienteExistente));
+		when(clienteRepository.findByCpf(clienteRequestDTO.cpf())).thenReturn(Optional.of(clienteExistente));
 
-		Assertions.assertThrows(CpfJaExistenteException.class, () -> {
+		assertThrows(CpfJaExistenteException.class, () -> {
 			clienteService.cadastrarCliente(clienteRequestDTO);
 		});
 
-		Mockito.verify(clienteRepository, Mockito.never()).save(Mockito.any(Cliente.class));
+		verify(clienteRepository, never()).save(any(Cliente.class));
 	}
 
 	@Test
@@ -101,19 +112,19 @@ public class ClienteServiceTest {
 
 		Cliente clienteOriginal = new Cliente("Wallace Original", cpfOriginal);
 
-		Mockito.when(clienteRepository.findByCpf(cpfOriginal)).thenReturn(Optional.of(clienteOriginal));
+		when(clienteRepository.findByCpf(cpfOriginal)).thenReturn(Optional.of(clienteOriginal));
 
-		Mockito.when(clienteRepository.findByCpf(clienteRequestDTO.cpf())).thenReturn(Optional.empty());
+		when(clienteRepository.findByCpf(clienteRequestDTO.cpf())).thenReturn(Optional.empty());
 
 		Cliente clienteAlterado = clienteService.alterarDadosClientePorCPF(cpfOriginal, clienteRequestDTO);
 
-		Assertions.assertNotNull(clienteAlterado);
-		Assertions.assertEquals(clienteRequestDTO.nome(), clienteAlterado.getNome(),
+		assertNotNull(clienteAlterado);
+		assertEquals(clienteRequestDTO.nome(), clienteAlterado.getNome(),
 				"O nome do cliente não foi atualizado corretamente.");
-		Assertions.assertEquals(clienteRequestDTO.cpf(), clienteAlterado.getCpf(),
+		assertEquals(clienteRequestDTO.cpf(), clienteAlterado.getCpf(),
 				"O CPF do cliente não foi atualizado corretamente.");
 
-		Mockito.verify(clienteRepository).save(Mockito.any(Cliente.class));
+		verify(clienteRepository).save(any(Cliente.class));
 	}
 
 	@Test
@@ -125,15 +136,15 @@ public class ClienteServiceTest {
 
 		Cliente clienteOriginal = new Cliente("Nome Antigo", cpfOriginal);
 
-		Mockito.when(clienteRepository.findByCpf(cpfOriginal)).thenReturn(Optional.of(clienteOriginal));
+		when(clienteRepository.findByCpf(cpfOriginal)).thenReturn(Optional.of(clienteOriginal));
 
 		Cliente clienteAlterado = clienteService.alterarDadosClientePorCPF(cpfOriginal, clienteRequestDTO);
 
-		Assertions.assertNotNull(clienteAlterado);
-		Assertions.assertEquals(clienteAlterado.getNome(), clienteRequestDTO.nome());
-		Assertions.assertEquals(clienteAlterado.getCpf(), clienteRequestDTO.cpf());
+		assertNotNull(clienteAlterado);
+		assertEquals(clienteAlterado.getNome(), clienteRequestDTO.nome());
+		assertEquals(clienteAlterado.getCpf(), clienteRequestDTO.cpf());
 
-		Mockito.verify(clienteRepository).save(Mockito.any(Cliente.class));
+		verify(clienteRepository).save(any(Cliente.class));
 	}
 
 	@Test
@@ -143,12 +154,12 @@ public class ClienteServiceTest {
 		String cpfInexistente = "123.456.789-00";
 		ClienteRequestDTO clienteRequestDTO = new ClienteRequestDTO("Wallace Atualizado", "000.000.000-27");
 
-		Mockito.when(clienteRepository.findByCpf(cpfInexistente)).thenReturn(Optional.empty());
+		when(clienteRepository.findByCpf(cpfInexistente)).thenReturn(Optional.empty());
 
-		Assertions.assertThrows(ClienteNaoEncontradoException.class,
+		assertThrows(ClienteNaoEncontradoException.class,
 				() -> clienteService.alterarDadosClientePorCPF(cpfInexistente, clienteRequestDTO));
 
-		Mockito.verify(clienteRepository, Mockito.never()).save(Mockito.any(Cliente.class));
+		verify(clienteRepository, never()).save(any(Cliente.class));
 
 	}
 
@@ -164,15 +175,15 @@ public class ClienteServiceTest {
 
 		Cliente outroClienteComCpfNovo = new Cliente("Ronaldo", cpfNovoJaExistente);
 
-		Mockito.when(clienteRepository.findByCpf(cpfAntigo)).thenReturn(Optional.of(clienteOriginal));
+		when(clienteRepository.findByCpf(cpfAntigo)).thenReturn(Optional.of(clienteOriginal));
 
-		Mockito.when(clienteRepository.findByCpf(cpfNovoJaExistente)).thenReturn(Optional.of(outroClienteComCpfNovo));
+		when(clienteRepository.findByCpf(cpfNovoJaExistente)).thenReturn(Optional.of(outroClienteComCpfNovo));
 
-		Assertions.assertThrows(CpfJaExistenteException.class, () -> {
+		assertThrows(CpfJaExistenteException.class, () -> {
 			clienteService.alterarDadosClientePorCPF(cpfAntigo, clienteRequestDTO);
 		});
 
-		Mockito.verify(clienteRepository, Mockito.never()).save(Mockito.any(Cliente.class));
+		verify(clienteRepository, never()).save(any(Cliente.class));
 	}
 
 	@Test
@@ -181,11 +192,11 @@ public class ClienteServiceTest {
 		String cpfParaDeletar = "123.456.789-00";
 		Cliente clienteExistente = new Cliente("Cliente Para Deletar", cpfParaDeletar);
 
-		Mockito.when(clienteRepository.findByCpf(cpfParaDeletar)).thenReturn(Optional.of(clienteExistente));
+		when(clienteRepository.findByCpf(cpfParaDeletar)).thenReturn(Optional.of(clienteExistente));
 
 		clienteService.deletarClientePorCpf(cpfParaDeletar);
 
-		Mockito.verify(clienteRepository).delete(clienteExistente);
+		verify(clienteRepository).delete(clienteExistente);
 	}
 
 	@Test
@@ -193,12 +204,11 @@ public class ClienteServiceTest {
 	void DeveLançarExceçãoAoTentarDeletarUmClienteComCpfOriginalInexistente() {
 		String cpfParaDeletar = "123.456.789-00";
 
-		Mockito.when(clienteRepository.findByCpf(cpfParaDeletar)).thenReturn(Optional.empty());
+		when(clienteRepository.findByCpf(cpfParaDeletar)).thenReturn(Optional.empty());
 
-		Assertions.assertThrows(ClienteNaoEncontradoException.class,
-				() -> clienteService.deletarClientePorCpf(cpfParaDeletar));
+		assertThrows(ClienteNaoEncontradoException.class, () -> clienteService.deletarClientePorCpf(cpfParaDeletar));
 
-		Mockito.verify(clienteRepository, Mockito.never()).delete(Mockito.any(Cliente.class));
+		verify(clienteRepository, never()).delete(any(Cliente.class));
 
 	}
 
