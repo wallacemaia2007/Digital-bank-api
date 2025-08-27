@@ -17,49 +17,50 @@ import jakarta.transaction.Transactional;
 public class ClienteService {
 
 	@Autowired
-	private ClienteRepository clienterepository;
+	private ClienteRepository clienteRepository;
 
-	//GET/cpf
+	// GET/cpf
 	public Cliente buscarClientePorCPF(String cpf) {
-		return clienterepository.findByCpf(cpf)
+		return clienteRepository.findByCpf(cpf)
 				.orElseThrow(() -> new ClienteNaoEncontradoException("Cliente não encontrado"));
 	}
-	
-	//GET
+
+	// GET
 	public List<Cliente> buscarTodosClientes() {
-		return clienterepository.findAll();
+		return clienteRepository.findAll();
 	}
 
-	//POST
+	// POST
 	@Transactional
 	public Cliente cadastrarCliente(ClienteRequestDTO clienteRequestDTO) {
-		if (clienterepository.findByCpf(clienteRequestDTO.cpf()).isPresent()) {
+		if (clienteRepository.findByCpf(clienteRequestDTO.cpf()).isPresent()) {
 			throw new CpfJaExistenteException("CPF já cadastrado no sistema.");
 		}
 		Cliente novoCliente = new Cliente(clienteRequestDTO.nome(), clienteRequestDTO.cpf());
-		clienterepository.save(novoCliente);
+		clienteRepository.save(novoCliente);
 		return novoCliente;
 	}
-	
-	//PUT/cpf
+
+	// PUT/cpf
 	@Transactional
-	public Cliente alterarDadosClientePorCPF(String cpf,ClienteRequestDTO clienteRequestDTO) {
+	public Cliente alterarDadosClientePorCPF(String cpf, ClienteRequestDTO clienteRequestDTO) {
 		Cliente cliente = buscarClientePorCPF(cpf);
-		if (!cliente.getCpf().equals(clienteRequestDTO.cpf()) && clienterepository.findByCpf(clienteRequestDTO.cpf()).isPresent()) {
+		if (!cliente.getCpf().equals(clienteRequestDTO.cpf())
+				&& clienteRepository.findByCpf(clienteRequestDTO.cpf()).isPresent()) {
 			throw new CpfJaExistenteException("CPF já cadastrado no sistema.");
 		}
 		cliente.setNome(clienteRequestDTO.nome());
 		cliente.setCpf(clienteRequestDTO.cpf());
 
-		clienterepository.save(cliente);
+		clienteRepository.save(cliente);
 		return cliente;
 	}
-	
-	//DELETE/cpf
+
+	// DELETE/cpf
 	@Transactional
 	public void deletarClientePorCpf(String cpf) {
 		Cliente cliente = buscarClientePorCPF(cpf);
-		clienterepository.delete(cliente);
+		clienteRepository.delete(cliente);
 	}
 
 }
