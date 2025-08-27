@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.wallace.spring.boot.dto.ContaRequestDTO;
@@ -33,6 +34,9 @@ public class ContaService {
 
 	@Autowired
 	private ContaRepository contaRepository;
+
+	@Value("${rendimento.poupanca.taxa-mensal:0.5}")
+	private BigDecimal taxaRendimentoMensal;
 
 	@Transactional
 	public Conta depositar(BigDecimal valor, Integer id) {
@@ -66,12 +70,12 @@ public class ContaService {
 
 	@Transactional
 	public List<Conta> transferir(Integer contaIdEntrada, BigDecimal valor, Integer contaIdSaida) {
-		
+
 		Conta contaEntrada = contaRepository.findById(contaIdEntrada)
 				.orElseThrow(() -> new ContaInexistenteException("Esta conta não existe!"));
 		Conta contaSaida = contaRepository.findById(contaIdSaida)
 				.orElseThrow(() -> new ContaInexistenteException("Esta conta não existe!"));
-		
+
 		if (valor.signum() <= 0)
 			throw new ValorMenorQueZeroException("O valor para realizar a transferência deve ser maior do que 0");
 		if (contaEntrada.getSaldo().compareTo(valor) < 0)
@@ -82,7 +86,7 @@ public class ContaService {
 
 		contaRepository.save(contaEntrada);
 		contaRepository.save(contaSaida);
-		
+
 		List<Conta> contas = new ArrayList<>();
 		contas.add(contaEntrada);
 		contas.add(contaSaida);
@@ -93,23 +97,21 @@ public class ContaService {
 	public BigDecimal simularRendimento(LocalDate dataPrevista, Integer id) {
 
 		LocalDate dataAtual = LocalDate.now();
-		long meses = ChronoUnit.MONTHS.between(dataAtual, dataPrevista);
-		if (dataPrevista.isBefore(dataAtual))
-			throw new DataInvalidaException("Para calcular o rendimento deve-se digitar uma data após o dia de hoje!");
-
-		if (meses < 1)
+		if (dataPrevista.isBefore(dataAtual.plusMonths(1))) {
 			throw new DataInvalidaException(
-					"Para calcular o rendimento deve-se digitar uma data acima de 1 mês da data atual!");
+					"A data prevista deve ser de, no mínimo, um mês completo a partir de hoje.");
+		}
 
-		Cliente cliente = clienteRepository.findById(id)
-				.orElseThrow(() -> new ClienteNaoEncontradoException("Cliente não encontrado para o ID: " + id));
+		Conta conta = contaRepository.findById(id)
+				.orElseThrow(() -> new ContaInexistenteException("Conta não encontrada para o ID: " + id));
 
-		ContaPoupanca contaPoupanca = cliente.getContaPoupanca();
-		if (contaPoupanca == null)
-			throw new ContaInexistenteException("Este cliente não possui conta poupança");
+		if (!(conta instanceof ContaPoupanca)) {
+			throw new TipoDeContaInvalidaException("A simulação de rendimento é aplicável apenas a contas poupança.");
+		}
 
-		BigDecimal valorSimulado = contaPoupanca.simularRendimento(new BigDecimal(0.89), meses);
-		System.out.printf("O Rendimento por %d meses será de $%f reais%n", meses, valorSimulado);
+		ContaPoupanca contaPoupanca = (ContaPoupanca) conta;
+		long meses = ChronoUnit.MONTHS.between(dataAtual, dataPrevista);
+		BigDecimal valorSimulado = contaPoupanca.simularRendimento(taxaRendimentoMensal, meses);
 
 		return valorSimulado;
 	}
