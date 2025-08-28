@@ -27,7 +27,10 @@ import com.wallace.spring.boot.model.entities.Conta;
 import com.wallace.spring.boot.model.services.ClienteService;
 import com.wallace.spring.boot.model.services.ContaService;
 
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 
 @RestController
 @RequestMapping("/contas")
@@ -39,6 +42,15 @@ public class ContaController {
 	@Autowired
 	private ClienteService clienteService;
 
+	@Operation(
+		    summary = "Buscar contas por CPF",
+		    description = "Retorna todas as contas associadas a um cliente a partir do CPF fornecido."
+		)
+		@ApiResponses(value = {
+		    @ApiResponse(responseCode = "200", description = "Contas encontradas com sucesso."),
+		    @ApiResponse(responseCode = "404", description = "Cliente não encontrado para o CPF fornecido.")
+		})
+
 	@GetMapping(path = "/{cpf}")
 	public ResponseEntity<List<ContaResponseDTO>> buscarContasPorCpf(@PathVariable String cpf) {
 		Cliente cliente = clienteService.buscarClientePorCPF(cpf);
@@ -47,6 +59,16 @@ public class ContaController {
 		return ResponseEntity.ok(contasResponseDTO);
 	}
 
+	@Operation(
+		    summary = "Cria uma nova conta",
+		    description = "Cria uma nova conta para um cliente existente a partir de seu ID. Cada cliente pode ter apenas uma conta de cada tipo (Corrente ou Poupança)."
+		)
+		@ApiResponses(value = {
+		    @ApiResponse(responseCode = "201", description = "Conta criada com sucesso."),
+		    @ApiResponse(responseCode = "400", description = "Tipo de conta inválido."),
+		    @ApiResponse(responseCode = "404", description = "Cliente não encontrado."),
+		    @ApiResponse(responseCode = "409", description = "O cliente já possui uma conta desse tipo.")
+		})
 	@PostMapping(path = "/criar")
 	public ResponseEntity<ContaResponseDTO> criarContaPorCpf(@RequestBody ContaRequestDTO contaRequestDTO) {
 
@@ -55,6 +77,15 @@ public class ContaController {
 		return ResponseEntity.status(HttpStatus.CREATED).body(contaResponseDTO);
 	}
 
+	@Operation(
+		    summary = "Depositar saldo na conta",
+		    description = "Deposita um valor em uma conta Corrente ou Poupança."
+		)
+		@ApiResponses(value = {
+		    @ApiResponse(responseCode = "200", description = "Depósito realizado com sucesso."),
+		    @ApiResponse(responseCode = "400", description = "Valor informado é negativo ou igual a zero."),
+		    @ApiResponse(responseCode = "404", description = "Conta não encontrada pelo ID fornecido.")
+		})
 	@PutMapping(path = "/depositar")
 	public ResponseEntity<ContaResponseDTO> depositar(@RequestBody OperacaoRequestDTO operacaoRequestDTO) {
 		Conta conta = contaService.depositar(operacaoRequestDTO.valor(), operacaoRequestDTO.contaId());
@@ -62,6 +93,16 @@ public class ContaController {
 		return ResponseEntity.ok(contaResponseDTO);
 	}
 
+	@Operation(
+		    summary = "Realizar saque",
+		    description = "Saca um valor de uma conta Corrente ou Poupança."
+		)
+		@ApiResponses(value = {
+		    @ApiResponse(responseCode = "200", description = "Saque realizado com sucesso."),
+		    @ApiResponse(responseCode = "400", description = "Valor informado é negativo ou igual a zero."),
+		    @ApiResponse(responseCode = "404", description = "Conta não encontrada pelo ID fornecido."),
+		    @ApiResponse(responseCode = "409", description = "Saldo insuficiente para realizar o saque.")
+		})
 	@PutMapping(path = "/sacar")
 	public ResponseEntity<ContaResponseDTO> sacar(@RequestBody OperacaoRequestDTO operacaoRequestDTO) {
 		Conta conta = contaService.sacar(operacaoRequestDTO.valor(), operacaoRequestDTO.contaId());
@@ -69,21 +110,39 @@ public class ContaController {
 		return ResponseEntity.ok(contaResponseDTO);
 	}
 
+	@Operation(
+		    summary = "Transferir saldo entre contas",
+		    description = "Transfere um valor de uma conta de origem para uma conta de destino."
+		)
+		@ApiResponses(value = {
+		    @ApiResponse(responseCode = "200", description = "Transferência realizada com sucesso."),
+		    @ApiResponse(responseCode = "400", description = "Valor informado é negativo ou igual a zero."),
+		    @ApiResponse(responseCode = "404", description = "Conta de origem ou destino não encontrada."),
+		    @ApiResponse(responseCode = "409", description = "Saldo insuficiente na conta de origem para realizar a transferência.")
+		})
 	@PutMapping(path = "/transferir")
 	public ResponseEntity<List<ContaResponseDTO>> transferir(
 			@RequestBody TransferenciaRequestDTO transferenciaRequestDTO) {
 		List<Conta> contas = contaService.transferir(transferenciaRequestDTO.contaIdDepositar(),
-				transferenciaRequestDTO.valor(), transferenciaRequestDTO.contaIdDepositar());
+				transferenciaRequestDTO.valor(), transferenciaRequestDTO.contaIdReceber());
 
 		List<ContaResponseDTO> contasResponseDTO = contas.stream().map(ContaResponseDTO::new).toList();
 
 		return ResponseEntity.ok(contasResponseDTO);
 	}
 
+	@Operation(
+		    summary = "Simular rendimento de uma conta poupança",
+		    description = "Simula o rendimento futuro de uma conta Poupança a partir de uma data prevista."
+		)
+		@ApiResponses(value = {
+		    @ApiResponse(responseCode = "200", description = "Simulação realizada com sucesso."),
+		    @ApiResponse(responseCode = "400", description = "Data inválida fornecida."),
+		    @ApiResponse(responseCode = "404", description = "Conta não encontrada ou não é do tipo Poupança.")
+		})
 	@GetMapping(path = "/simular/{id}")
 	public ResponseEntity<RendimentoResponseDTO> simularRendimento(@PathVariable("id") Integer id,
-			@Parameter(example = "2026-10-20")
-			@RequestParam("data") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dataPrevista) {
+			@Parameter(example = "2026-10-20") @RequestParam("data") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dataPrevista) {
 
 		BigDecimal valorSimulado = contaService.simularRendimento(dataPrevista, id);
 		RendimentoResponseDTO rendimentoResponseDTO = new RendimentoResponseDTO(valorSimulado);
