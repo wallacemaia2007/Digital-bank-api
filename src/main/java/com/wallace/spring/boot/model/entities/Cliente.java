@@ -43,7 +43,10 @@ public class Cliente {
 	public void adicionarNovaConta(Conta novaConta) {
 		for(Conta contasDoCliente : this.contas) {
 			if(contasDoCliente.getClass().equals(novaConta.getClass())) {
-				throw new ContaJaExistenteException("Só pode haver uma conta corrente por cliente!");
+				if(contasDoCliente instanceof ContaCorrente)
+					throw new ContaJaExistenteException("Só pode haver uma conta corrente por cliente!");
+				if(contasDoCliente instanceof ContaPoupanca)
+					throw new ContaJaExistenteException("Só pode haver uma conta poupança por cliente!");
 			}
 		}
 		this.contas.add(novaConta);

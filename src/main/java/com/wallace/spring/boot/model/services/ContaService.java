@@ -37,6 +37,15 @@ public class ContaService {
 
 	@Value("${rendimento.poupanca.taxa-mensal:0.5}")
 	private BigDecimal taxaRendimentoMensal;
+	
+	public ContaService(
+			ClienteRepository clienteRepository, 
+			ContaRepository contaRepository,
+			@Value("${rendimento.poupanca.taxa-mensal:0.0089}") BigDecimal taxaRendimentoMensal) {
+		this.clienteRepository = clienteRepository;
+		this.contaRepository = contaRepository;
+		this.taxaRendimentoMensal = taxaRendimentoMensal;
+	}
 
 	@Transactional
 	public Conta depositar(BigDecimal valor, Integer id) {
@@ -69,37 +78,41 @@ public class ContaService {
 	}
 
 	@Transactional
-	public List<Conta> transferir(Integer contaIdEntrada, BigDecimal valor, Integer contaIdSaida) {
+	public List<Conta> transferir(Integer contaIdDepositar, BigDecimal valor, Integer contaIdReceber) {
 
-		Conta contaEntrada = contaRepository.findById(contaIdEntrada)
+		Conta contaDepositar = contaRepository.findById(contaIdDepositar)
 				.orElseThrow(() -> new ContaInexistenteException("Esta conta não existe!"));
-		Conta contaSaida = contaRepository.findById(contaIdSaida)
+		Conta contaReceber = contaRepository.findById(contaIdReceber)
 				.orElseThrow(() -> new ContaInexistenteException("Esta conta não existe!"));
 
 		if (valor.signum() <= 0)
 			throw new ValorMenorQueZeroException("O valor para realizar a transferência deve ser maior do que 0");
-		if (contaEntrada.getSaldo().compareTo(valor) < 0)
+		if (contaDepositar.getSaldo().compareTo(valor) < 0)
 			throw new SaldoInsuficienteException("Saldo insuficiente na conta para realizar a transferência");
 
-		contaEntrada.setSaldo(contaEntrada.getSaldo().subtract(valor));
-		contaSaida.setSaldo(contaSaida.getSaldo().add(valor));
+		contaDepositar.setSaldo(contaDepositar.getSaldo().subtract(valor));
+		contaReceber.setSaldo(contaReceber.getSaldo().add(valor));
 
-		contaRepository.save(contaEntrada);
-		contaRepository.save(contaSaida);
+		contaRepository.save(contaDepositar);
+		contaRepository.save(contaReceber);
 
 		List<Conta> contas = new ArrayList<>();
-		contas.add(contaEntrada);
-		contas.add(contaSaida);
+		contas.add(contaDepositar);
+		contas.add(contaReceber);
 
 		return contas;
 	}
 
 	public BigDecimal simularRendimento(LocalDate dataPrevista, Integer id) {
-
 		LocalDate dataAtual = LocalDate.now();
-		if (dataPrevista.isBefore(dataAtual.plusMonths(1))) {
+
+		if (dataPrevista.isBefore(dataAtual)) {
+			throw new DataInvalidaException("A data para simulação não pode ser anterior à data de hoje.");
+		}
+
+		if (ChronoUnit.MONTHS.between(dataAtual, dataPrevista) < 1) {
 			throw new DataInvalidaException(
-					"A data prevista deve ser de, no mínimo, um mês completo a partir de hoje.");
+					"Para calcular o rendimento, a data prevista deve ter pelo menos um mês completo a partir de hoje.");
 		}
 
 		Conta conta = contaRepository.findById(id)

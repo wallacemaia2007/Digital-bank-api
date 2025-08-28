@@ -1,7 +1,6 @@
 package com.wallace.spring.boot.model.entities;
 
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
@@ -10,18 +9,8 @@ import jakarta.persistence.Entity;
 @DiscriminatorValue("CP")
 public class ContaPoupanca extends Conta {
 
-	public BigDecimal simularRendimento(BigDecimal taxaJurosMensal, long meses) {
-		if (meses <= 0) {
-			return this.getSaldo();
-		}
-
-		BigDecimal saldoSimulado = this.getSaldo();
-
-		for (int i = 0; i < meses; i++) {
-			BigDecimal rendimentoDoMes = saldoSimulado.multiply(taxaJurosMensal);
-			saldoSimulado = saldoSimulado.add(rendimentoDoMes);
-		}
-
-		return saldoSimulado.setScale(2, RoundingMode.HALF_UP);
+	public BigDecimal simularRendimento(BigDecimal taxa, long meses) {
+		BigDecimal numeroDeMeses = new BigDecimal(meses);
+		return this.getSaldo().multiply(taxa).multiply(numeroDeMeses);
 	}
 }
