@@ -72,8 +72,8 @@ public class ContaController {
 	@PutMapping(path = "/transferir")
 	public ResponseEntity<List<ContaResponseDTO>> transferir(
 			@RequestBody TransferenciaRequestDTO transferenciaRequestDTO) {
-		List<Conta> contas = contaService.transferir(transferenciaRequestDTO.contaIdEntrada(),
-				transferenciaRequestDTO.valor(), transferenciaRequestDTO.contaIdSaida());
+		List<Conta> contas = contaService.transferir(transferenciaRequestDTO.contaIdDepositar(),
+				transferenciaRequestDTO.valor(), transferenciaRequestDTO.contaIdDepositar());
 
 		List<ContaResponseDTO> contasResponseDTO = contas.stream().map(ContaResponseDTO::new).toList();
 
