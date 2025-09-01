@@ -78,12 +78,14 @@ public class ContaServiceTest {
 		when(contaRepository.findById(id)).thenReturn(Optional.of(conta));
 
 		when(contaRepository.save(any(Conta.class))).thenReturn(conta);
+		
 
 		Conta novaConta = contaService.depositar(valor, id);
 
 		assertNotNull(novaConta);
 		assertEquals(valorEsperado, novaConta.getSaldo());
 
+		verify(historicoContaService).registrarDeposito(any(Conta.class), any(BigDecimal.class));
 		verify(contaRepository, times(1)).findById(id);
 		verify(contaRepository, times(1)).save(conta);
 	}
@@ -134,6 +136,7 @@ public class ContaServiceTest {
 		assertNotNull(novaConta);
 		assertEquals(valorEsperado, novaConta.getSaldo());
 
+		verify(historicoContaService).registrarSaque(any(Conta.class), any(BigDecimal.class));
 		verify(contaRepository, times(1)).findById(id);
 		verify(contaRepository, times(1)).save(conta);
 	}
@@ -205,6 +208,7 @@ public class ContaServiceTest {
 		assertEquals(0, new BigDecimal("800.00").compareTo(contaSaidaAtualizada.getSaldo()));
 		assertEquals(0, new BigDecimal("1200.00").compareTo(contaEntradaAtualizada.getSaldo()));
 
+		verify(historicoContaService).registrarTransferencia(conta, valorTransferencia, contaReceber);
 		verify(contaRepository).save(contaReceber);
 		verify(contaRepository).save(conta);
 	}

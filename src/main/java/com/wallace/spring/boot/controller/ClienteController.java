@@ -72,7 +72,7 @@ public class ClienteController {
         @ApiResponse(responseCode = "201", description = "Cliente cadastrado com sucesso."),
         @ApiResponse(responseCode = "409", description = "O CPF informado já está cadastrado.")
     })
-    @PostMapping(path = "/cadastrar")
+    @PostMapping
     public ResponseEntity<ClienteResponseDTO> cadastrar(@RequestBody ClienteRequestDTO clienteRequestDTO) {
         Cliente novoCliente = clienteService.cadastrarCliente(clienteRequestDTO);
         ClienteResponseDTO clienteResponseDTO = new ClienteResponseDTO(novoCliente);
@@ -88,7 +88,7 @@ public class ClienteController {
         @ApiResponse(responseCode = "404", description = "Cliente não encontrado para o CPF informado."),
         @ApiResponse(responseCode = "409", description = "O novo CPF informado já está cadastrado em outro cliente.")
     })
-    @PutMapping("/alterar/{cpf}")
+    @PutMapping("/{cpf}")
     public ResponseEntity<ClienteResponseDTO> alterarDadosClientePorCPF(
         @Parameter(description = "CPF atual do cliente que será alterado", required = true, example = "123.456.789-00")
         @PathVariable String cpf,
@@ -107,7 +107,7 @@ public class ClienteController {
         @ApiResponse(responseCode = "204", description = "Cliente deletado com sucesso."),
         @ApiResponse(responseCode = "404", description = "Cliente não encontrado para o CPF informado.")
     })
-    @DeleteMapping("/deletar/{cpf}")
+    @DeleteMapping("/{cpf}")
     public ResponseEntity<Void> deletarClientePorCpf(
         @Parameter(description = "CPF do cliente que será removido", required = true, example = "123.456.789-00")
         @PathVariable String cpf) {

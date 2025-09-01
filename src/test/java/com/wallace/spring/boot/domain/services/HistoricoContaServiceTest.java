@@ -3,6 +3,7 @@ package com.wallace.spring.boot.domain.services;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.math.BigDecimal;
@@ -10,6 +11,7 @@ import java.math.BigDecimal;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
@@ -34,52 +36,60 @@ public class HistoricoContaServiceTest {
 	}
 
 	@Test
-	void deveRegistrarDeposito() {
+	void deveRegistrarDeposito() { 
 		Conta conta = new ContaCorrente();
 		BigDecimal valor = BigDecimal.TEN;
-		HistoricoConta esperado = new HistoricoConta(TipoTransacao.DEPOSITO, valor, conta, null);
 
-		when(historicoContaRepository.save(any(HistoricoConta.class))).thenReturn(esperado);
+		historicoContaService.registrarDeposito(conta, valor);
 
-		HistoricoConta resultado = historicoContaService.registrarDeposito(conta, valor);
+		ArgumentCaptor<HistoricoConta> historicoCaptor = ArgumentCaptor.forClass(HistoricoConta.class);
 
-		assertEquals(TipoTransacao.DEPOSITO, resultado.getTipoDaTransacao());
-		assertEquals(valor, resultado.getValor());
-		assertEquals(conta, resultado.getEfetuouTransacao());
-		assertNull(resultado.getRecebeuTransacao());
+		verify(historicoContaRepository).save(historicoCaptor.capture());
+
+		HistoricoConta resultadoCapturado = historicoCaptor.getValue();
+
+		assertEquals(TipoTransacao.DEPOSITO, resultadoCapturado.getTipoDaTransacao());
+		assertEquals(valor, resultadoCapturado.getValor());
+		assertEquals(conta, resultadoCapturado.getEfetuouTransacao());
+		assertNull(resultadoCapturado.getRecebeuTransacao());
 	}
 
 	@Test
 	void deveRegistrarSaque() {
 		Conta conta = new ContaCorrente();
 		BigDecimal valor = BigDecimal.TEN;
-		HistoricoConta esperado = new HistoricoConta(TipoTransacao.SAQUE, valor, conta, null);
 
-		when(historicoContaRepository.save(any(HistoricoConta.class))).thenReturn(esperado);
+		historicoContaService.registrarSaque(conta, valor);
 
-		HistoricoConta resultado = historicoContaService.registrarSaque(conta, valor);
+		ArgumentCaptor<HistoricoConta> historicoCaptor = ArgumentCaptor.forClass(HistoricoConta.class);
 
-		assertEquals(TipoTransacao.SAQUE, resultado.getTipoDaTransacao());
-		assertEquals(valor, resultado.getValor());
-		assertEquals(conta, resultado.getEfetuouTransacao());
-		assertNull(resultado.getRecebeuTransacao());
+		verify(historicoContaRepository).save(historicoCaptor.capture());
+
+		HistoricoConta resultadoCapturado = historicoCaptor.getValue();
+
+		assertEquals(TipoTransacao.SAQUE, resultadoCapturado.getTipoDaTransacao());
+		assertEquals(valor, resultadoCapturado.getValor());
+		assertEquals(conta, resultadoCapturado.getEfetuouTransacao());
+		assertNull(resultadoCapturado.getRecebeuTransacao());
 	}
 
 	@Test
-	void deveRegistrarTransferencia() {
+	void deveRegistrarTransferenciaComCaptor() { 
 		Conta contaRemetente = new ContaCorrente();
 		Conta contaDestino = new ContaCorrente();
 		BigDecimal valor = BigDecimal.TEN;
-		HistoricoConta esperado = new HistoricoConta(TipoTransacao.TRANSFERENCIA, valor, contaRemetente, contaDestino);
 
-		when(historicoContaRepository.save(any(HistoricoConta.class))).thenReturn(esperado);
+		historicoContaService.registrarTransferencia(contaRemetente, valor, contaDestino);
 
-		HistoricoConta resultado = historicoContaService.registrarTransferencia(contaRemetente, valor, contaDestino);
+		ArgumentCaptor<HistoricoConta> historicoCaptor = ArgumentCaptor.forClass(HistoricoConta.class);
 
-		assertEquals(TipoTransacao.TRANSFERENCIA, resultado.getTipoDaTransacao());
-		assertEquals(valor, resultado.getValor());
-		assertEquals(contaRemetente, resultado.getEfetuouTransacao());
-		assertEquals(contaDestino, resultado.getRecebeuTransacao());
+		verify(historicoContaRepository).save(historicoCaptor.capture());
+
+		HistoricoConta resultadoCapturado = historicoCaptor.getValue();
+
+		assertEquals(TipoTransacao.TRANSFERENCIA, resultadoCapturado.getTipoDaTransacao());
+		assertEquals(valor, resultadoCapturado.getValor());
+		assertEquals(contaRemetente, resultadoCapturado.getEfetuouTransacao());
+		assertEquals(contaDestino, resultadoCapturado.getRecebeuTransacao());
 	}
-
 }
