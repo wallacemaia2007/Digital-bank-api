@@ -6,7 +6,6 @@ import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -29,21 +28,22 @@ import jakarta.transaction.Transactional;
 @Service
 public class ContaService {
 
-	@Autowired
-	private ClienteRepository clienteRepository;
+	private final ClienteRepository clienteRepository;
 
-	@Autowired
-	private ContaRepository contaRepository;
+	private final ContaRepository contaRepository;
+
+	private final HistoricoContaService historicoContaService;
 
 	@Value("${rendimento.poupanca.taxa-mensal:0.5}")
 	private BigDecimal taxaRendimentoMensal;
-	
-	public ContaService(
-			ClienteRepository clienteRepository, 
-			ContaRepository contaRepository,
+
+	public ContaService(ClienteRepository clienteRepository, ContaRepository contaRepository,
+			HistoricoContaService historicoContaService,
 			@Value("${rendimento.poupanca.taxa-mensal:0.0089}") BigDecimal taxaRendimentoMensal) {
+
 		this.clienteRepository = clienteRepository;
 		this.contaRepository = contaRepository;
+		this.historicoContaService = historicoContaService;
 		this.taxaRendimentoMensal = taxaRendimentoMensal;
 	}
 
@@ -56,6 +56,8 @@ public class ContaService {
 			throw new ValorMenorQueZeroException("O valor para depósito deve ser maior do que 0 ");
 		conta.setSaldo(conta.getSaldo().add(valor));
 
+		historicoContaService.registrarDeposito(conta, valor);
+
 		return contaRepository.save(conta);
 
 	}
@@ -64,17 +66,20 @@ public class ContaService {
 	public Conta sacar(BigDecimal valor, Integer id) {
 		Conta conta = contaRepository.findById(id)
 				.orElseThrow(() -> new ContaInexistenteException("Esta conta não existe!"));
+
 		if (valor.signum() <= 0) {
 			throw new ValorMenorQueZeroException("O valor do saque deve ser maior que zero.");
 		}
+
 		if (conta.getSaldo().compareTo(valor) < 0) {
 			throw new SaldoInsuficienteException("Saldo insuficiente.");
 		}
 
+		historicoContaService.registrarSaque(conta, valor);
+
 		conta.setSaldo(conta.getSaldo().subtract(valor));
 
 		return contaRepository.save(conta);
-
 	}
 
 	@Transactional
@@ -99,6 +104,8 @@ public class ContaService {
 		List<Conta> contas = new ArrayList<>();
 		contas.add(contaDepositar);
 		contas.add(contaReceber);
+
+		historicoContaService.registrarTransferencia(contaDepositar, valor, contaReceber);
 
 		return contas;
 	}

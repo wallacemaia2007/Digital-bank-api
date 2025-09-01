@@ -4,7 +4,6 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,13 +18,16 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.wallace.spring.boot.dto.ContaRequestDTO;
 import com.wallace.spring.boot.dto.ContaResponseDTO;
+import com.wallace.spring.boot.dto.HistoricoContaResponseDTO;
 import com.wallace.spring.boot.dto.OperacaoRequestDTO;
 import com.wallace.spring.boot.dto.RendimentoResponseDTO;
 import com.wallace.spring.boot.dto.TransferenciaRequestDTO;
 import com.wallace.spring.boot.model.entities.Cliente;
 import com.wallace.spring.boot.model.entities.Conta;
+import com.wallace.spring.boot.model.entities.HistoricoConta;
 import com.wallace.spring.boot.model.services.ClienteService;
 import com.wallace.spring.boot.model.services.ContaService;
+import com.wallace.spring.boot.model.services.HistoricoContaService;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -36,11 +38,19 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 @RequestMapping("/contas")
 public class ContaController {
 
-	@Autowired
-	private ContaService contaService;
+	private final ContaService contaService;
 
-	@Autowired
-	private ClienteService clienteService;
+	private final ClienteService clienteService;
+	
+	private final HistoricoContaService historicoContaService;
+	
+	public ContaController(ContaService contaService, ClienteService clienteService, HistoricoContaService historicoContaService) {
+		this.contaService = contaService;
+		this.clienteService = clienteService;
+		this.historicoContaService = historicoContaService;
+	}
+	
+	
 
 	@Operation(
 		    summary = "Buscar contas por CPF",
@@ -141,13 +151,28 @@ public class ContaController {
 		    @ApiResponse(responseCode = "404", description = "Conta não encontrada ou não é do tipo Poupança.")
 		})
 	@GetMapping(path = "/simular/{id}")
-	public ResponseEntity<RendimentoResponseDTO> simularRendimento(@PathVariable("id") Integer id,
+	public ResponseEntity<RendimentoResponseDTO> simularRendimento(@PathVariable Integer id,
 			@Parameter(example = "2026-10-20") @RequestParam("data") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dataPrevista) {
 
 		BigDecimal valorSimulado = contaService.simularRendimento(dataPrevista, id);
 		RendimentoResponseDTO rendimentoResponseDTO = new RendimentoResponseDTO(valorSimulado);
 
 		return ResponseEntity.ok(rendimentoResponseDTO);
+	}
+	
+	@Operation(
+		    summary = "Mostra histórico da conta",
+		    description = "Retorna todo o histórico da conta incluindo todas as transações."
+		)
+		@ApiResponses(value = {
+		    @ApiResponse(responseCode = "200", description = "Histórico de transaçções realizado com sucesso."),
+		})
+
+	@GetMapping(path = "/historico/{id}")
+	public ResponseEntity<List<HistoricoContaResponseDTO>> mostrarTodoRegistrosTransacoes(@PathVariable Integer id) {
+		List<HistoricoConta> historicoConta = historicoContaService.mostrarRegistrosTransacoes(id);
+		List<HistoricoContaResponseDTO> historicoContaResponseDTO = historicoConta.stream().map(HistoricoContaResponseDTO::new).toList();
+		return ResponseEntity.ok(historicoContaResponseDTO);
 	}
 
 }

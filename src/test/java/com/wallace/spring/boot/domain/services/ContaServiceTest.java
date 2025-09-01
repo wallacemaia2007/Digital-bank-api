@@ -39,6 +39,7 @@ import com.wallace.spring.boot.model.entities.ContaPoupanca;
 import com.wallace.spring.boot.model.repository.ClienteRepository;
 import com.wallace.spring.boot.model.repository.ContaRepository;
 import com.wallace.spring.boot.model.services.ContaService;
+import com.wallace.spring.boot.model.services.HistoricoContaService;
 
 @ExtendWith(MockitoExtension.class)
 public class ContaServiceTest {
@@ -50,6 +51,9 @@ public class ContaServiceTest {
 	private ContaRepository contaRepository;
 
 	private ContaService contaService;
+	
+	@Mock
+	private HistoricoContaService historicoContaService;
 
 	private Conta conta;
 	
@@ -57,8 +61,7 @@ public class ContaServiceTest {
 
 	@BeforeEach
 	void setUp() {
-		contaService = new ContaService(clienteRepository, contaRepository, TAXA_PARA_TESTE);
-
+		contaService = new ContaService(clienteRepository, contaRepository,historicoContaService, TAXA_PARA_TESTE);
 		conta = new ContaCorrente();
 		conta.setId(1);
 		conta.setSaldo(new BigDecimal(1000));

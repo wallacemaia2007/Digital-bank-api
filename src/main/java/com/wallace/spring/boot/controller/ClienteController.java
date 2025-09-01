@@ -2,7 +2,6 @@ package com.wallace.spring.boot.controller;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -28,8 +27,11 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 @RequestMapping("/clientes")
 public class ClienteController {
 
-    @Autowired
-    private ClienteService clienteService;
+    private final ClienteService clienteService;
+    
+    public ClienteController(ClienteService clienteService) {
+    	this.clienteService = clienteService;
+    }
 
     @Operation(
         summary = "Buscar todos os clientes",
