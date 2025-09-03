@@ -1,8 +1,8 @@
 package com.wallace.spring.boot.model.entities;
 
-import java.util.HashSet;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 
 import org.hibernate.validator.constraints.br.CPF;
 
@@ -38,7 +38,7 @@ public class Cliente {
 
 	@JsonManagedReference
 	@OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-	private Set<Conta> contas = new HashSet<Conta>();
+	private List<Conta> contas = new ArrayList<>();
 
 	public void adicionarNovaConta(Conta novaConta) {
 		for(Conta contasDoCliente : this.contas) {
@@ -96,7 +96,7 @@ public class Cliente {
 	}
 
 
-	public Set<Conta> getContas() {
+	public List<Conta> getContas() {
 		return contas;
 	}
 
