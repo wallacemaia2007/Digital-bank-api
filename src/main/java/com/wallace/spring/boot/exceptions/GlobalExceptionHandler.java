@@ -64,8 +64,7 @@ public class GlobalExceptionHandler {
 	}
 
 	@ExceptionHandler(DataInvalidaException.class)
-	public ResponseEntity<ErroResponse> handleDataInvalidaException(DataInvalidaException ex,
-			WebRequest request) {
+	public ResponseEntity<ErroResponse> handleDataInvalidaException(DataInvalidaException ex, WebRequest request) {
 
 		ErroResponse erroResponse = new ErroResponse(LocalDateTime.now(), ex.getMessage(),
 				request.getDescription(false));
@@ -74,8 +73,7 @@ public class GlobalExceptionHandler {
 	}
 
 	@ExceptionHandler(CpfJaExistenteException.class)
-	public ResponseEntity<ErroResponse> handleCpfJaExistenteException(CpfJaExistenteException ex,
-			WebRequest request) {
+	public ResponseEntity<ErroResponse> handleCpfJaExistenteException(CpfJaExistenteException ex, WebRequest request) {
 
 		ErroResponse erroResponse = new ErroResponse(LocalDateTime.now(), ex.getMessage(),
 				request.getDescription(false));
@@ -103,4 +101,22 @@ public class GlobalExceptionHandler {
 		return new ResponseEntity<>(erroResponse, HttpStatus.NOT_FOUND);
 	}
 
+	@ExceptionHandler(CpfInvalidoException.class)
+	public ResponseEntity<ErroResponse> handleCpfInvalidoException(CpfInvalidoException ex, WebRequest request) {
+
+		ErroResponse erroResponse = new ErroResponse(LocalDateTime.now(), ex.getMessage(),
+				request.getDescription(false));
+
+		return new ResponseEntity<>(erroResponse, HttpStatus.BAD_REQUEST);
+
+	}
+
+	@ExceptionHandler(Exception.class)
+	public ResponseEntity<ErroResponse> handleGenericException(Exception ex, WebRequest request) {
+
+		ErroResponse erroResponse = new ErroResponse(LocalDateTime.now(), "Erro interno do servidor",
+				request.getDescription(false));
+
+		return new ResponseEntity<>(erroResponse, HttpStatus.INTERNAL_SERVER_ERROR);
+	}
 }

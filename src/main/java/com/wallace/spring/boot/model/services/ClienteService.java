@@ -36,7 +36,8 @@ public class ClienteService {
 		if (clienteRepository.findByCpf(clienteRequestDTO.cpf()).isPresent()) {
 			throw new CpfJaExistenteException("CPF já cadastrado no sistema.");
 		}
-		Cliente novoCliente = new Cliente(clienteRequestDTO.nome(), clienteRequestDTO.cpf());
+		Cliente novoCliente = new Cliente(clienteRequestDTO.nome(),
+				clienteRequestDTO.cpf());
 		clienteRepository.save(novoCliente);
 		return novoCliente;
 	}
