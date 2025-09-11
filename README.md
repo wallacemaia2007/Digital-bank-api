@@ -28,7 +28,6 @@
 - [Estrutura do Projeto](#-estrutura-do-projeto)
 - [Contribuição](#-contribuição)
 - [Autor](#-autor)
-- [Licença](#-licença)
 
 ---
 
@@ -339,5 +338,5 @@ Contribuições são sempre bem-vindas! Para contribuir:
 > 💡 **Sobre mim:** Desenvolvedor Backend apaixonado por criar soluções robustas e escaláveis. Especialista em Java/Spring Boot, sempre buscando aplicar as melhores práticas de desenvolvimento e arquitetura de software.
 
 <div align="center">  
-  **Desenvolvido com ❤️ por [Wallace Maia](https://github.com/wallacemaia2007)**
+  ** Desenvolvido com ❤️ por Wallace Maia **
 </div>
