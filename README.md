@@ -324,21 +324,6 @@ Contribuições são sempre bem-vindas! Para contribuir:
 - `test:` Testes
 - `refactor:` Refatoração de código
 
----
-
-## 🚀 Roadmap
-
-- [ ] **Docker/Docker-compose** para containerização
-- [ ] **JWT Authentication** para segurança avançada
-- [ ] **Paginação** nas consultas
-- [ ] **Cache Redis** para performance
-- [ ] **Testes de Integração** com TestContainers
-- [ ] **CI/CD Pipeline** com GitHub Actions
-- [ ] **Monitoring** com Actuator + Micrometer
-- [ ] **API Versioning** para compatibilidade
-
----
-
 ## 👨‍💻 Autor
 
 <div align="center">
