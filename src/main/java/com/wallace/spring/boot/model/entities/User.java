@@ -1,14 +1,13 @@
 package com.wallace.spring.boot.model.entities;
 
 import java.util.Collection;
-import java.util.List;
 
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.wallace.spring.boot.enums.Role;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -30,6 +29,7 @@ public class User implements UserDetails {
     private String senha;
 
     @Enumerated(EnumType.STRING)
+    @Column(name = "role", length = 50) 
     private Role role;
 
     public static UserBuilder builder() {
@@ -99,7 +99,7 @@ public class User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority("ROLE_" + role.name()));
+        return role.getAuthorities(); 
     }
 
     @Override

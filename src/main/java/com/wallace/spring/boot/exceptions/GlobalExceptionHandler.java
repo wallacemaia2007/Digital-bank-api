@@ -22,6 +22,16 @@ public class GlobalExceptionHandler {
 
 		return new ResponseEntity<>(erroResponse, HttpStatus.NOT_FOUND);
 	}
+	
+	@ExceptionHandler(UserEmailNaoEncontradoException.class)
+	public ResponseEntity<ErroResponse> UserEmailNaoEncontradoException(UserEmailNaoEncontradoException ex,
+			WebRequest request) {
+
+		ErroResponse erroResponse = new ErroResponse(LocalDateTime.now(), ex.getMessage(),
+				request.getDescription(false));
+
+		return new ResponseEntity<>(erroResponse, HttpStatus.NOT_FOUND);
+	}
 
 	@ExceptionHandler(ValorMenorQueZeroException.class)
 	public ResponseEntity<ErroResponse> handleValorMenorQueZeroException(ValorMenorQueZeroException ex,
