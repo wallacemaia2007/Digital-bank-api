@@ -5,6 +5,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import java.math.BigDecimal;
 
+@Schema(description = "Dados para uma operação de saque ou depósito")
 public record OperacaoRequestDTO(
         @Schema(description = "Valor da operação (saque ou depósito). Deve ser maior que zero.", example = "200.00")
         @NotNull(message = "O valor da operação é obrigatório")

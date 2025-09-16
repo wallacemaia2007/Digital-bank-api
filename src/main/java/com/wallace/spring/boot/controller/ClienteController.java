@@ -64,7 +64,8 @@ public class ClienteController {
 			@ApiResponse(responseCode = "409", description = "O CPF informado já está cadastrado.") })
 	@PostMapping
 	@PreAuthorize("hasAuthority('user:write')")
-	public ResponseEntity<ClienteResponseDTO> cadastrar(@Valid @RequestBody ClienteRequestDTO clienteRequestDTO){		Cliente novoCliente = clienteService.cadastrarCliente(clienteRequestDTO);
+	public ResponseEntity<ClienteResponseDTO> cadastrar(@Valid @RequestBody ClienteRequestDTO clienteRequestDTO) {
+		Cliente novoCliente = clienteService.cadastrarCliente(clienteRequestDTO);
 		ClienteResponseDTO clienteResponseDTO = new ClienteResponseDTO(novoCliente);
 		return ResponseEntity.status(HttpStatus.CREATED).body(clienteResponseDTO);
 	}

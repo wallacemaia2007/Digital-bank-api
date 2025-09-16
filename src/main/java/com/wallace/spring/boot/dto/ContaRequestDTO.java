@@ -5,6 +5,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 
+@Schema(description = "Dados para criar uma nova conta bancária")
 public record ContaRequestDTO(
         @Schema(description = "ID do cliente ao qual a conta será associada", example = "1")
         @NotNull(message = "O ID do cliente é obrigatório")

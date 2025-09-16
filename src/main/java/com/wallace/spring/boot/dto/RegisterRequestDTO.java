@@ -13,7 +13,7 @@ public record RegisterRequestDTO(
         String nome,
 
         @Schema(description = "Sobrenome do usuário", example = "Santos")
-        @NotBlank(message = "O sobrenome не pode estar em branco")
+        @NotBlank(message = "O sobrenome não pode estar em branco")
         @Size(min = 2, max = 100, message = "O sobrenome deve ter entre 2 e 100 caracteres")
         String sobreNome,
 

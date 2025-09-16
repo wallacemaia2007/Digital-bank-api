@@ -144,5 +144,4 @@ public class ContaController {
 				.map(HistoricoContaResponseDTO::new).toList();
 		return ResponseEntity.ok(historicoContaResponseDTO);
 	}
-
 }

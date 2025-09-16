@@ -5,6 +5,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import java.math.BigDecimal;
 
+@Schema(description = "Dados para realizar uma transferência entre contas")
 public record TransferenciaRequestDTO(
         @Schema(description = "ID da conta que irá enviar o dinheiro (remetente)", example = "1")
         @NotNull(message = "O ID da conta remetente é obrigatório")
