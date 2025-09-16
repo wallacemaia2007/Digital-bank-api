@@ -18,7 +18,7 @@ import com.wallace.spring.boot.model.entities.Conta;
 import com.wallace.spring.boot.model.entities.ContaCorrente;
 import com.wallace.spring.boot.model.entities.HistoricoConta;
 import com.wallace.spring.boot.model.repository.HistoricoContaRepository;
-import com.wallace.spring.boot.model.services.HistoricoContaService;
+import com.wallace.spring.boot.services.HistoricoContaService;
 
 @ExtendWith(MockitoExtension.class)
 public class HistoricoContaServiceTest {

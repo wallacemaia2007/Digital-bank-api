@@ -38,8 +38,8 @@ import com.wallace.spring.boot.model.entities.ContaCorrente;
 import com.wallace.spring.boot.model.entities.ContaPoupanca;
 import com.wallace.spring.boot.model.repository.ClienteRepository;
 import com.wallace.spring.boot.model.repository.ContaRepository;
-import com.wallace.spring.boot.model.services.ContaService;
-import com.wallace.spring.boot.model.services.HistoricoContaService;
+import com.wallace.spring.boot.services.ContaService;
+import com.wallace.spring.boot.services.HistoricoContaService;
 
 @ExtendWith(MockitoExtension.class)
 public class ContaServiceTest {

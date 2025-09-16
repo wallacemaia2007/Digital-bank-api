@@ -23,7 +23,7 @@ import com.wallace.spring.boot.exceptions.ClienteNaoEncontradoException;
 import com.wallace.spring.boot.exceptions.CpfJaExistenteException;
 import com.wallace.spring.boot.model.entities.Cliente;
 import com.wallace.spring.boot.model.repository.ClienteRepository;
-import com.wallace.spring.boot.model.services.ClienteService;
+import com.wallace.spring.boot.services.ClienteService;
 
 @ExtendWith(MockitoExtension.class)
 public class ClienteServiceTest {

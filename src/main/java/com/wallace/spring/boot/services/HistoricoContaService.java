@@ -1,4 +1,4 @@
-package com.wallace.spring.boot.model.services;
+package com.wallace.spring.boot.services;
 
 import java.math.BigDecimal;
 import java.util.List;

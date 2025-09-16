@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.wallace.spring.boot.dto.AuthenticationRequestDTO;
 import com.wallace.spring.boot.dto.RegisterRequestDTO;
-import com.wallace.spring.boot.model.services.AuthenticationService;
-import com.wallace.spring.boot.model.services.AuthenticationService.AuthenticationResponse;
+import com.wallace.spring.boot.services.AuthenticationService;
+import com.wallace.spring.boot.services.AuthenticationService.AuthenticationResponse;
 
 import jakarta.validation.Valid;
 

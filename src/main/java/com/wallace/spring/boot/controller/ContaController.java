@@ -25,9 +25,9 @@ import com.wallace.spring.boot.dto.TransferenciaRequestDTO;
 import com.wallace.spring.boot.model.entities.Cliente;
 import com.wallace.spring.boot.model.entities.Conta;
 import com.wallace.spring.boot.model.entities.HistoricoConta;
-import com.wallace.spring.boot.model.services.ClienteService;
-import com.wallace.spring.boot.model.services.ContaService;
-import com.wallace.spring.boot.model.services.HistoricoContaService;
+import com.wallace.spring.boot.services.ClienteService;
+import com.wallace.spring.boot.services.ContaService;
+import com.wallace.spring.boot.services.HistoricoContaService;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;

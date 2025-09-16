@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.wallace.spring.boot.dto.ClienteRequestDTO;
 import com.wallace.spring.boot.dto.ClienteResponseDTO;
 import com.wallace.spring.boot.model.entities.Cliente;
-import com.wallace.spring.boot.model.services.ClienteService;
+import com.wallace.spring.boot.services.ClienteService;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;

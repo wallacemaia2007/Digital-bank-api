@@ -27,13 +27,13 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.wallace.spring.boot.controller.ClienteController;
+import com.wallace.spring.boot.controller.GlobalExceptionHandler;
 import com.wallace.spring.boot.dto.ClienteRequestDTO;
 import com.wallace.spring.boot.exceptions.ClienteNaoEncontradoException;
 import com.wallace.spring.boot.exceptions.CpfInvalidoException;
 import com.wallace.spring.boot.exceptions.CpfJaExistenteException;
-import com.wallace.spring.boot.exceptions.GlobalExceptionHandler;
 import com.wallace.spring.boot.model.entities.Cliente;
-import com.wallace.spring.boot.model.services.ClienteService;
+import com.wallace.spring.boot.services.ClienteService;
 
 @ExtendWith(MockitoExtension.class)
 class ClienteControllerTest {

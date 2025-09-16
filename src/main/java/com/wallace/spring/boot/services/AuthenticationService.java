@@ -1,5 +1,7 @@
-package com.wallace.spring.boot.model.services;
+package com.wallace.spring.boot.services;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -8,11 +10,14 @@ import org.springframework.stereotype.Service;
 import com.wallace.spring.boot.dto.AuthenticationRequestDTO;
 import com.wallace.spring.boot.dto.RegisterRequestDTO;
 import com.wallace.spring.boot.enums.Role;
+import com.wallace.spring.boot.exceptions.UsuarioNaoEncontradoException;
 import com.wallace.spring.boot.model.entities.User;
 import com.wallace.spring.boot.model.repository.UserRepository;
 
 @Service
 public class AuthenticationService {
+
+    private static final Logger logger = LoggerFactory.getLogger(AuthenticationService.class);
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
@@ -28,6 +33,7 @@ public class AuthenticationService {
     }
 
     public AuthenticationResponse register(RegisterRequestDTO requestDTO) {
+        logger.info("Iniciando registro para o novo usuário com email: {}", requestDTO.email());
         User user = User.builder()
                 .username(requestDTO.nome())
                 .sobrenome(requestDTO.sobreNome())
@@ -37,8 +43,8 @@ public class AuthenticationService {
                 .build();
         
         User savedUser = userRepository.save(user);
-
         String jwtToken = jwtService.generateToken(savedUser);
+        logger.info("Usuário com email {} registrado com sucesso.", savedUser.getEmail());
 
         return AuthenticationResponse.builder()
                 .token(jwtToken)
@@ -46,6 +52,7 @@ public class AuthenticationService {
     }
 
     public AuthenticationResponse authenticated(AuthenticationRequestDTO requestDTO) {
+        logger.info("Iniciando autenticação para o usuário com email: {}", requestDTO.email());
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         requestDTO.email(), 
@@ -54,9 +61,13 @@ public class AuthenticationService {
         );
 
         User user = userRepository.findByEmail(requestDTO.email())
-                .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+                .orElseThrow(() -> {
+                    logger.warn("Tentativa de autenticação falhou para o email (não encontrado): {}", requestDTO.email());
+                    return new UsuarioNaoEncontradoException("Usuário não encontrado");
+                });
 
         String jwtToken = jwtService.generateToken(user);
+        logger.info("Usuário com email {} autenticado com sucesso.", user.getEmail());
 
         return AuthenticationResponse.builder()
                 .token(jwtToken)

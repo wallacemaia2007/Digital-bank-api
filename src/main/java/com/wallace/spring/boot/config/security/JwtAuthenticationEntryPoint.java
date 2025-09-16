@@ -1,4 +1,4 @@
-package com.wallace.spring.boot.security;
+package com.wallace.spring.boot.config.security;
 
 import java.io.IOException;
 import java.time.LocalDateTime;

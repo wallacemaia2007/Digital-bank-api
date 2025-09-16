@@ -26,6 +26,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.wallace.spring.boot.controller.ContaController;
+import com.wallace.spring.boot.controller.GlobalExceptionHandler;
 import com.wallace.spring.boot.dto.ContaRequestDTO;
 import com.wallace.spring.boot.dto.OperacaoRequestDTO;
 import com.wallace.spring.boot.dto.TransferenciaRequestDTO;
@@ -33,7 +34,6 @@ import com.wallace.spring.boot.enums.TipoTransacao;
 import com.wallace.spring.boot.exceptions.ClienteNaoEncontradoException;
 import com.wallace.spring.boot.exceptions.ContaInexistenteException;
 import com.wallace.spring.boot.exceptions.DataInvalidaException;
-import com.wallace.spring.boot.exceptions.GlobalExceptionHandler;
 import com.wallace.spring.boot.exceptions.SaldoInsuficienteException;
 import com.wallace.spring.boot.exceptions.TipoDeContaInvalidaException;
 import com.wallace.spring.boot.exceptions.ValorMenorQueZeroException;
@@ -42,9 +42,9 @@ import com.wallace.spring.boot.model.entities.Conta;
 import com.wallace.spring.boot.model.entities.ContaCorrente;
 import com.wallace.spring.boot.model.entities.ContaPoupanca;
 import com.wallace.spring.boot.model.entities.HistoricoConta;
-import com.wallace.spring.boot.model.services.ClienteService;
-import com.wallace.spring.boot.model.services.ContaService;
-import com.wallace.spring.boot.model.services.HistoricoContaService;
+import com.wallace.spring.boot.services.ClienteService;
+import com.wallace.spring.boot.services.ContaService;
+import com.wallace.spring.boot.services.HistoricoContaService;
 
 @ExtendWith(MockitoExtension.class)
 public class ContaControllerTest {

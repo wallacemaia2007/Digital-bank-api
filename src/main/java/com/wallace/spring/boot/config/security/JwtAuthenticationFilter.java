@@ -1,4 +1,4 @@
-package com.wallace.spring.boot.security;
+package com.wallace.spring.boot.config.security;
 
 import java.io.IOException;
 
@@ -11,7 +11,7 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import com.wallace.spring.boot.model.services.JwtService;
+import com.wallace.spring.boot.services.JwtService;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

@@ -1,4 +1,4 @@
-package com.wallace.spring.boot.security;
+package com.wallace.spring.boot.config;
 
 import java.util.Arrays;
 
@@ -15,6 +15,9 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
+import com.wallace.spring.boot.config.security.JwtAuthenticationEntryPoint;
+import com.wallace.spring.boot.config.security.JwtAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
