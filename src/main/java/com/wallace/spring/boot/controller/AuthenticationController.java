@@ -11,6 +11,8 @@ import com.wallace.spring.boot.dto.RegisterRequestDTO;
 import com.wallace.spring.boot.model.services.AuthenticationService;
 import com.wallace.spring.boot.model.services.AuthenticationService.AuthenticationResponse;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping("/api/v1/auth")
 public class AuthenticationController {
@@ -22,7 +24,7 @@ public class AuthenticationController {
     }
 
     @PostMapping("/register") 
-    public ResponseEntity<AuthenticationResponse> register(@RequestBody RegisterRequestDTO requestDTO) {
+    public ResponseEntity<AuthenticationResponse> register(@Valid @RequestBody RegisterRequestDTO requestDTO) {
         return ResponseEntity.ok(authenticationService.register(requestDTO));
     }
 

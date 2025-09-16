@@ -33,6 +33,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/contas")
@@ -52,8 +53,11 @@ public class ContaController {
 	}
 
 	@Operation(summary = "Buscar contas por CPF", description = "Retorna todas as contas associadas a um cliente a partir do CPF fornecido.")
-	@ApiResponses(value = { @ApiResponse(responseCode = "200", description = "Contas encontradas com sucesso."),
-			@ApiResponse(responseCode = "404", description = "Cliente não encontrado para o CPF fornecido.") })
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "200", description = "Contas encontradas com sucesso."),
+			@ApiResponse(responseCode = "404", description = "Cliente não encontrado para o CPF fornecido."),
+			@ApiResponse(responseCode = "401", description = "Realize o Login para acessar os endpoints!")
+	})
 
 	@GetMapping(path = "/clientes/{cpf}/contas")
 	public ResponseEntity<List<ContaResponseDTO>> buscarContasPorCpf(@PathVariable String cpf) {
@@ -67,9 +71,9 @@ public class ContaController {
 	@ApiResponses(value = { @ApiResponse(responseCode = "201", description = "Conta criada com sucesso."),
 			@ApiResponse(responseCode = "400", description = "Tipo de conta inválido."),
 			@ApiResponse(responseCode = "404", description = "Cliente não encontrado."),
-			@ApiResponse(responseCode = "409", description = "O cliente já possui uma conta desse tipo.") })
+			@ApiResponse(responseCode = "409", description = "O cliente já possui uma conta desse tipo."), })
 	@PostMapping
-	public ResponseEntity<ContaResponseDTO> criarContaPorCpf(@RequestBody ContaRequestDTO contaRequestDTO) {
+	public ResponseEntity<ContaResponseDTO> criarContaPorCpf(@Valid @RequestBody ContaRequestDTO contaRequestDTO) {
 
 		Conta conta = contaService.criarConta(contaRequestDTO);
 		ContaResponseDTO contaResponseDTO = new ContaResponseDTO(conta);
@@ -81,7 +85,7 @@ public class ContaController {
 			@ApiResponse(responseCode = "400", description = "Valor informado é negativo ou igual a zero."),
 			@ApiResponse(responseCode = "404", description = "Conta não encontrada pelo ID fornecido.") })
 	@PutMapping(path = "/{id}/deposito")
-	public ResponseEntity<ContaResponseDTO> depositar(@RequestBody OperacaoRequestDTO operacaoRequestDTO) {
+	public ResponseEntity<ContaResponseDTO> depositar(@Valid @RequestBody OperacaoRequestDTO operacaoRequestDTO) {
 		Conta conta = contaService.depositar(operacaoRequestDTO.valor(), operacaoRequestDTO.contaId());
 		ContaResponseDTO contaResponseDTO = new ContaResponseDTO(conta);
 		return ResponseEntity.ok(contaResponseDTO);
@@ -93,7 +97,7 @@ public class ContaController {
 			@ApiResponse(responseCode = "404", description = "Conta não encontrada pelo ID fornecido."),
 			@ApiResponse(responseCode = "409", description = "Saldo insuficiente para realizar o saque.") })
 	@PutMapping(path = "/{id}/saque")
-	public ResponseEntity<ContaResponseDTO> sacar(@RequestBody OperacaoRequestDTO operacaoRequestDTO) {
+	public ResponseEntity<ContaResponseDTO> sacar(@Valid @RequestBody OperacaoRequestDTO operacaoRequestDTO) {
 		Conta conta = contaService.sacar(operacaoRequestDTO.valor(), operacaoRequestDTO.contaId());
 		ContaResponseDTO contaResponseDTO = new ContaResponseDTO(conta);
 		return ResponseEntity.ok(contaResponseDTO);
@@ -106,7 +110,7 @@ public class ContaController {
 			@ApiResponse(responseCode = "409", description = "Saldo insuficiente na conta de origem para realizar a transferência.") })
 	@PutMapping(path = "/transferencias")
 	public ResponseEntity<List<ContaResponseDTO>> transferir(
-			@RequestBody TransferenciaRequestDTO transferenciaRequestDTO) {
+			@Valid @RequestBody TransferenciaRequestDTO transferenciaRequestDTO) {
 		List<Conta> contas = contaService.transferir(transferenciaRequestDTO.contaIdDepositar(),
 				transferenciaRequestDTO.valor(), transferenciaRequestDTO.contaIdReceber());
 

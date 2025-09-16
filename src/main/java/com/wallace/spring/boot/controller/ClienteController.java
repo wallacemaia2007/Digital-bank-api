@@ -23,6 +23,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/clientes")
@@ -35,7 +36,9 @@ public class ClienteController {
 	}
 
 	@Operation(summary = "Buscar todos os clientes")
-	@ApiResponses(value = { @ApiResponse(responseCode = "200", description = "Clientes encontrados com sucesso.") })
+	@ApiResponses(value = { @ApiResponse(responseCode = "200", description = "Clientes encontrados com sucesso."),
+			@ApiResponse(responseCode = "401", description = "Realize o Login para acessar os endpoints!")
+})
 	@GetMapping
 	@PreAuthorize("hasAuthority('user:read')")
 	public ResponseEntity<List<ClienteResponseDTO>> buscarTodosClientes() {
@@ -61,8 +64,7 @@ public class ClienteController {
 			@ApiResponse(responseCode = "409", description = "O CPF informado já está cadastrado.") })
 	@PostMapping
 	@PreAuthorize("hasAuthority('user:write')")
-	public ResponseEntity<ClienteResponseDTO> cadastrar(@RequestBody ClienteRequestDTO clienteRequestDTO) {
-		Cliente novoCliente = clienteService.cadastrarCliente(clienteRequestDTO);
+	public ResponseEntity<ClienteResponseDTO> cadastrar(@Valid @RequestBody ClienteRequestDTO clienteRequestDTO){		Cliente novoCliente = clienteService.cadastrarCliente(clienteRequestDTO);
 		ClienteResponseDTO clienteResponseDTO = new ClienteResponseDTO(novoCliente);
 		return ResponseEntity.status(HttpStatus.CREATED).body(clienteResponseDTO);
 	}
@@ -76,7 +78,7 @@ public class ClienteController {
 	@PreAuthorize("hasAuthority('admin:uptade')")
 	public ResponseEntity<ClienteResponseDTO> alterarDadosClientePorCPF(
 			@Parameter(description = "CPF atual do cliente que será alterado", required = true, example = "123.456.789-00") @PathVariable String cpf,
-			@RequestBody ClienteRequestDTO clienteRequestDTO) {
+			@Valid @RequestBody ClienteRequestDTO clienteRequestDTO) {
 
 		Cliente clienteAtualizado = clienteService.alterarDadosClientePorCPF(cpf, clienteRequestDTO);
 		ClienteResponseDTO responseDTO = new ClienteResponseDTO(clienteAtualizado);

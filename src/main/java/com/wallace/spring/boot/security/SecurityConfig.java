@@ -1,7 +1,10 @@
 package com.wallace.spring.boot.security;
 
+import java.util.Arrays;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -9,6 +12,9 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 @Configuration
 @EnableWebSecurity
@@ -17,23 +23,56 @@ public class SecurityConfig {
 
 	private final JwtAuthenticationFilter jwtAuthenticationFilter;
 	private final AuthenticationProvider authenticationProvider;
+	private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
 
 	public SecurityConfig(JwtAuthenticationFilter jwtAuthenticationFilter,
-			AuthenticationProvider authenticationProvider) {
+			AuthenticationProvider authenticationProvider,
+			JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint) {
 		this.jwtAuthenticationFilter = jwtAuthenticationFilter;
 		this.authenticationProvider = authenticationProvider;
+		this.jwtAuthenticationEntryPoint = jwtAuthenticationEntryPoint;
 	}
 
 	@Bean
 	SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		http.csrf(csrf -> csrf.disable())
-				.authorizeHttpRequests(auth -> auth.requestMatchers("/api/v1/auth/**").permitAll()
+				.cors(cors -> cors.configurationSource(corsConfigurationSource()))
+				.authorizeHttpRequests(auth -> auth
+						// Endpoints públicos
+						.requestMatchers("/api/v1/auth/**").permitAll()
 						.requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
-						.anyRequest().permitAll())
+						.requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+						
+						// Endpoints protegidos - clientes
+						.requestMatchers(HttpMethod.GET, "/clientes", "/clientes/**").hasAnyAuthority("user:read", "admin:read")
+						.requestMatchers(HttpMethod.POST, "/clientes").hasAnyAuthority("user:write", "admin:write")
+						.requestMatchers(HttpMethod.PUT, "/clientes/**").hasAuthority("admin:uptade")
+						.requestMatchers(HttpMethod.DELETE, "/clientes/**").hasAuthority("admin:delete")
+						
+						// Endpoints protegidos - contas
+						.requestMatchers(HttpMethod.GET, "/contas/**").hasAnyAuthority("user:read", "admin:read")
+						.requestMatchers(HttpMethod.POST, "/contas").hasAnyAuthority("user:write", "admin:write")
+						.requestMatchers(HttpMethod.PUT, "/contas/**").hasAnyAuthority("user:write", "admin:write")
+						
+						// Qualquer outra requisição precisa estar autenticada
+						.anyRequest().authenticated())
 				.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 				.authenticationProvider(authenticationProvider)
+				.exceptionHandling(ex -> ex.authenticationEntryPoint(jwtAuthenticationEntryPoint))
 				.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
 		return http.build();
+	}
+	
+	@Bean
+	CorsConfigurationSource corsConfigurationSource() {
+		CorsConfiguration configuration = new CorsConfiguration();
+		configuration.setAllowedOriginPatterns(Arrays.asList("*"));
+		configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+		configuration.setAllowedHeaders(Arrays.asList("*"));
+		configuration.setAllowCredentials(true);
+		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+		source.registerCorsConfiguration("/**", configuration);
+		return source;
 	}
 }
