@@ -10,7 +10,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import com.wallace.spring.boot.exceptions.UserEmailNaoEncontradoException;
+import com.wallace.spring.boot.exceptions.EmailNaoEncontradoException; 
 import com.wallace.spring.boot.model.repository.UserRepository;
 
 @Configuration
@@ -25,7 +25,7 @@ public class ApplicationConfig {
 	@Bean
 	UserDetailsService userDetailsService() {
 		return username -> userRepository.findByEmail(username)
-				.orElseThrow(() -> new UserEmailNaoEncontradoException("User não encontrado"));
+				.orElseThrow(() -> new EmailNaoEncontradoException("Email não encontrado"));
 	}
 
 	@Bean
@@ -45,5 +45,4 @@ public class ApplicationConfig {
 	PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
-
 }

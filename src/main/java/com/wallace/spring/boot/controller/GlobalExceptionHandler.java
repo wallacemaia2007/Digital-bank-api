@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
@@ -18,10 +19,12 @@ import com.wallace.spring.boot.exceptions.ContaInexistenteException;
 import com.wallace.spring.boot.exceptions.ContaJaExistenteException;
 import com.wallace.spring.boot.exceptions.CpfInvalidoException;
 import com.wallace.spring.boot.exceptions.CpfJaExistenteException;
+import com.wallace.spring.boot.exceptions.CredenciaisInvalidasException;
 import com.wallace.spring.boot.exceptions.DataInvalidaException;
+import com.wallace.spring.boot.exceptions.EmailJaExistenteException;
+import com.wallace.spring.boot.exceptions.EmailNaoEncontradoException;
 import com.wallace.spring.boot.exceptions.SaldoInsuficienteException;
 import com.wallace.spring.boot.exceptions.TipoDeContaInvalidaException;
-import com.wallace.spring.boot.exceptions.UserEmailNaoEncontradoException;
 import com.wallace.spring.boot.exceptions.UsuarioNaoEncontradoException;
 import com.wallace.spring.boot.exceptions.ValorMenorQueZeroException;
 
@@ -59,15 +62,6 @@ public class GlobalExceptionHandler {
 		logger.error("ClienteNaoEncontradoException: {}", ex.getMessage());
 		return new ResponseEntity<>(erroResponse, HttpStatus.NOT_FOUND);
 	}
-	
-	@ExceptionHandler(UserEmailNaoEncontradoException.class)
-	public ResponseEntity<ErroResponse> UserEmailNaoEncontradoException(UserEmailNaoEncontradoException ex,
-			WebRequest request) {
-		ErroResponse erroResponse = new ErroResponse(LocalDateTime.now(), ex.getMessage(),
-				request.getDescription(false));
-		logger.error("UserEmailNaoEncontradoException: {}", ex.getMessage());
-		return new ResponseEntity<>(erroResponse, HttpStatus.NOT_FOUND);
-	}
 
 	@ExceptionHandler(ValorMenorQueZeroException.class)
 	public ResponseEntity<ErroResponse> handleValorMenorQueZeroException(ValorMenorQueZeroException ex,
@@ -76,6 +70,14 @@ public class GlobalExceptionHandler {
 				request.getDescription(false));
 		logger.warn("ValorMenorQueZeroException: {}", ex.getMessage());
 		return new ResponseEntity<>(erroResponse, HttpStatus.BAD_REQUEST);
+	}
+	
+	@ExceptionHandler(EmailJaExistenteException.class)
+	public ResponseEntity<ErroResponse> handleEmailJaExistenteException(EmailJaExistenteException ex, WebRequest request) {
+	    ErroResponse erroResponse = new ErroResponse(LocalDateTime.now(), ex.getMessage(),
+	            request.getDescription(false));
+	    logger.warn("EmailJaExistenteException: {}", ex.getMessage());
+	    return new ResponseEntity<>(erroResponse, HttpStatus.CONFLICT);
 	}
 
 	@ExceptionHandler(UsuarioNaoEncontradoException.class)
@@ -153,5 +155,29 @@ public class GlobalExceptionHandler {
 				request.getDescription(false));
 		logger.error("Erro interno inesperado: ", ex);
 		return new ResponseEntity<>(erroResponse, HttpStatus.INTERNAL_SERVER_ERROR);
+	}
+
+	@ExceptionHandler(CredenciaisInvalidasException.class)
+	public ResponseEntity<ErroResponse> handleCredenciaisInvalidasException(CredenciaisInvalidasException ex, WebRequest request) {
+	    ErroResponse erroResponse = new ErroResponse(LocalDateTime.now(), ex.getMessage(),
+	            request.getDescription(false));
+	    logger.warn("CredenciaisInvalidasException: {}", ex.getMessage());
+	    return new ResponseEntity<>(erroResponse, HttpStatus.UNAUTHORIZED);
+	}
+
+	@ExceptionHandler(EmailNaoEncontradoException.class)
+	public ResponseEntity<ErroResponse> handleEmailNaoEncontradoException(EmailNaoEncontradoException ex, WebRequest request) {
+	    ErroResponse erroResponse = new ErroResponse(LocalDateTime.now(), ex.getMessage(),
+	            request.getDescription(false));
+	    logger.warn("EmailNaoEncontradoException: {}", ex.getMessage());
+	    return new ResponseEntity<>(erroResponse, HttpStatus.UNAUTHORIZED);
+	}
+
+	@ExceptionHandler(BadCredentialsException.class)
+	public ResponseEntity<ErroResponse> handleBadCredentialsException(BadCredentialsException ex, WebRequest request) {
+	    ErroResponse erroResponse = new ErroResponse(LocalDateTime.now(), 
+	            "Email ou senha incorretos.", request.getDescription(false));
+	    logger.warn("BadCredentialsException: {}", ex.getMessage());
+	    return new ResponseEntity<>(erroResponse, HttpStatus.UNAUTHORIZED);
 	}
 }
