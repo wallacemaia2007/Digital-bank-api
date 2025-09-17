@@ -325,9 +325,3 @@ src/main/java/com/wallace/spring/boot/
   [![GitHub](https://img.shields.io/badge/-GitHub-181717?style=flat&logo=github&logoColor=white)](https://github.com/wallacemaia2007)
   [![Email](https://img.shields.io/badge/-Email-EA4335?style=flat&logo=gmail&logoColor=white)](mailto:wallacemaia2007@gmail.com)
 </div>
-
----
-
-<div align="center">
-  <sub>Desenvolvido com ❤️ usando Spring Boot + Spring Security</sub>
-</div>
