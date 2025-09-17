@@ -1,3 +1,4 @@
+# application.yml - Configuração Segura e Profissional
 spring:
   application:
     name: digital-bank-api
@@ -10,19 +11,50 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: update
-    show-sql: true
+      ddl-auto: ${DDL_AUTO:update} # Usar 'validate' em produção
+    show-sql: ${SHOW_SQL:false}    # Desabilitado por padrão
     database-platform: org.hibernate.dialect.MySQL8Dialect
+
+  profiles:
+    active: ${SPRING_PROFILE:dev}
 
 rendimento:
   poupanca:
-    taxa-mensal: 0.5
+    taxa-mensal: ${TAXA_RENDIMENTO:0.005} # 0.5% ao mês
 
 jwt:
-  secret: b2IhY0J5c3RvU0VjdXJpdHlLZXlVbHRyYVNlZ3VyYUNvbXBsZXRhUGFyYUVzdGVQcm9qZXRv
-  expiration: 86400000
+  secret: ${JWT_SECRET} # ✅ OBRIGATÓRIO via variável de ambiente
+  expiration: ${JWT_EXPIRATION:3600000} # 1 hora (mais seguro)
 
 logging:
   level:
-    com.wallace.spring.boot.security: DEBUG
-    org.springframework.security: DEBUG
+    com.wallace.spring.boot: INFO
+    org.springframework.security: WARN
+    org.springframework.web: WARN
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"
+    
+---
+spring:
+  config:
+    activate:
+      on-profile: dev
+  jpa:
+    show-sql: true
+  logging:
+    level:
+      com.wallace.spring.boot: DEBUG
+
+---
+spring:
+  config:
+    activate:
+      on-profile: prod
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: false
+  logging:
+    level:
+      root: WARN
+      com.wallace.spring.boot: INFO
