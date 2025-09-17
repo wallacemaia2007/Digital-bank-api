@@ -1,4 +1,4 @@
-# application.yml - Configuração Segura e Profissional
+# application.yml 
 spring:
   application:
     name: digital-bank-api
@@ -11,8 +11,8 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: ${DDL_AUTO:update} # Usar 'validate' em produção
-    show-sql: ${SHOW_SQL:false}    # Desabilitado por padrão
+      ddl-auto: ${DDL_AUTO:update} 
+    show-sql: ${SHOW_SQL:false}   
     database-platform: org.hibernate.dialect.MySQL8Dialect
 
   profiles:
@@ -20,11 +20,11 @@ spring:
 
 rendimento:
   poupanca:
-    taxa-mensal: ${TAXA_RENDIMENTO:0.005} # 0.5% ao mês
+    taxa-mensal: ${TAXA_RENDIMENTO:0.005} 
 
 jwt:
-  secret: ${JWT_SECRET} # ✅ OBRIGATÓRIO via variável de ambiente
-  expiration: ${JWT_EXPIRATION:3600000} # 1 hora (mais seguro)
+  secret: ${JWT_SECRET} 
+  expiration: ${JWT_EXPIRATION:3600000} 
 
 logging:
   level:

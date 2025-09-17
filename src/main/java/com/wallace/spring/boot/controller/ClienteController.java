@@ -76,7 +76,7 @@ public class ClienteController {
 			@ApiResponse(responseCode = "404", description = "Cliente não encontrado para o CPF informado."),
 			@ApiResponse(responseCode = "409", description = "O novo CPF informado já está cadastrado em outro cliente.") })
 	@PutMapping("/{cpf}")
-	@PreAuthorize("hasAuthority('admin:uptade')")
+	@PreAuthorize("hasAuthority('admin:update')") 
 	public ResponseEntity<ClienteResponseDTO> alterarDadosClientePorCPF(
 			@Parameter(description = "CPF atual do cliente que será alterado", required = true, example = "123.456.789-00") @PathVariable String cpf,
 			@Valid @RequestBody ClienteRequestDTO clienteRequestDTO) {

@@ -1,4 +1,3 @@
-
 package com.wallace.spring.boot.enums;
 
 import static com.wallace.spring.boot.enums.Permission.ADMIN_DELETE;
@@ -6,8 +5,7 @@ import static com.wallace.spring.boot.enums.Permission.ADMIN_READ;
 import static com.wallace.spring.boot.enums.Permission.ADMIN_WRITE;
 import static com.wallace.spring.boot.enums.Permission.USER_READ;
 import static com.wallace.spring.boot.enums.Permission.USER_WRITE;
-import static com.wallace.spring.boot.enums.Permission.ADMIN_UPTADE;
-
+import static com.wallace.spring.boot.enums.Permission.ADMIN_UPDATE; 
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -21,7 +19,7 @@ public enum Role {
         USER_WRITE,
         ADMIN_READ, 
         ADMIN_WRITE, 
-        ADMIN_UPTADE,
+        ADMIN_UPDATE, 
         ADMIN_DELETE
     ));
     

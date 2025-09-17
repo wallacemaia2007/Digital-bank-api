@@ -27,13 +27,16 @@ public class SecurityConfig {
 	private final JwtAuthenticationFilter jwtAuthenticationFilter;
 	private final AuthenticationProvider authenticationProvider;
 	private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
+	private final CustomAccessDeniedHandler customAccessDeniedHandler;
 
 	public SecurityConfig(JwtAuthenticationFilter jwtAuthenticationFilter,
 			AuthenticationProvider authenticationProvider,
-			JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint) {
+			JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint,
+			CustomAccessDeniedHandler customAccessDeniedHandler) {
 		this.jwtAuthenticationFilter = jwtAuthenticationFilter;
 		this.authenticationProvider = authenticationProvider;
 		this.jwtAuthenticationEntryPoint = jwtAuthenticationEntryPoint;
+		this.customAccessDeniedHandler = customAccessDeniedHandler;
 	}
 
 	@Bean
@@ -41,27 +44,25 @@ public class SecurityConfig {
 		http.csrf(csrf -> csrf.disable())
 				.cors(cors -> cors.configurationSource(corsConfigurationSource()))
 				.authorizeHttpRequests(auth -> auth
-						// Endpoints públicos
 						.requestMatchers("/api/v1/auth/**").permitAll()
 						.requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
 						.requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
 						
-						// Endpoints protegidos - clientes
 						.requestMatchers(HttpMethod.GET, "/clientes", "/clientes/**").hasAnyAuthority("user:read", "admin:read")
 						.requestMatchers(HttpMethod.POST, "/clientes").hasAnyAuthority("user:write", "admin:write")
-						.requestMatchers(HttpMethod.PUT, "/clientes/**").hasAuthority("admin:uptade")
+						.requestMatchers(HttpMethod.PUT, "/clientes/**").hasAuthority("admin:update") 
 						.requestMatchers(HttpMethod.DELETE, "/clientes/**").hasAuthority("admin:delete")
 						
-						// Endpoints protegidos - contas
 						.requestMatchers(HttpMethod.GET, "/contas/**").hasAnyAuthority("user:read", "admin:read")
 						.requestMatchers(HttpMethod.POST, "/contas").hasAnyAuthority("user:write", "admin:write")
 						.requestMatchers(HttpMethod.PUT, "/contas/**").hasAnyAuthority("user:write", "admin:write")
 						
-						// Qualquer outra requisição precisa estar autenticada
 						.anyRequest().authenticated())
 				.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 				.authenticationProvider(authenticationProvider)
-				.exceptionHandling(ex -> ex.authenticationEntryPoint(jwtAuthenticationEntryPoint))
+				.exceptionHandling(ex -> ex
+					.authenticationEntryPoint(jwtAuthenticationEntryPoint)
+					.accessDeniedHandler(customAccessDeniedHandler)) 
 				.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
 		return http.build();
@@ -70,10 +71,18 @@ public class SecurityConfig {
 	@Bean
 	CorsConfigurationSource corsConfigurationSource() {
 		CorsConfiguration configuration = new CorsConfiguration();
-		configuration.setAllowedOriginPatterns(Arrays.asList("*"));
+		
+		configuration.setAllowedOriginPatterns(Arrays.asList(
+			"http://localhost:*",          
+			"https://*.herokuapp.com",      
+			"https://*.vercel.app"         	
+			));
+		
 		configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
 		configuration.setAllowedHeaders(Arrays.asList("*"));
 		configuration.setAllowCredentials(true);
+		configuration.setMaxAge(3600L); 
+		
 		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
 		source.registerCorsConfiguration("/**", configuration);
 		return source;

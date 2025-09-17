@@ -6,11 +6,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 
 import com.wallace.spring.boot.dto.ErroResponse;
+import com.wallace.spring.boot.exceptions.AcessoNegadoException;
 import com.wallace.spring.boot.exceptions.ClienteNaoEncontradoException;
 import com.wallace.spring.boot.exceptions.ContaInexistenteException;
 import com.wallace.spring.boot.exceptions.ContaJaExistenteException;
@@ -27,6 +29,27 @@ import com.wallace.spring.boot.exceptions.ValorMenorQueZeroException;
 public class GlobalExceptionHandler {
 
 	private static final Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
+
+	@ExceptionHandler(AcessoNegadoException.class)
+	public ResponseEntity<ErroResponse> handleAcessoNegadoException(AcessoNegadoException ex,
+			WebRequest request) {
+		ErroResponse erroResponse = new ErroResponse(LocalDateTime.now(), ex.getMessage(),
+				request.getDescription(false));
+		logger.warn("AcessoNegadoException: {}", ex.getMessage());
+		return new ResponseEntity<>(erroResponse, HttpStatus.FORBIDDEN);
+	}
+
+	@ExceptionHandler(AccessDeniedException.class)
+	public ResponseEntity<ErroResponse> handleAccessDeniedException(AccessDeniedException ex,
+			WebRequest request) {
+		String customMessage = "Acesso negado: Você não possui as permissões necessárias para executar esta operação. " +
+				"Contate um administrador se acredita que deveria ter acesso.";
+		
+		ErroResponse erroResponse = new ErroResponse(LocalDateTime.now(), customMessage,
+				request.getDescription(false));
+		logger.warn("AccessDeniedException: {}", ex.getMessage());
+		return new ResponseEntity<>(erroResponse, HttpStatus.FORBIDDEN);
+	}
 
 	@ExceptionHandler(ClienteNaoEncontradoException.class)
 	public ResponseEntity<ErroResponse> handleClienteNaoEncontradoException(ClienteNaoEncontradoException ex,
