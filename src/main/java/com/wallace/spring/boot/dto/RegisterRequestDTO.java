@@ -13,13 +13,13 @@ public record RegisterRequestDTO(
         @Pattern(regexp = "^[A-Za-zÀ-ÿ\\s]+$", message = "O nome deve conter apenas letras e espaços")
         String nome,
 
-        @Schema(description = "Sobrenome do usuário", example = "Santos")
+        @Schema(description = "Sobrenome do usuário", example = "Maia")
         @NotBlank(message = "O sobrenome não pode estar em branco")
         @Size(min = 2, max = 100, message = "O sobrenome deve ter entre 2 e 100 caracteres")
         @Pattern(regexp = "^[A-Za-zÀ-ÿ\\s]+$", message = "O sobrenome deve conter apenas letras e espaços")
         String sobreNome,
 
-        @Schema(description = "E-mail do usuário para login", example = "wallace.santos@example.com")
+        @Schema(description = "E-mail do usuário para login", example = "wallace.maia@example.com")
         @Email(message = "O formato do e-mail é inválido")
         @NotBlank(message = "O e-mail não pode estar em branco")
         @Size(max = 100, message = "O e-mail não pode ter mais de 100 caracteres")

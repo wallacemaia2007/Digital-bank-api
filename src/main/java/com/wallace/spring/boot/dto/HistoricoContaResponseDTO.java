@@ -18,7 +18,7 @@ public record HistoricoContaResponseDTO(
         String horario,
         @Schema(description = "ID da conta remetente (se aplicável)", nullable = true, example = "1")
         Integer idRemetente,
-        @Schema(description = "Nome do cliente remetente (se aplicável)", nullable = true, example = "Wallace Santos")
+        @Schema(description = "Nome do cliente remetente (se aplicável)", nullable = true, example = "Wallace Maia")
         String nomeRemetente,
         @Schema(description = "ID da conta destinatária (se aplicável)", nullable = true, example = "2")
         Integer idRecebedor,

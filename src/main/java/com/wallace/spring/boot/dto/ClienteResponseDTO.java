@@ -7,7 +7,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 public record ClienteResponseDTO(
     @Schema(description = "ID único do cliente", example = "1")
     Integer id,
-    @Schema(description = "Nome completo do cliente", example = "Wallace Santos")
+    @Schema(description = "Nome completo do cliente", example = "Wallace Maia")
     String nome,
     @Schema(description = "CPF do cliente", example = "123.456.789-00")
     String cpf

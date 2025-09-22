@@ -7,7 +7,7 @@ import jakarta.validation.constraints.NotBlank;
 
 @Schema(description = "Dados para cadastrar ou atualizar um cliente")
 public record ClienteRequestDTO(
-        @Schema(description = "Nome completo do cliente", example = "Wallace Santos")
+        @Schema(description = "Nome completo do cliente", example = "Wallace Maia")
         @NotBlank(message = "O nome não pode estar em branco")
         String nome,
 

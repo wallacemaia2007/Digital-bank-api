@@ -6,7 +6,7 @@ import jakarta.validation.constraints.NotBlank;
 
 @Schema(description = "Dados necessários para a autenticação de um usuário")
 public record AuthenticationRequestDTO(
-        @Schema(description = "E-mail do usuário", example = "wallace.santos@example.com")
+        @Schema(description = "E-mail do usuário", example = "wallace.maia@example.com")
         @NotBlank(message = "O e-mail não pode estar em branco")
         @Email(message = "Formato de e-mail inválido")
         String email,
