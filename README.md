@@ -1,207 +1,453 @@
-# 🏦 Digital Bank API
+# 🏦 Digital Bank API - Sistema Bancário Digital Completo
 
 <div align="center">
+  <img src="https://img.shields.io/badge/Full%20Stack-Complete-success?style=for-the-badge" alt="Full Stack">
   <img src="https://img.shields.io/badge/Java-17+-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white" alt="Java">
+  <img src="https://img.shields.io/badge/Angular-17.3+-DD0031?style=for-the-badge&logo=angular&logoColor=white" alt="Angular">
   <img src="https://img.shields.io/badge/Spring%20Boot-3.0+-6DB33F?style=for-the-badge&logo=spring&logoColor=white" alt="Spring Boot">
-  <img src="https://img.shields.io/badge/Spring%20Security-JWT-6DB33F?style=for-the-badge&logo=springsecurity&logoColor=white" alt="Spring Security">
   <img src="https://img.shields.io/badge/MySQL-8.0+-4479A1?style=for-the-badge&logo=mysql&logoColor=white" alt="MySQL">
-  <img src="https://img.shields.io/badge/JUnit-5-25A162?style=for-the-badge&logo=junit5&logoColor=white" alt="JUnit">
-  <img src="https://img.shields.io/badge/Swagger-OpenAPI-85EA2D?style=for-the-badge&logo=swagger&logoColor=white" alt="Swagger">
+  <img src="https://img.shields.io/badge/TypeScript-5.0+-3178C6?style=for-the-badge&logo=typescript&logoColor=white" alt="TypeScript">
 </div>
 
 <div align="center">
-  <h3>🚀 API REST segura e completa para sistema bancário digital</h3>
-  <p>Sistema bancário moderno com autenticação JWT, controle de acesso baseado em roles, transações seguras e histórico completo.</p>
+  <h3>🚀 Plataforma bancária completa com interface moderna e backend robusto</h3>
+  <p>Sistema full-stack para operações bancárias digitais com autenticação segura, dashboard intuitivo e gerenciamento completo de contas.</p>
 </div>
 
 ---
 
-## 📋 Sobre o Projeto
+## 📋 Visão Geral do Projeto
 
-A **Digital Bank API** é uma aplicação backend robusta que simula operações bancárias com foco em **segurança**, **performance** e **escalabilidade**. Desenvolvida com Spring Boot e Spring Security, implementa autenticação JWT, controle de permissões granular e cobertura completa de testes unitários.
+O **Digital Bank API** é uma aplicação full-stack que simula um banco digital completo, incluindo:
 
-### ✨ Principais Características
-
-- 🔐 **Autenticação JWT** com Spring Security
-- 👥 **Sistema de Roles** (USER/ADMIN) com permissões granulares
-- 🏧 **Operações bancárias** completas (depósitos, saques, transferências)
-- 📊 **Histórico detalhado** de todas as transações
-- 🧪 **Cobertura de testes** com JUnit 5 e Mockito
-- 📖 **Documentação automática** com OpenAPI/Swagger
-- ⚡ **Validação robusta** com Bean Validation
-- 🎯 **Tratamento global** de exceções
-- 📈 **Simulação de rendimentos** para conta poupança
+- ✅ **Interface moderna** com Angular 17 e Material Design
+- ✅ **Backend robusto** com Spring Boot 3 e Spring Security
+- ✅ **Autenticação segura** com JWT
+- ✅ **Operações bancárias** (depósitos, saques, transferências)
+- ✅ **Dashboard gerencial** com gráficos e estatísticas
+- ✅ **Sistema de usuários/admin** com controle de acesso
+- ✅ **Histórico de transações** completo
+- ✅ **Responsivo** e otimizado para mobile
 
 ---
 
-## 🛠 Stack Tecnológica
+## 🎨 Frontend - Digital Bank Web
 
-### Core Framework
-- **Java 17+** - Linguagem principal
-- **Spring Boot 3.x** - Framework base
-- **Spring Data JPA** - Persistência de dados
-- **Spring Security** - Autenticação e autorização
-- **Spring Validation** - Validação de dados
+### 📱 Tecnologias do Frontend
 
-### Segurança
-- **JWT (JSON Web Tokens)** - Autenticação stateless
-- **BCrypt** - Criptografia de senhas
-- **Role-Based Access Control** - Controle de acesso
-
-### Banco de Dados
-- **MySQL 8.0+** - Banco principal
-- **JPA/Hibernate** - ORM
-- **HikariCP** - Pool de conexões
-
-### Testes & Qualidade
-- **JUnit 5** - Framework de testes
-- **Mockito** - Mocking framework
-- **MockMvc** - Testes de integração web
-- **ArgumentCaptor** - Captura de argumentos em testes
-
-### Documentação & APIs
-- **OpenAPI 3** - Especificação da API
-- **Swagger UI** - Interface de documentação
-- **Bean Validation** - Validações declarativas
-
----
-
-## 🔐 Sistema de Segurança
-
-### Usuários Padrão
-A aplicação inicializa com dois usuários pré-configurados:
-
-| Email | Senha | Role | Permissões |
-|-------|-------|------|------------|
-| `admin@admin.com` | `admin123` | **ADMIN** | Todas as operações (CRUD completo) |
-| `user@user.com` | `user123` | **USER** | Leitura e criação apenas |
-
-### Controle de Acesso (RBAC)
-- **USER**: `user:read`, `user:write`
-- **ADMIN**: `admin:read`, `admin:write`, `admin:update`, `admin:delete` + todas de USER
-
-### Endpoints Protegidos
 ```
-GET    /clientes/**      → user:read ou admin:read
-POST   /clientes         → user:write ou admin:write  
-PUT    /clientes/**      → admin:update (somente admin)
-DELETE /clientes/**      → admin:delete (somente admin)
+┌─────────────────────────────────────────┐
+│         FRONTEND (Angular 17)           │
+├─────────────────────────────────────────┤
+│ • Angular 17.3 (Framework principal)    │
+│ • TypeScript 5+ (Linguagem)             │
+│ • Angular Material (UI Components)      │
+│ • PrimeNG (Componentes avançados)       │
+│ • Tailwind CSS (Styling)                │
+│ • SCSS (Pré-processador CSS)            │
+│ • RxJS (Programação reativa)            │
+│ • ApexCharts (Gráficos)                 │
+│ • Ngx-Toastr (Notificações)             │
+│ • Ngx-Mask (Máscaras de entrada)        │
+│ • Angular CDK (Utilidades)              │
+└─────────────────────────────────────────┘
 ```
 
+### 📁 Estrutura do Frontend
+
+```
+frontend/
+├── src/
+│   ├── app/
+│   │   ├── core/                    # Serviços core (auth, interceptors)
+│   │   │   ├── auth/                # Guarda de rotas e autenticação
+│   │   │   ├── interceptors/        # Interceptadores HTTP
+│   │   │   └── models/              # Modelos de dados
+│   │   │
+│   │   ├── modules/
+│   │   │   ├── public/              # Rotas públicas (signin, signup, landing)
+│   │   │   ├── home/                # Página inicial após login
+│   │   │   ├── gerencial/           # Dashboard e gerenciamento
+│   │   │   │   ├── pages/
+│   │   │   │   │   ├── dashboard/   # Dashboard com gráficos
+│   │   │   │   │   └── users/       # Gestão de usuários
+│   │   │   │   └── gerencial.routes.ts
+│   │   │   │
+│   │   │   └── shared/              # Componentes reutilizáveis
+│   │   │       ├── components/
+│   │   │       │   ├── base-button/
+│   │   │       │   ├── common-table/
+│   │   │       │   ├── loading/
+│   │   │       │   ├── page-header/
+│   │   │       │   ├── sidenav/
+│   │   │       │   └── user-card/
+│   │   │       └── models/
+│   │   │
+│   │   ├── app.component.ts         # Componente raiz
+│   │   ├── app.routes.ts            # Rotas principais
+│   │   └── app.config.ts            # Configurações globais
+│   │
+│   ├── assets/                      # Imagens e recursos estáticos
+│   ├── environments/                # Configurações por ambiente
+│   ├── styles.scss                  # Estilos globais
+│   └── main.ts                      # Entry point
+│
+├── angular.json                     # Configuração Angular
+├── tailwind.config.js               # Configuração Tailwind
+├── tsconfig.json                    # Configuração TypeScript
+└── package.json                     # Dependências npm
+```
+
+### 🎯 Funcionalidades do Frontend
+
+#### 📖 Páginas Públicas
+- **Landing Page** - Página inicial atraente
+- **Sign In** - Login com email e senha
+- **Sign Up** - Cadastro de novos usuários
+- **Recuperação de Senha** (preparado)
+
+#### 🏠 Páginas Autenticadas
+- **Home/Dashboard** - Overview da conta do usuário
+- **Operações Bancárias**
+  - 💰 Depósitos
+  - 🏧 Saques
+  - 💸 Transferências
+  - 📊 Simulador de rendimentos
+  
+#### 👨‍💼 Painel Gerencial (Admin)
+- **Dashboard** - Estatísticas e gráficos (ApexCharts)
+- **Gestão de Usuários** - CRUD de usuários
+- **Histórico de Transações** - Filtros e busca
+- **Relatórios** - Visualizações gerenciais
+
+#### 🎨 Componentes Reutilizáveis
+- **BaseButton** - Botão personalizado
+- **CommonTable** - Tabela com paginação
+- **Loading** - Spinner de carregamento
+- **PageHeader** - Cabeçalho padrão
+- **SideNav** - Navegação lateral
+- **UserCard** - Card com dados do usuário
+- **LabelAndInfo** - Exibição de informações
+
+### ⚙️ Configuração Angular
+
+**Versão:** 17.3.2  
+**TypeScript:** 5.0+  
+**Node:** 18+  
+**Package Manager:** npm/yarn
+
 ---
 
-## 🚀 Funcionalidades
+## ⚙️ Backend - Digital Bank API
 
-### 👥 Gestão de Clientes
-- ✅ Cadastro com validação de CPF
-- ✅ Busca por CPF individual
-- ✅ Listagem completa (paginada)
-- ✅ Atualização de dados (admin only)
-- ✅ Exclusão de clientes (admin only)
+### 🔧 Tecnologias do Backend
 
-### 🏧 Sistema Bancário
+```
+┌──────────────────────────────────────────┐
+│      BACKEND (Spring Boot 3)             │
+├──────────────────────────────────────────┤
+│ • Java 17+ (Linguagem)                   │
+│ • Spring Boot 3.x (Framework)            │
+│ • Spring Security (Autenticação/Authz)   │
+│ • Spring Data JPA (ORM/Persistência)     │
+│ • Spring Validation (Validações)         │
+│ • JWT (JSON Web Tokens)                  │
+│ • BCrypt (Criptografia)                  │
+│ • MySQL 8.0+ (Banco de dados)            │
+│ • HikariCP (Pool de conexões)            │
+│ • OpenAPI 3 / Swagger UI (Docs)          │
+│ • JUnit 5 + Mockito (Testes)             │
+└──────────────────────────────────────────┘
+```
+
+### 📁 Estrutura do Backend
+
+```
+backend/
+├── src/main/java/com/wallace/spring/boot/
+│   ├── ✅ application/            # Classe principal da aplicação
+│   ├── 🔐 config/                 # Configurações
+│   │   ├── SecurityConfig.java    # JWT e Spring Security
+│   │   ├── CorsConfig.java        # CORS
+│   │   └── OpenApiConfig.java     # Swagger/OpenAPI
+│   │
+│   ├── 🎮 controller/             # Controllers REST
+│   │   ├── AuthController.java    # Login/Register
+│   │   ├── ClienteController.java # Gestão de clientes
+│   │   └── ContaController.java   # Contas e operações
+│   │
+│   ├── 📦 dto/                    # Data Transfer Objects
+│   │   ├── AuthDto.java
+│   │   ├── ClienteDto.java
+│   │   └── ContaDto.java
+│   │
+│   ├── 🔑 enums/                  # Enumerações
+│   │   ├── Role.java              # USER, ADMIN
+│   │   ├── Permission.java        # Permissões granulares
+│   │   └── TipoConta.java         # CC (Corrente), CP (Poupança)
+│   │
+│   ├── ⚠️  exceptions/             # Exceções customizadas
+│   │   ├── ClienteNotFoundException.java
+│   │   ├── SaldoInsuficienteException.java
+│   │   └── GlobalExceptionHandler.java
+│   │
+│   ├── 💾 model/
+│   │   ├── entities/              # Entidades JPA
+│   │   │   ├── Cliente.java
+│   │   │   ├── Conta.java
+│   │   │   ├── Transacao.java
+│   │   │   └── Usuario.java
+│   │   │
+│   │   └── repository/            # Repositórios Spring Data
+│   │       ├── ClienteRepository.java
+│   │       ├── ContaRepository.java
+│   │       └── UsuarioRepository.java
+│   │
+│   └── 🔧 services/               # Lógica de negócio
+│       ├── ClienteService.java
+│       ├── ContaService.java
+│       ├── TransacaoService.java
+│       ├── AuthService.java
+│       └── JwtTokenProvider.java
+│
+├── src/main/resources/
+│   └── application.yml            # Configurações (DB, JWT, etc)
+│
+├── src/test/java/                 # Testes unitários
+│   └── com/wallace/...
+│
+├── pom.xml                        # Dependências Maven
+└── mvnw / mvnw.cmd               # Maven Wrapper
+```
+
+### 🔐 Sistema de Segurança
+
+#### Usuários Padrão
+```
+Email             | Senha       | Role
+--                | --          | --
+admin@admin.com   | admin123    | ADMIN
+user@user.com     | user123     | USER
+```
+
+#### Controle de Acesso (RBAC)
+```
+Permissões USER:
+├── user:read    (Leitura de dados)
+└── user:write   (Criação de dados)
+
+Permissões ADMIN:
+├── admin:read   (Leitura total)
+├── admin:write  (Criação total)
+├── admin:update (Atualização)
+└── admin:delete (Exclusão)
+```
+
+### 📡 Principais Endpoints
+
+#### 🔑 Autenticação
+```
+POST   /api/v1/auth/register       - Registrar novo usuário
+POST   /api/v1/auth/authenticate   - Login (retorna JWT)
+```
+
+#### 👥 Clientes
+```
+GET    /clientes                   - Listar clientes (paginado)
+GET    /clientes/{cpf}             - Buscar cliente por CPF
+POST   /clientes                   - Cadastrar cliente (user:write)
+PUT    /clientes/{cpf}             - Atualizar cliente (admin:update)
+DELETE /clientes/{cpf}             - Deletar cliente (admin:delete)
+```
+
+#### 🏧 Contas & Operações
+```
+GET    /contas/clientes/{cpf}/contas         - Contas do cliente
+POST   /contas                                - Criar conta
+PUT    /contas/{id}/deposito                 - Realizar depósito
+PUT    /contas/{id}/saque                    - Realizar saque
+PUT    /contas/transferencias                - Transferência entre contas
+GET    /contas/{id}/simulacao-rendimento    - Simular rendimento (poupança)
+GET    /contas/{id}/historico               - Histórico de transações
+```
+
+### 📊 Funcionalidades Bancárias
+
 - ✅ Criação de contas (Corrente/Poupança)
-- ✅ Operações financeiras (depósito/saque/transferência)
-- ✅ Validação de saldo e limites
-- ✅ Simulação de rendimentos (poupança)
-- ✅ Controle de tipos de conta por cliente
-
-### 📊 Auditoria & Histórico
+- ✅ Depósitos com validação
+- ✅ Saques com verificação de saldo
+- ✅ Transferências entre contas
+- ✅ Simulação de rendimentos
 - ✅ Histórico completo de transações
-- ✅ Rastreamento de origem/destino
-- ✅ Timestamps detalhados
-- ✅ Tipos de transação identificados
+- ✅ Validação de CPF
+- ✅ Controle de permissões por operação
 
 ---
 
-## 📥 Instalação & Configuração
+## 🏗 Arquitetura Geral
 
-### Pré-requisitos
-- ☕ **Java 17+**
-- 🐬 **MySQL 8.0+**
-- 📦 **Maven 3.8+**
+```
+┌──────────────────────────────────────────────────────────────┐
+│                     WEB BROWSER                              │
+│              (Angular 17 - TypeScript/SCSS)                  │
+│  ┌────────────────────────────────────────────────────────┐  │
+│  │ • Dashboard (Gráficos)                                │  │
+│  │ • Operações Bancárias                                 │  │
+│  │ • Gestão de Usuários                                  │  │
+│  │ • Autenticação (JWT stored in localStorage)           │  │
+│  └────────────────────────────────────────────────────────┘  │
+└────────────────────────────────────────────────────────────────┘
+                        ↓↑ HTTP/HTTPS
+                   REST API Calls
+┌────────────────────────────────────────────────────────────────┐
+│              SPRING BOOT API SERVER (Backend)                  │
+│              (Java 17 - Port 8080)                             │
+│  ┌────────────────────────────────────────────────────────┐   │
+│  │ JWT Authentication & Authorization                     │   │
+│  │  ├── Spring Security                                   │   │
+│  │  └── Token Validation                                  │   │
+│  ├────────────────────────────────────────────────────────┤   │
+│  │ REST Controllers                                       │   │
+│  │  ├── AuthController                                    │   │
+│  │  ├── ClienteController                                 │   │
+│  │  └── ContaController                                   │   │
+│  ├────────────────────────────────────────────────────────┤   │
+│  │ Business Logic (Services)                              │   │
+│  │  ├── ClienteService                                    │   │
+│  │  ├── ContaService                                      │   │
+│  │  └── TransacaoService                                  │   │
+│  ├────────────────────────────────────────────────────────┤   │
+│  │ Data Access Layer (JPA/Hibernate)                      │   │
+│  │  ├── ClienteRepository                                 │   │
+│  │  ├── ContaRepository                                   │   │
+│  │  └── TransacaoRepository                               │   │
+│  └────────────────────────────────────────────────────────┘   │
+└────────────────────────────────────────────────────────────────┘
+                        ↓↑ JDBC/SQL
+                    Database Driver
+┌────────────────────────────────────────────────────────────────┐
+│                   MYSQL DATABASE (8.0+)                        │
+│  ├── digital_bank_api (Database)                              │
+│  │   ├── clientes (Tabela)                                    │
+│  │   ├── contas (Tabela)                                      │
+│  │   ├── transacoes (Tabela)                                  │
+│  │   └── usuarios (Tabela)                                    │
+└────────────────────────────────────────────────────────────────┘
+```
 
-### 1. Clone & Configure
+---
+
+## 🚀 Como Rodar o Projeto
+
+### ✅ Pré-requisitos
+
+- ☕ **Java 17+** - [Download](https://www.oracle.com/java/technologies/downloads/)
+- 🐬 **MySQL 8.0+** - [Download](https://dev.mysql.com/downloads/mysql/)
+- 📦 **Node.js 18+** - [Download](https://nodejs.org/)
+- 🔧 **Maven 3.8+** - Incluído no projeto (mvnw)
+- 📝 **Git** - [Download](https://git-scm.com/)
+
+### 1️⃣ Clone o Repositório
+
 ```bash
-git clone https://github.com/seu-usuario/digital-bank-api.git
+git clone https://github.com/wallacemaia2007/digital-bank-api.git
 cd digital-bank-api
-
-# Configure as variáveis de ambiente
-export DB_USERNAME=seu_usuario
-export DB_PASSWORD=sua_senha
-export JWT_SECRET=chave_secreta_base64_aqui
 ```
 
-### 2. Banco de Dados
-```sql
-CREATE DATABASE digital_bank_api CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-```
+### 2️⃣ Configurar Banco de Dados
 
-### 3. Execute a Aplicação
 ```bash
+# Conectar no MySQL
+mysql -u root -p
+
+# Criar database (no MySQL CLI)
+CREATE DATABASE digital_bank_api CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+EXIT;
+```
+
+### 3️⃣ Configurar Variáveis de Ambiente
+
+**Arquivo:** `backend/src/main/resources/application.yml`
+
+```yaml
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/digital_bank_api
+    username: root
+    password: sua_senha_aqui
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
+
+security:
+  jwt:
+    secret: sua_chave_secreta_base64_muito_longa_aqui
+    expiration: 86400000  # 24 horas em ms
+```
+
+### 4️⃣ Executar Backend
+
+```bash
+cd backend
+
+# Com Maven Wrapper (recomendado)
+./mvnw clean install
+./mvnw spring-boot:run
+
+# Ou com Maven instalado local
 mvn clean install
 mvn spring-boot:run
+
+# Backend rodando em: http://localhost:8080
+# Swagger disponível em: http://localhost:8080/swagger-ui/index.html
 ```
 
-**Aplicação disponível em:** `http://localhost:8080`  
-**Documentação Swagger:** `http://localhost:8080/swagger-ui/index.html`
+### 5️⃣ Executar Frontend
 
----
-
-## 📡 Principais Endpoints
-
-### 🔑 Autenticação
-| Método | Endpoint | Descrição | Auth |
-|--------|----------|-----------|------|
-| `POST` | `/api/v1/auth/register` | Registrar novo usuário | Não |
-| `POST` | `/api/v1/auth/authenticate` | Login/obter token JWT | Não |
-
-### 👥 Clientes
-| Método | Endpoint | Descrição | Permissão |
-|--------|----------|-----------|-----------|
-| `GET` | `/clientes` | Listar clientes | `user:read` |
-| `GET` | `/clientes/{cpf}` | Buscar por CPF | `user:read` |
-| `POST` | `/clientes` | Cadastrar cliente | `user:write` |
-| `PUT` | `/clientes/{cpf}` | Alterar dados | `admin:update` |
-| `DELETE` | `/clientes/{cpf}` | Remover cliente | `admin:delete` |
-
-### 🏧 Contas & Operações
-| Método | Endpoint | Descrição | Permissão |
-|--------|----------|-----------|-----------|
-| `GET` | `/contas/clientes/{cpf}/contas` | Contas do cliente | `user:read` |
-| `POST` | `/contas` | Criar conta | `user:write` |
-| `PUT` | `/contas/{id}/deposito` | Depósito | `user:write` |
-| `PUT` | `/contas/{id}/saque` | Saque | `user:write` |
-| `PUT` | `/contas/transferencias` | Transferência | `user:write` |
-| `GET` | `/contas/{id}/simulacao-rendimento` | Simular rendimento | `user:read` |
-| `GET` | `/contas/{id}/historico` | Histórico | `user:read` |
-
----
-
-## 🧪 Testes Unitários
-
-### Cobertura Completa
-- **Controllers** - Testes com MockMvc
-- **Services** - Testes de lógica de negócio  
-- **Repositories** - Testes de persistência
-- **Integration** - Testes end-to-end
-
-### Tecnologias de Teste
-```java
-@ExtendWith(MockitoExtension.class)  // JUnit 5 + Mockito
-@Mock                                // Mocking de dependências
-@InjectMocks                        // Injeção de mocks
-MockMvc                             // Testes de API
-ArgumentCaptor                      // Captura de argumentos
-@DisplayName                        // Documentação de testes
-```
-
-### Executar Testes
 ```bash
+cd frontend
+
+# Instalar dependências
+npm install
+# ou
+yarn install
+
+# Iniciar servidor Angular em modo desenvolvimento
+npm start
+# ou
+yarn start
+
+# Frontend rodando em: http://localhost:4200
+```
+
+### 📋 Acessar a Aplicação
+
+- **Frontend:** `http://localhost:4200`
+- **Backend API:** `http://localhost:8080`
+- **Swagger API Docs:** `http://localhost:8080/swagger-ui/index.html`
+
+**Credenciais Padrão:**
+- Admin: `admin@admin.com` / `admin123`
+- Usuário: `user@user.com` / `user123`
+
+---
+
+## 🧪 Executar Testes
+
+### Backend (JUnit 5 + Mockito)
+
+```bash
+cd backend
+
 # Todos os testes
 mvn test
 
-# Com relatório de cobertura
+# Com cobertura
 mvn test jacoco:report
 
 # Testes específicos
@@ -209,107 +455,196 @@ mvn test -Dtest=ClienteControllerTest
 mvn test -Dtest=ContaServiceTest
 ```
 
----
+### Frontend (Karma + Jasmine)
 
-## 💡 Exemplos de Uso
-
-### 1. Autenticação
 ```bash
-# Login
-curl -X POST http://localhost:8080/api/v1/auth/authenticate \
-  -H "Content-Type: application/json" \
-  -d '{
-    "email": "admin@admin.com",
-    "senha": "admin123"
-  }'
+cd frontend
 
-# Response: {"token": "eyJhbGciOiJIUzI1NiJ9..."}
-```
+# Executar testes
+npm run test
 
-### 2. Operações Bancárias
-```bash
-# Criar cliente (com token)
-curl -X POST http://localhost:8080/clientes \
-  -H "Authorization: Bearer SEU_TOKEN_AQUI" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "nome": "Wallace Silva",
-    "cpf": "123.456.789-00"
-  }'
-
-# Criar conta corrente
-curl -X POST http://localhost:8080/contas \
-  -H "Authorization: Bearer SEU_TOKEN_AQUI" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "clienteId": 1,
-    "tipoConta": "CC"
-  }'
-
-# Realizar depósito
-curl -X PUT http://localhost:8080/contas/1/deposito \
-  -H "Authorization: Bearer SEU_TOKEN_AQUI" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "valor": 1500.00,
-    "contaId": 1
-  }'
+# Com coverage
+ng test --code-coverage
 ```
 
 ---
 
-## 🏗 Arquitetura
+## 📦 Dependências Principais
 
-### Estrutura do Projeto
+### Backend
+```xml
+<!-- Spring Boot -->
+<spring-boot-starter-web>
+<spring-boot-starter-data-jpa>
+<spring-boot-starter-security>
+
+<!-- JWT -->
+<jjwt-api>
+<jjwt-impl>
+<jjwt-jackson>
+
+<!-- MySQL -->
+<mysql-connector-java>
+
+<!-- Validation -->
+<spring-boot-starter-validation>
+
+<!-- OpenAPI/Swagger -->
+<springdoc-openapi-starter-webmvc-ui>
 ```
-src/main/java/com/wallace/spring/boot/
-├── 📁 config/             # Configurações (Security, CORS, etc.)
-├── 📁 controller/         # Controllers REST
-├── 📁 dto/                # Data Transfer Objects
-├── 📁 enums/              # Enumerações (Role, Permission, etc.)
-├── 📁 exceptions/         # Exceções customizadas
-├── 📁 model/
-│   ├── entities/          # Entidades JPA
-│   └── repository/        # Repositórios
-└── 📁 services/           # Lógica de negócio
-```
 
-### Padrões Aplicados
-- **DTO Pattern** - Transferência de dados
-- **Repository Pattern** - Acesso a dados
-- **Service Layer** - Lógica de negócio
-- **Global Exception Handler** - Tratamento centralizado de erros
-- **Builder Pattern** - Construção de objetos complexos
-
----
-
-## 🔍 Validações & Tratamento de Erros
-
-### Validações Automáticas
-- **CPF** - Validação brasileira
-- **Email** - Formato válido
-- **Valores** - Positivos e não nulos
-- **Tipos de conta** - CC/CP apenas
-
-### Respostas de Erro Padronizadas
+### Frontend
 ```json
 {
-  "timestamp": "2024-09-17T16:30:45",
-  "message": "Cliente não encontrado",
-  "details": "uri=/clientes/123.456.789-00"
+  "@angular/core": "^17.3.0",
+  "@angular/material": "^17.3.10",
+  "primeng": "^17.18.9",
+  "tailwindcss": "^3.x",
+  "rxjs": "^7.8.0",
+  "ng-apexcharts": "^1.8.0",
+  "ngx-toastr": "^19.0.0"
 }
 ```
 
-### Códigos HTTP
-- `200` ✅ Sucesso
-- `201` ✅ Criado
-- `204` ✅ Sem conteúdo  
-- `400` ❌ Dados inválidos
-- `401` ❌ Não autenticado
-- `403` ❌ Sem permissão
-- `404` ❌ Não encontrado
-- `409` ❌ Conflito
-- `422` ❌ Regra de negócio
+---
+
+## 🎯 Fluxo de Autenticação
+
+```
+┌─────────────┐
+│   Browser   │
+└──────┬──────┘
+       │
+       │ 1. POST /api/v1/auth/authenticate
+       │    { email, senha }
+       ↓
+┌──────────────────────────────┐
+│   Spring Boot API Server     │
+│   (AuthController)           │
+│                              │
+│  1. Valida credenciais       │
+│  2. Compara com BD           │
+│  3. Gera JWT Token           │
+└──────┬───────────────────────┘
+       │
+       │ 2. Response: { token: "eyJ..." }
+       ↓
+┌──────────────────┐
+│   LocalStorage   │ ← Token armazenado
+└──────┬───────────┘
+       │
+       │ 3. Requisições subsequentes incluem header:
+       │    Authorization: Bearer eyJ...
+       ↓
+┌──────────────────────────────┐
+│   Spring Boot API Server     │
+│   (JwtAuthenticationFilter)  │
+│                              │
+│  1. Extrai token do header   │
+│  2. Valida token             │
+│  3. Cria Authentication      │
+│  4. Passa para SecurityContext
+└──────────────────────────────┘
+```
+
+---
+
+## 📚 Documentação da API
+
+Uma vez que ambos os servidores estiverem rodando, acesse:
+
+- **Swagger UI**: http://localhost:8080/swagger-ui/index.html
+- **OpenAPI JSON**: http://localhost:8080/v3/api-docs
+
+Aqui você pode testar todos os endpoints diretamente.
+
+---
+
+## 💻 Desenvolvimento Local
+
+### Scripts Úteis
+
+**Backend:**
+```bash
+cd backend
+./mvnw clean install      # Compilar
+./mvnw spring-boot:run    # Rodar
+mvn test                  # Testes
+mvn clean package         # Build para produção
+```
+
+**Frontend:**
+```bash
+cd frontend
+npm install               # Instalar deps
+npm start                 # Rodar dev server
+ng build                  # Build produção
+npm run lint              # ESLint
+npm run test              # Testes
+```
+
+### Variáveis de Ambiente (Frontend)
+
+**Arquivo:** `frontend/src/environments/environment.ts`
+
+```typescript
+export const environment = {
+  production: false,
+  apiUrl: 'http://localhost:8080'
+};
+```
+
+---
+
+## 🏅 Padrões e Boas Práticas
+
+### Backend
+- ✅ **MVC/Layered Architecture** - Controllers → Services → Repositories
+- ✅ **DTO Pattern** - Separa interno do externo
+- ✅ **Repository Pattern** - Acesso a dados
+- ✅ **Global Exception Handler** - Erros centralizados
+- ✅ **JWT Authentication** - Stateless
+- ✅ **RBAC** - Role-Based Access Control
+- ✅ **Unit Tests** - JUnit 5 + Mockito
+
+### Frontend
+- ✅ **Smart/Dumb Components** - Container/Presentational
+- ✅ **Services** - Lógica compartilhada
+- ✅ **Guards** - Proteção de rotas
+- ✅ **Interceptors** - HTTP global
+- ✅ **RxJS** - Programação reativa
+- ✅ **Typed** - TypeScript strict
+
+---
+
+## 🐛 Troubleshooting
+
+### Backend não conecta no MySQL
+```bash
+# Verifique se MySQL está rodando
+mysql -u root -p
+
+# Verifique application.yml
+# Url, usuário e senha devem estar corretos
+```
+
+### CORS error no Frontend
+```
+Verifique backend/src/main/java/.../config/CorsConfig.java
+Certifique-se que http://localhost:4200 está na whitelist
+```
+
+### JWT Token inválido
+```
+Verifique se a chave secreta em application.yml 
+está igual em ambas as requisições (encode/decode)
+```
+
+### Frontend não conecta na API
+```
+Verifique environment.ts
+apiUrl deve apontar para http://localhost:8080
+```
 
 ---
 
@@ -319,9 +654,33 @@ src/main/java/com/wallace/spring/boot/
   <img src="https://github.com/wallacemaia2007.png" width="100px" style="border-radius: 50%;" alt="Wallace Maia"/>
   
   **Wallace Maia**  
-  *Desenvolvedor Backend Java/Spring*
+  *Desenvolvedor Full Stack - Java/Spring + Angular*
   
   [![LinkedIn](https://img.shields.io/badge/-LinkedIn-0A66C2?style=flat&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/wallacemaia-dev/)
   [![GitHub](https://img.shields.io/badge/-GitHub-181717?style=flat&logo=github&logoColor=white)](https://github.com/wallacemaia2007)
   [![Email](https://img.shields.io/badge/-Email-EA4335?style=flat&logo=gmail&logoColor=white)](mailto:wallacemaia2007@gmail.com)
 </div>
+
+---
+
+## 📄 Licença
+
+Este projeto está sob a licença **MIT**. Veja o arquivo LICENSE para mais detalhes.
+
+---
+
+## 🌟 Agradecimentos
+
+Desenvolvido com ❤️ usando as melhores tecnologias do mercado.
+
+**Stack escolhido:**
+- Backend: Spring Boot 3 + Spring Security + JWT
+- Frontend: Angular 17 + Material + Tailwind
+- Database: MySQL 8
+- Testes: JUnit 5 + Mockito + Karma/Jasmine
+
+---
+
+**Última atualização:** Março 2026  
+**Status:** ✅ Em desenvolvimento contínuo
+
