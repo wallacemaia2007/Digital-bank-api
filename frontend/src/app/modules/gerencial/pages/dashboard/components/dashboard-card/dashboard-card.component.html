@@ -1,0 +1,18 @@
+<mat-card>
+  <mat-card-content class="bg-white overflow-hidden rounded-xl">
+    <div class="flex justify-between items-start gap-4">
+      <div>
+        <h2 class="font-bold text-3xl">{{ info.value }}</h2>
+        <p class="text-sm text-slate-500">{{ info.description }}</p>
+      </div>
+      <div>
+        <p>{{ info.percentage }}</p>
+      </div>
+    </div>
+    <div class="flex justify-end">
+      <div class="p-3 rounded-full flex justify-center items-center" [style]="{'background-color': info.color}">
+        <mat-icon class="text-white">{{ info.icon }}</mat-icon>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>

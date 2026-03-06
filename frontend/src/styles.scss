@@ -1,0 +1,75 @@
+/* You can add global styles to this file, and also import other style files */
+@use '@angular/material' as mat;
+@include mat.core();
+
+$my-app-primary: (
+  50: #294153,
+  100: #294153,
+  200: #294153,
+  300: #294153,
+  400: #294153,
+  500: #294153,
+  600: #294153,
+  700: #294153,
+  800: #294153,
+  900: #294153,
+  contrast: (
+    50: white,
+    100: white,
+    200: white,
+    300: white,
+    400: white,
+    500: white,
+    600: white,
+    700: white,
+    800: white,
+    900: white,
+  )
+);
+
+$my-app-accent: (
+  50: #399D30,
+  100: #399D30,
+  200: #399D30,
+  300: #399D30,
+  400: #399D30,
+  500: #399D30,
+  600: #399D30,
+  700: #399D30,
+  800: #399D30,
+  900: #399D30,
+  contrast: (
+    50: white,
+    100: white,
+    200: white,
+    300: white,
+    400: white,
+    500: white,
+    600: white,
+    700: white,
+    800: white,
+    900: white,
+  )
+);
+
+$my-app-primary: mat.define-palette($my-app-primary);
+$my-app-accent: mat.define-palette($my-app-accent);
+$my-app-theme: mat.define-light-theme((
+  color: (
+    primary: $my-app-primary,
+    accent: $my-app-accent,
+  )
+));
+
+@include mat.all-component-themes($my-app-theme);
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html, body { height: 100%; }
+body { margin: 0; font-family: "Poppins", sans-serif; }
+
+.mdc-notched-outline__notch {
+  border-right: none;
+}

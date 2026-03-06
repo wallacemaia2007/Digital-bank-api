@@ -1,0 +1,17 @@
+<div class="flex justify-end items-center">
+  <div class="flex p-3 gap-2 rounded-2xl shadow-lg">
+    <img [src]="user?.profilePicture" alt="user profile picture" class="w-12 h-12 rounded-full">
+    <div class="flex flex-col justify-center">
+      <p class="text-xs">Seja bem-vindo(a),</p>
+      <p class="text-sm">{{ user?.name }}</p>
+    </div>
+    <div class="flex justify-center items-center">
+      <button mat-button [matMenuTriggerFor]="menu">
+        <mat-icon class="m-0">keyboard_arrow_down</mat-icon>
+      </button>
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item (click)="logout()">Sair</button>
+      </mat-menu>
+    </div>
+  </div>
+</div>

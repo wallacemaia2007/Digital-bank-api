@@ -1,0 +1,82 @@
+<app-page-header [title]="title" [pageSession]="pageSession" />
+
+<section>
+  <div class="flex flex-col md:flex-row justify-between items-center gap-4">
+    @for (item of infos; track $index) {
+      <div class="w-full">
+        <app-dashboard-card [info]="item"></app-dashboard-card>
+      </div>
+    }
+  </div>
+  
+  <div class="mt-7 flex flex-col md:flex-row gap-4">
+    <div class="grid md:grid-cols-2 gap-4 md:basis-2/3">
+      <!-- bar chart -->
+      <div class="md:col-span-2">
+        <mat-card>
+          <mat-card-content class="bg-white rounded-lg shadow-lg">
+            <h1 class="text-xl text-slate-500">Clientes/Orçamentos aprovados</h1>
+            <apx-chart
+              [series]="barChart.series || []"
+              [chart]="barChart.chart!"
+              [dataLabels]="barChart.dataLabels || {}"
+              [plotOptions]="barChart.plotOptions || {}"
+              [yaxis]="barChart.yaxis || []"
+              [legend]="barChart.legend || {}"
+              [fill]="barChart.fill || {}"
+              [stroke]="barChart.stroke || {}"
+              [tooltip]="barChart.tooltip || {}"
+              [xaxis]="barChart.xaxis || {}"
+            ></apx-chart>
+          </mat-card-content>
+        </mat-card>
+      </div>
+  
+      <!-- pie chart -->
+      <div>
+        <mat-card>
+          <mat-card-content class="bg-white rounded-lg">
+            <h1 class="text-xl text-slate-500">Produtos/Orçamentos aprovados</h1>
+            <apx-chart
+              [series]="pieChart.series"
+              [chart]="pieChart.chart"
+              [labels]="pieChart.labels"
+              [legend]="pieChart.legend"
+            ></apx-chart>
+          </mat-card-content>
+        </mat-card>
+      </div>
+  
+      <!-- pie chart -->
+      <div>
+        <mat-card>
+          <mat-card-content class="bg-white">
+            <h1 class="text-xl text-slate-500">Produtos quantidade</h1>
+            <apx-chart
+              [series]="pieChart.series"
+              [chart]="pieChart.chart"
+              [labels]="pieChart.labels"
+              [legend]="pieChart.legend"
+            ></apx-chart>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </div>
+
+    <div class="md:basis-1/3">
+      <mat-card>
+        <mat-card-content class="bg-custom-gray rounded-lg shadow-lg">
+          <h1 class="text-xl mb-3">Orçamentos pendentes</h1>
+          <div class="space-y-3">
+            <div><app-dashboard-pending-budget></app-dashboard-pending-budget></div>
+            <div><app-dashboard-pending-budget></app-dashboard-pending-budget></div>
+            <div><app-dashboard-pending-budget></app-dashboard-pending-budget></div>
+            <div><app-dashboard-pending-budget></app-dashboard-pending-budget></div>
+            <div><app-dashboard-pending-budget></app-dashboard-pending-budget></div>
+            <div><app-dashboard-pending-budget></app-dashboard-pending-budget></div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+</section>
