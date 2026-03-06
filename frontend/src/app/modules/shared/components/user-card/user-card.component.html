@@ -1,17 +1,46 @@
-<div class="flex justify-end items-center">
-  <div class="flex p-3 gap-2 rounded-2xl shadow-lg">
-    <img [src]="user?.profilePicture" alt="user profile picture" class="w-12 h-12 rounded-full">
-    <div class="flex flex-col justify-center">
-      <p class="text-xs">Seja bem-vindo(a),</p>
-      <p class="text-sm">{{ user?.name }}</p>
-    </div>
-    <div class="flex justify-center items-center">
-      <button mat-button [matMenuTriggerFor]="menu">
-        <mat-icon class="m-0">keyboard_arrow_down</mat-icon>
+<div class="min-h-screen flex items-center justify-center transition-colors duration-300 bg-neuro-dark-50 dark:bg-neuro-dark-900">
+  <div class="rounded-[20px] p-6 w-80 transition-all duration-300 bg-white dark:bg-neuro-dark-800 shadow-[0_8px_32px_rgba(0,0,0,0.10)] dark:shadow-[0_8px_32px_rgba(0,0,0,0.45)]">
+
+    <div class="flex justify-between items-start mb-5">
+
+      <div class="w-[52px] h-[52px] rounded-[14px] overflow-hidden flex-shrink-0 bg-neuro-dark-100 dark:bg-neuro-dark-700">
+        <img [src]="user.avatarUrl || 'https://api.dicebear.com/7.x/adventurer/svg?seed=' + user.name" [alt]="user.name"
+          class="w-full h-full object-cover block" />
+      </div>
+
+      <button (click)="toggleTheme()" aria-label="Toggle dark/light mode"
+        class="flex items-center rounded-full px-[7px] py-[5px] gap-0.5 border-none cursor-pointer transition-colors duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-gray-400 bg-neuro-dark-100 dark:bg-neuro-dark-700">
+        <span class="flex items-center justify-center w-[30px] h-[30px] rounded-full transition-all duration-300 bg-transparent dark:bg-white text-neuro-dark-500 dark:text-neuro-dark-900">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+            stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+          </svg>
+        </span>
+
+        <span class="flex items-center justify-center w-[30px] h-[30px] rounded-full transition-all duration-300 bg-neuro-dark-900 dark:bg-transparent text-white dark:text-neuro-dark-600">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+            stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="5" />
+            <line x1="12" y1="1" x2="12" y2="3" />
+            <line x1="12" y1="21" x2="12" y2="23" />
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
+            <line x1="1" y1="12" x2="3" y2="12" />
+            <line x1="21" y1="12" x2="23" y2="12" />
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
+          </svg>
+        </span>
       </button>
-      <mat-menu #menu="matMenu">
-        <button mat-menu-item (click)="logout()">Sair</button>
-      </mat-menu>
     </div>
+
+    <p class="text-[11px] font-semibold tracking-widest mb-1.5 transition-colors duration-300 text-neuro-dark-600 dark:text-neuro-dark-500">
+      {{ dateStr }}
+    </p>
+
+    <h1 class="text-[32px] font-bold leading-[1.15] tracking-tight m-0 transition-colors duration-300 text-neuro-dark-900 dark:text-white">
+      Welcome back,<br />{{ user.name }}!
+    </h1>
+
   </div>
 </div>

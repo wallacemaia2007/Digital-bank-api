@@ -5,10 +5,9 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        // Cores principais do design
         primary: {
           DEFAULT: "#3b82f6", // Azul principal
-          light: "#60a5fa", // Azul claro  
+          light: "#60a5fa", // Azul claro
           dark: "#2563eb", // Azul escuro
           lighter: "#93c5fd", // Azul mais claro
         },
@@ -21,20 +20,12 @@ module.exports = {
 
         // Tema Escuro
         dark: {
-          50: "#fafafa", // Muito claro (para texto em dark mode)
-          100: "#f4f4f5", 
-          200: "#e4e4e7",
-          300: "#d4d4d8",
-          400: "#a1a1aa",
-          500: "#71717a",
-          600: "#52525b",
-          700: "#3f3f46",
-          800: "#27272a", // Background secundário
-          900: "#1a1a1a", // Background principal escuro
-          950: "#0f0f0f", // Background mais escuro
+          DEFAULT: "#1a1a1a", // Background principal escuro
+          light: "#27272a", // Background secundário
+          dark: "#0f0f0f", // Background mais escuro
         },
 
-        // Tema Claro  
+        // Tema Claro
         light: {
           50: "#ffffff", // Branco puro
           100: "#fafafa", // Off-white
@@ -51,14 +42,14 @@ module.exports = {
         // Cores de status
         success: {
           DEFAULT: "#10b981",
-          light: "#34d399", 
+          light: "#34d399",
           dark: "#059669",
         },
 
         warning: {
           DEFAULT: "#f59e0b",
           light: "#fbbf24",
-          dark: "#d97706", 
+          dark: "#d97706",
         },
 
         error: {
@@ -69,15 +60,9 @@ module.exports = {
 
         // Cores originais mantidas para compatibilidade
         beige: {
-          DEFAULT: "#E8DDD3", 
-          light: "#F5F0EA", 
-          dark: "#e6d9ceff", 
-        },
-
-        "custom-black": {
-          DEFAULT: "#2D2D2D",
-          light: "#404040", 
-          lighter: "#545454", 
+          DEFAULT: "#E8DDD3",
+          light: "#F5F0EA",
+          dark: "#e6d9ceff",
         },
       },
 

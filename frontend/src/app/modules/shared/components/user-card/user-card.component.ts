@@ -1,29 +1,70 @@
-import { Component, inject } from '@angular/core';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
-import { MatMenuModule } from '@angular/material/menu';
-import { Router } from '@angular/router';
+import { Component, Inject, Input, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { UserService } from '../../../../core/auth/user.service';
+
+interface UserCardData {
+  name: string;
+  avatarUrl: string;
+}
 
 @Component({
   selector: 'app-user-card',
   standalone: true,
+  imports: [CommonModule],
   templateUrl: './user-card.component.html',
-  styleUrl: './user-card.component.scss',
-  imports: [
-    MatButtonModule,
-    MatIconModule,
-    MatMenuModule,
-  ],
 })
-export class UserCardComponent {
-  private router = inject(Router);
+export class UserCardComponent implements OnInit {
+  dateStr: string = '';
 
-  public user: any | null = {
-    name: 'Paulo Ricardo',
-    profilePicture: 'assets/png/default-user.png',
+  user: UserCardData = {
+    name: '',
+    avatarUrl: '',
   };
 
-  logout() {
-    this.router.navigate(['/']);
+  private userService = Inject(UserService);
+
+  ngOnInit(): void {
+    this.loadUserData();
+    this.formatDate();
+    this.loadTheme();
+  }
+
+  formatDate(): void {
+    const today = new Date();
+    this.dateStr = today
+      .toLocaleDateString('en-US', {
+        weekday: 'long',
+        month: 'long',
+        day: 'numeric',
+      })
+      .toUpperCase();
+  }
+
+  loadUserData(): void {
+    this.userService.getUserDetails().subscribe((user: UserCardData) => {
+      this.user.name = user.name;
+      this.user.avatarUrl = user.avatarUrl;
+    });
+  }
+
+  toggleTheme(): void {
+    const htmlElement = document.documentElement;
+    if (htmlElement.classList.contains('dark')) {
+      htmlElement.classList.remove('dark');
+      localStorage.setItem('theme', 'light');
+    } else {
+      htmlElement.classList.add('dark');
+      localStorage.setItem('theme', 'dark');
+    }
+  }
+
+  private loadTheme(): void {
+    const htmlElement = document.documentElement;
+    const savedTheme = localStorage.getItem('theme') || 'dark';
+    if (savedTheme === 'dark') {
+      htmlElement.classList.add('dark');
+    } else {
+      htmlElement.classList.remove('dark');
+    }
   }
 }
