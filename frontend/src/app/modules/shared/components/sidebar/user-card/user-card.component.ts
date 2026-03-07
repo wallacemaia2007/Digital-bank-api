@@ -1,7 +1,7 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { UserService } from '../../../../core/auth/user.service';
-import { ThemeService } from '../../../../core/services/theme.service';
+import { UserService } from '../../../../../core/auth/user.service';
+import { ThemeService } from '../../../../../core/services/theme.service';
 import { MatTooltip } from '@angular/material/tooltip';
 
 interface UserCardData {
@@ -34,7 +34,7 @@ export class UserCardComponent implements OnInit {
   formatDate(): void {
     const today = new Date();
     this.dateStr = today
-      .toLocaleDateString('en-US', {
+      .toLocaleDateString('pt-BR', {
         weekday: 'long',
         month: 'long',
         day: 'numeric',

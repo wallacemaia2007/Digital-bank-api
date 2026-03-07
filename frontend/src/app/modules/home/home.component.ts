@@ -1,13 +1,12 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { UserCardComponent } from '../shared/components/user-card/user-card.component';
-import { NavbarComponent } from '../shared/components/navbar/navbar.component';
+import { SidebarComponent } from '../shared/components/sidebar/sidebar.component';
 
 @Component({
   selector: 'app-home',
   standalone: true,
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
-  imports: [RouterOutlet, UserCardComponent, NavbarComponent],
+  imports: [RouterOutlet, SidebarComponent],
 })
 export class HomeComponent {}

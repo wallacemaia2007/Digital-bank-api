@@ -1,32 +1,9 @@
-<div
-  class="flex h-screen w-screen flex-col overflow-hidden bg-t-dark font-['Poppins'] text-gray-900 dark:text-gray-100 sm:flex-row"
->
-  <aside
-    class="flex h-auto w-full flex-row flex-wrap gap-2.5 overflow-x-hidden overflow-y-auto border-b border-t-dark-light bg-t-dark-light p-3 [scrollbar-width:none] [&::-webkit-scrollbar]:w-0 sm:h-screen sm:w-[200px] sm:min-w-[200px] sm:flex-col sm:gap-4 sm:border-b-0 sm:border-r sm:px-[10px] sm:py-4 md:w-[240px] md:min-w-[240px] md:px-[14px] md:py-5"
-  >
-    <div class="flex items-center gap-2 px-1.5 pb-2 pt-1">
-      <span class="inline-flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-lg bg-primary text-sm text-white">✦</span>
-      <span class="text-sm font-semibold tracking-[0.01em] text-blue-100">NeuroBank</span>
-    </div>
-
-    <app-user-card class="w-full"></app-user-card>
-
-    <app-navbar class="w-full"></app-navbar>
-
+<main>
+  <div class="flex h-[calc(100vh-80px)]">
+    <app-sidebar></app-sidebar>
     <div
-      class="mt-auto flex-shrink-0 cursor-pointer rounded-2xl border border-blue-800 bg-[linear-gradient(135deg,#163fb7_0%,#2c67ff_60%,#3d79ff_100%)] px-4 py-3.5 shadow-[0_8px_24px_rgba(41,98,255,0.35)]"
-    >
-      <div class="mb-1 flex items-center gap-[7px]">
-        <span class="text-[13px] text-white">✦</span>
-        <p class="m-0 text-[13px] font-semibold text-white">Activate NeuroBank Pro</p>
-      </div>
-      <p class="m-0 pl-5 text-[11px] text-white/75">Elevate finances with AI</p>
+      class="flex-1 overflow-x-hidden overflow-y-auto bg-t-dark [scrollbar-color:#1e2a45_transparent] [scrollbar-width:thin] [&::-webkit-scrollbar-thumb]:rounded [&::-webkit-scrollbar-thumb]:bg-[#1e2a45] [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar]:w-[5px] sm:h-screen">
+      <router-outlet />
     </div>
-  </aside>
-
-  <main
-    class="h-[calc(100vh-80px)] flex-1 overflow-x-hidden overflow-y-auto bg-t-dark [scrollbar-color:#1e2a45_transparent] [scrollbar-width:thin] [&::-webkit-scrollbar-thumb]:rounded [&::-webkit-scrollbar-thumb]:bg-[#1e2a45] [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar]:w-[5px] sm:h-screen"
-  >
-    <router-outlet />
-  </main>
-</div>
+  </div>
+</main>
