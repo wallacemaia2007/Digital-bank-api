@@ -90,3 +90,34 @@ app-root {
 .mdc-notched-outline__notch {
   border-right: none;
 }
+
+// ── Scrollbar global minimalista ───────────────────────
+* {
+  // Firefox
+  scrollbar-width: thin;
+  scrollbar-color: rgba(59, 130, 246, 0.35) transparent;
+}
+
+// Webkit (Chrome, Edge, Safari)
+*::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: rgba(59, 130, 246, 0.35);
+  border-radius: 999px;
+  transition: background 0.2s ease;
+
+  &:hover {
+    background: rgba(59, 130, 246, 0.65);
+  }
+}
+
+*::-webkit-scrollbar-corner {
+  background: transparent;
+}

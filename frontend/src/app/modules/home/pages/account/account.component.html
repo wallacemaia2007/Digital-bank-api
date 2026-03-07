@@ -1,1 +1,358 @@
-<p>account works!</p>
+<div
+    class="account-page block w-full min-h-full bg-t-light dark:bg-t-dark-lighter p-5 text-gray-900 dark:text-gray-100">
+
+    <!-- ── Header ─────────────────────────────────────────── -->
+    <div class="flex items-center justify-between mb-6">
+        <div>
+            <p class="text-[10px] font-bold tracking-[0.2em] text-gray-400 dark:text-gray-500 uppercase mb-1">Digital
+                Bank</p>
+            <h1 class="text-2xl font-bold text-gray-900 dark:text-gray-50 leading-tight tracking-tight">Minha Conta</h1>
+        </div>
+        <button class="flex items-center gap-2 bg-t-light-light dark:bg-t-dark-light border border-t-light-dark dark:border-t-dark-light
+             text-gray-600 dark:text-gray-400 px-3.5 py-2 rounded-xl text-xs font-medium cursor-pointer
+             transition-all hover:border-primary/40 hover:text-primary">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="8" r="4" />
+                <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" />
+            </svg>
+            Perfil
+        </button>
+    </div>
+
+    <!-- ── SEM CONTA: Banner CTA ──────────────────────────── -->
+    <div *ngIf="!hasAccount" class="mb-6 fade-in">
+        <div class="relative overflow-hidden rounded-2xl p-6 shadow-xl border border-white/10"
+            style="background: linear-gradient(135deg, #0d1b3e 0%, #163fb7 55%, #2c67ff 100%);">
+
+            <!-- Esferas decorativas -->
+            <div class="absolute -top-10 -right-10 w-44 h-44 rounded-full pointer-events-none"
+                style="background: radial-gradient(circle, rgba(99,102,241,0.3) 0%, transparent 70%)"></div>
+            <div class="absolute -bottom-8 -left-8 w-36 h-36 rounded-full pointer-events-none"
+                style="background: radial-gradient(circle, rgba(59,130,246,0.2) 0%, transparent 70%)"></div>
+
+            <!-- Grid pattern sutil -->
+            <div class="absolute inset-0 opacity-[0.04] pointer-events-none" style="background-image: linear-gradient(rgba(255,255,255,1) 1px, transparent 1px),
+                  linear-gradient(90deg, rgba(255,255,255,1) 1px, transparent 1px);
+                  background-size: 32px 32px;"></div>
+
+            <div class="relative z-10">
+                <div class="flex items-center gap-2 mb-3">
+                    <div class="w-9 h-9 rounded-xl bg-white/15 flex items-center justify-center">
+                        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                            <rect x="2" y="5" width="20" height="14" rx="2" />
+                            <line x1="2" y1="10" x2="22" y2="10" />
+                        </svg>
+                    </div>
+                    <span class="text-white/70 text-sm font-medium tracking-wide">Conta Corrente</span>
+                </div>
+
+                <h2 class="text-white text-xl font-bold mb-1 leading-snug">Você ainda não tem<br>conta corrente</h2>
+                <p class="text-white/60 text-sm mb-5 leading-relaxed">
+                    Abra agora, sem burocracia e sem tarifas.<br>
+                    Tudo no seu celular em minutos.
+                </p>
+
+                <div class="flex items-center gap-3 flex-wrap">
+                    <button (click)="openAccount()" class="inline-flex items-center gap-2 bg-white text-primary font-bold text-sm px-5 py-2.5
+                   rounded-xl transition-all hover:bg-white/90 hover:shadow-lg active:scale-[0.97]">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2.5">
+                            <line x1="12" y1="5" x2="12" y2="19" />
+                            <line x1="5" y1="12" x2="19" y2="12" />
+                        </svg>
+                        Abrir Conta Agora
+                    </button>
+                    <span class="text-white/40 text-xs">100% gratuito</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ── COM CONTA: Card Conta Corrente ─────────────────── -->
+    <div *ngIf="hasAccount" class="mb-6 fade-in">
+
+        <!-- Card principal estilo cartão físico -->
+        <div class="relative overflow-hidden rounded-2xl p-6 shadow-2xl border border-white/10 select-none" style="background: linear-gradient(135deg, #060e20 0%, #0f1f40 40%, #163fb7 100%);
+                min-height: 180px;">
+
+            <!-- Reflexo / luz no topo -->
+            <div class="absolute top-0 left-0 right-0 h-px pointer-events-none"
+                style="background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent)"></div>
+
+            <!-- Esferas de profundidade -->
+            <div class="absolute -top-12 -right-12 w-52 h-52 rounded-full pointer-events-none"
+                style="background: radial-gradient(circle, rgba(59,130,246,0.18) 0%, transparent 70%)"></div>
+            <div class="absolute -bottom-10 left-10 w-40 h-40 rounded-full pointer-events-none"
+                style="background: radial-gradient(circle, rgba(99,102,241,0.12) 0%, transparent 70%)"></div>
+
+            <!-- Grid pattern -->
+            <div class="absolute inset-0 opacity-[0.03] pointer-events-none" style="background-image: linear-gradient(rgba(255,255,255,1) 1px, transparent 1px),
+                  linear-gradient(90deg, rgba(255,255,255,1) 1px, transparent 1px);
+                  background-size: 28px 28px;"></div>
+
+            <!-- Linha superior: chip + tipo -->
+            <div class="relative z-10 flex justify-between items-center mb-6">
+                <div class="flex items-center gap-3">
+                    <!-- Chip EMV -->
+                    <div class="w-9 h-7 rounded-md flex items-center justify-center"
+                        style="background: linear-gradient(135deg, #f5d06e, #c8963e)">
+                        <div class="w-4 h-4 rounded-sm grid grid-cols-2 gap-px opacity-60">
+                            <div class="bg-yellow-900/40 rounded-sm"></div>
+                            <div class="bg-yellow-900/40 rounded-sm"></div>
+                            <div class="bg-yellow-900/40 rounded-sm"></div>
+                            <div class="bg-yellow-900/40 rounded-sm"></div>
+                        </div>
+                    </div>
+                    <span class="text-white/50 text-[10px] tracking-[0.15em] uppercase font-medium">Conta
+                        Corrente</span>
+                </div>
+                <span class="text-white/60 text-xs font-black tracking-widest">VISA</span>
+            </div>
+
+            <!-- Saldo central -->
+            <div class="relative z-10 mb-6">
+                <div class="flex items-center gap-2 mb-1">
+                    <span class="text-white/50 text-[10px] tracking-[0.15em] uppercase font-medium">Saldo
+                        disponível</span>
+                    <button (click)="toggleBalance()"
+                        class="text-white/40 hover:text-white/80 transition-colors p-0.5 rounded">
+                        <svg *ngIf="!balanceVisible" width="12" height="12" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2">
+                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                            <circle cx="12" cy="12" r="3" />
+                        </svg>
+                        <svg *ngIf="balanceVisible" width="12" height="12" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2">
+                            <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94" />
+                            <path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19" />
+                            <line x1="1" y1="1" x2="23" y2="23" />
+                        </svg>
+                    </button>
+                </div>
+                <p class="text-white font-bold tracking-tight transition-all duration-300"
+                    style="font-size: 2rem; line-height: 1.1; font-family: 'Poppins', sans-serif; letter-spacing: -0.02em;">
+                    {{ balanceVisible ? (account.balance | currency:'BRL':'symbol':'1.2-2') : 'R$&nbsp;•••••' }}
+                </p>
+            </div>
+
+            <!-- Rodapé: agência / conta + titular -->
+            <div class="relative z-10 flex justify-between items-end">
+                <div>
+                    <p class="text-white/35 text-[9px] tracking-[0.15em] uppercase mb-0.5">Ag / Conta</p>
+                    <p class="text-white/70 text-sm font-mono tracking-wider">{{ account.agency }} / {{ account.number
+                        }}</p>
+                </div>
+                <div class="text-right">
+                    <p class="text-white/35 text-[9px] tracking-[0.15em] uppercase mb-0.5">Titular</p>
+                    <p class="text-white/70 text-sm font-medium">{{ account.holder }}</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Chip de status abaixo do card -->
+        <div class="flex items-center gap-2 mt-3 px-1">
+            <span class="w-2 h-2 rounded-full bg-accent animate-pulse"></span>
+            <span class="text-[11px] text-gray-500 dark:text-gray-400">Conta ativa · atualizado agora</span>
+        </div>
+    </div>
+
+    <!-- ── Ações Rápidas ──────────────────────────────────── -->
+    <div *ngIf="hasAccount" class="mb-6">
+        <div class="grid grid-cols-4 gap-3">
+            <button *ngFor="let action of quickActions" (click)="onAction(action.label)" class="flex flex-col items-center gap-2.5 bg-t-light-light dark:bg-t-dark-light
+               border border-t-light-dark dark:border-t-dark-light rounded-2xl py-4 px-2
+               cursor-pointer transition-all hover:border-primary/40 hover:shadow-md
+               active:scale-[0.96] group">
+                <div class="w-11 h-11 rounded-xl flex items-center justify-center text-white
+                    shadow-md transition-transform group-hover:scale-105" [style.background]="action.gradient">
+                    <span [innerHTML]="action.iconSvg"></span>
+                </div>
+                <span class="text-[11px] font-semibold text-gray-600 dark:text-gray-400
+                     group-hover:text-primary transition-colors text-center leading-tight">
+                    {{ action.label }}
+                </span>
+            </button>
+        </div>
+    </div>
+
+    <!-- ── Cartões ────────────────────────────────────────── -->
+    <div class="mb-6">
+        <div class="flex justify-between items-center mb-3">
+            <h2 class="text-sm font-bold text-gray-900 dark:text-gray-100 tracking-tight">Meus Cartões</h2>
+            <button (click)="addCard()" class="flex items-center gap-1 text-xs text-primary hover:text-primary-dark
+               transition-colors font-semibold">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <line x1="12" y1="5" x2="12" y2="19" />
+                    <line x1="5" y1="12" x2="19" y2="12" />
+                </svg>
+                Adicionar
+            </button>
+        </div>
+
+        <!-- Estado vazio -->
+        <div *ngIf="cards.length === 0" class="bg-t-light-light dark:bg-t-dark-light border-2 border-dashed border-t-light-dark dark:border-t-dark-light
+             rounded-2xl p-6 text-center">
+            <div class="w-12 h-12 rounded-2xl bg-t-light dark:bg-t-dark-lighter border border-t-light-dark dark:border-t-dark-light
+                  flex items-center justify-center mx-auto mb-3">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
+                    class="text-gray-400">
+                    <rect x="2" y="5" width="20" height="14" rx="2" />
+                    <line x1="2" y1="10" x2="22" y2="10" />
+                </svg>
+            </div>
+            <p class="text-sm text-gray-500 dark:text-gray-400 mb-1 font-medium">Nenhum cartão ainda</p>
+            <p class="text-xs text-gray-400 dark:text-gray-500 mb-3">Solicite seu cartão físico ou virtual</p>
+            <button (click)="addCard()" class="text-xs text-primary font-bold hover:underline transition-colors">
+                Solicitar cartão →
+            </button>
+        </div>
+
+        <!-- Carrossel de cartões físicos -->
+        <div *ngIf="cards.length > 0" class="flex gap-4 overflow-x-auto pb-2 snap-x snap-mandatory cards-scroll">
+            <div *ngFor="let card of cards; let i = index" class="flex-shrink-0 snap-start w-64 relative overflow-hidden rounded-2xl p-5 shadow-xl
+                  cursor-pointer transition-all hover:scale-[1.02] hover:shadow-2xl border border-white/10"
+                [style.background]="card.gradient" style="min-height: 160px;">
+
+                <!-- Reflexo de luz no topo (igual ao banner) -->
+                <div class="absolute top-0 left-0 right-0 h-px pointer-events-none"
+                    style="background: linear-gradient(90deg, transparent, rgba(255,255,255,0.18), transparent)"></div>
+
+                <!-- Reflexo sutil na borda esquerda -->
+                <div class="absolute top-0 left-0 bottom-0 w-px pointer-events-none"
+                    style="background: linear-gradient(180deg, rgba(255,255,255,0.12), transparent, rgba(255,255,255,0.04))">
+                </div>
+
+                <!-- Esfera grande de profundidade (canto superior direito) -->
+                <div class="absolute -top-10 -right-10 w-36 h-36 rounded-full pointer-events-none"
+                    style="background: radial-gradient(circle, rgba(255,255,255,0.09) 0%, transparent 70%)"></div>
+
+                <!-- Esfera menor (canto inferior esquerdo) -->
+                <div class="absolute -bottom-8 -left-6 w-28 h-28 rounded-full pointer-events-none"
+                    style="background: radial-gradient(circle, rgba(255,255,255,0.05) 0%, transparent 70%)"></div>
+
+                <!-- Grid pattern sutil (igual ao banner) -->
+                <div class="absolute inset-0 opacity-[0.035] pointer-events-none" style="background-image: linear-gradient(rgba(255,255,255,1) 1px, transparent 1px),
+                    linear-gradient(90deg, rgba(255,255,255,1) 1px, transparent 1px);
+                    background-size: 24px 24px;"></div>
+
+                <!-- Topo: chip EMV + bandeira -->
+                <div class="relative z-10 flex justify-between items-center mb-5">
+                    <div class="flex items-center gap-2">
+                        <div class="w-8 h-6 rounded-sm flex items-center justify-center"
+                            style="background: linear-gradient(135deg, #f5d06e, #c8963e)">
+                            <div class="w-3.5 h-3.5 rounded-[2px] grid grid-cols-2 gap-px opacity-50">
+                                <div class="bg-yellow-900/50 rounded-[1px]"></div>
+                                <div class="bg-yellow-900/50 rounded-[1px]"></div>
+                                <div class="bg-yellow-900/50 rounded-[1px]"></div>
+                                <div class="bg-yellow-900/50 rounded-[1px]"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <span class="text-white/55 text-[10px] font-black tracking-[0.22em]">{{ card.brand }}</span>
+                </div>
+
+                <!-- Número mascarado -->
+                <div class="relative z-10 mb-4">
+                    <p class="text-white/45 font-mono text-[13px] tracking-[0.18em]">
+                        •••• &nbsp;•••• &nbsp;•••• &nbsp;{{ card.last4 }}
+                    </p>
+                </div>
+
+                <!-- Rodapé: titular + validade -->
+                <div class="relative z-10 flex justify-between items-end">
+                    <div>
+                        <p class="text-white/30 text-[8px] tracking-[0.15em] uppercase mb-0.5">Titular</p>
+                        <p class="text-white/80 text-[11px] font-semibold tracking-wide">{{ card.holder }}</p>
+                    </div>
+                    <div class="text-right">
+                        <p class="text-white/30 text-[8px] tracking-[0.15em] uppercase mb-0.5">Validade</p>
+                        <p class="text-white/70 text-[11px] font-mono tracking-widest">{{ card.expiry }}</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card "Adicionar novo" no final do carrossel -->
+            <div (click)="addCard()" class="flex-shrink-0 snap-start w-40 flex flex-col items-center justify-center gap-2
+                  rounded-2xl border-2 border-dashed border-t-light-dark dark:border-t-dark-light
+                  bg-t-light-light dark:bg-t-dark-light cursor-pointer transition-all
+                  hover:border-primary/40 hover:bg-primary/5 group" style="min-height: 148px;">
+                <div
+                    class="w-10 h-10 rounded-xl bg-t-light dark:bg-t-dark-lighter border border-t-light-dark dark:border-t-dark-light
+                    flex items-center justify-center transition-colors group-hover:bg-primary/10 group-hover:border-primary/30">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        class="text-gray-400 group-hover:text-primary transition-colors">
+                        <line x1="12" y1="5" x2="12" y2="19" />
+                        <line x1="5" y1="12" x2="19" y2="12" />
+                    </svg>
+                </div>
+                <span class="text-[11px] font-semibold text-gray-400 dark:text-gray-500
+                     group-hover:text-primary transition-colors text-center leading-tight px-2">
+                    Novo cartão
+                </span>
+            </div>
+        </div>
+
+        <!-- Indicadores de paginação do carrossel -->
+        <div *ngIf="cards.length > 1" class="flex justify-center gap-1.5 mt-3">
+            <span *ngFor="let card of cards; let i = index" class="rounded-full transition-all duration-300"
+                [ngClass]="i === 0 ? 'w-4 h-1.5 bg-primary' : 'w-1.5 h-1.5 bg-gray-400 dark:bg-gray-600'">
+            </span>
+        </div>
+    </div>
+
+    <!-- ── Transações Recentes ────────────────────────────── -->
+    <div *ngIf="hasAccount">
+        <div class="flex justify-between items-center mb-3">
+            <h2 class="text-sm font-bold text-gray-900 dark:text-gray-100 tracking-tight">Transações Recentes</h2>
+            <button class="flex items-center gap-1 text-xs text-primary hover:text-primary-dark
+                     transition-colors font-semibold" routerLink="/home/transfers">
+                Ver todas
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <polyline points="9 18 15 12 9 6" />
+                </svg>
+            </button>
+        </div>
+
+        <div
+            class="bg-t-light-light dark:bg-t-dark-light border border-t-light-dark dark:border-t-dark-light rounded-2xl overflow-hidden">
+            <div *ngFor="let tx of transactions; let last = last; let first = first" class="flex items-center justify-between px-4 py-3.5 cursor-pointer
+                  transition-colors hover:bg-t-light dark:hover:bg-t-dark-lighter"
+                [ngClass]="!last ? 'border-b border-t-light-dark dark:border-t-dark-light' : ''">
+
+                <div class="flex items-center gap-3.5">
+                    <!-- Ícone com fundo -->
+                    <div class="w-9 h-9 rounded-xl flex items-center justify-center text-[17px] flex-shrink-0"
+                        [style.background]="tx.iconBg">
+                        {{ tx.icon }}
+                    </div>
+
+                    <div>
+                        <p class="text-[13px] font-semibold text-gray-900 dark:text-gray-100 leading-tight">{{ tx.name
+                            }}</p>
+                        <div class="flex items-center gap-1.5 mt-0.5">
+                            <span class="text-[10px] px-1.5 py-0.5 rounded-md font-medium
+                           bg-t-light dark:bg-t-dark-lighter text-gray-500 dark:text-gray-500">
+                                {{ tx.category }}
+                            </span>
+                            <span class="text-[10px] text-gray-400 dark:text-gray-600">{{ tx.date }}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="text-right flex-shrink-0">
+                    <p class="text-[13px] font-bold"
+                        [ngClass]="tx.positive ? 'text-accent' : 'text-gray-900 dark:text-gray-100'">
+                        {{ tx.positive ? '+' : '−' }}{{ tx.amount | currency:'BRL':'symbol':'1.2-2' }}
+                    </p>
+                    <div class="flex items-center justify-end gap-1 mt-0.5">
+                        <span class="w-1.5 h-1.5 rounded-full"
+                            [ngClass]="tx.status === 'Concluído' ? 'bg-accent' : tx.status === 'Pendente' ? 'bg-yellow-400' : 'bg-red-400'">
+                        </span>
+                        <span class="text-[10px] text-gray-400 dark:text-gray-600">{{ tx.status }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
