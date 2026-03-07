@@ -15,7 +15,7 @@ type NavItem = {
   imports: [CommonModule, MatIconModule],
   template: `
     <nav
-      class="w-full rounded-2xl px-[10px] py-3 bg-t-light-light dark:bg-t-dark-lighter border border-t-light-dark dark:border-t-dark-light"
+      class="w-full rounded-2xl px-[10px] py-3 bg-t-light dark:bg-t-dark-lighter border border-t-light-dark dark:border-t-dark-light"
     >
       <ul class="m-0 flex list-none flex-col gap-[3px] p-0">
         <li *ngFor="let item of items">
@@ -28,7 +28,7 @@ type NavItem = {
             dark:hover:bg-t-dark-light dark:hover:text-gray-200"
             [ngClass]="
               isActive(item.link)
-                ? 'bg-primary/10 text-primary dark:bg-primary/20 dark:text-primary-light'
+                ? 'bg-t-light-light text-gray-800 dark:bg-t-dark-light dark:text-gray-100'
                 : ''
             "
           >
@@ -45,9 +45,13 @@ export class ItensLinksComponent {
 
   readonly items: NavItem[] = [
     { label: 'Dashboard', icon: 'grid_view', link: '/dashboard' },
-    { label: 'Conta', icon: 'grid_view', link: '/conta' },
-    { label: 'Poupança', icon: 'grid_view', link: '/poupanca' },
-    { label: 'Perfil', icon: 'grid_view', link: '/perfil' },
+    { label: 'Neuro AI', icon: 'auto_awesome', link: '/neuro-ai' },
+    { label: 'Accounts', icon: 'account_balance_wallet', link: '/accounts' },
+    { label: 'Transactions', icon: 'sync_alt', link: '/transactions' },
+    { label: 'Reports', icon: 'pie_chart_outline', link: '/reports' },
+    { label: 'Investments', icon: 'show_chart', link: '/investments' },
+    { label: 'Loans', icon: 'account_balance', link: '/loans' },
+    { label: 'Taxes', icon: 'request_quote', link: '/taxes' },
   ];
 
   isActive(link: string): boolean {

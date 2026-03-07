@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { UserService } from '../../../../../core/auth/user.service';
 import { ThemeService } from '../../../../../core/services/theme.service';
@@ -17,6 +17,7 @@ interface UserCardData {
 })
 export class UserCardComponent implements OnInit {
   dateStr: string = '';
+  isAnimating = signal(false);
 
   user: UserCardData = {
     name: '',
@@ -54,7 +55,12 @@ export class UserCardComponent implements OnInit {
   }
 
   toggleTheme(): void {
+    this.isAnimating.set(true);
     this.themeService.toggleTheme();
+    
+    setTimeout(() => {
+      this.isAnimating.set(false);
+    }, 600);
   }
 
   get isDarkMode(): boolean {

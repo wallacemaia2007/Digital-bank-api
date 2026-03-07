@@ -5,10 +5,10 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-
         primary: {
           DEFAULT: "#3b82f6", // Azul principal (botões, badge ativo)
           light: "#60a5fa", // Azul claro (hover, badges positivos)
+          lighter: "#c3d9f5", // Azul claro (hover, badges positivos)
           dark: "#2563eb", // Azul escuro (hover dark, pressed)
         },
 
