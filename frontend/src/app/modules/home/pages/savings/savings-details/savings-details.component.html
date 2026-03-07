@@ -1,0 +1,539 @@
+<ng-container *ngIf="box() as b; else notFound">
+
+    <div class="block w-full min-h-full bg-t-light dark:bg-t-dark-lighter text-gray-900 dark:text-gray-100">
+
+        <!-- ── Hero / Header colorido ─────────────────────────── -->
+        <div class="relative overflow-hidden px-5 pt-5 pb-8"
+            [style.background]="'linear-gradient(135deg,' + svc.colorBg(b.color,0.22) + ' 0%,' + svc.colorBg(b.color,0.06) + ' 100%)'">
+
+            <!-- Decoração -->
+            <div class="absolute -top-8 -right-8 w-40 h-40 rounded-full pointer-events-none"
+                [style.background]="'radial-gradient(circle,' + svc.colorBg(b.color,0.25) + ' 0%,transparent 70%)'">
+            </div>
+            <div class="absolute -bottom-6 -left-4 w-28 h-28 rounded-full pointer-events-none"
+                [style.background]="'radial-gradient(circle,' + svc.colorBg(b.color,0.15) + ' 0%,transparent 70%)'">
+            </div>
+            <div class="absolute inset-0 opacity-[0.04] pointer-events-none" style="background-image:linear-gradient(rgba(128,128,128,0.5) 1px,transparent 1px),
+                linear-gradient(90deg,rgba(128,128,128,0.5) 1px,transparent 1px);
+                background-size:24px 24px"></div>
+
+            <div class="relative z-10">
+                <!-- Voltar + ações -->
+                <div class="flex items-center justify-between mb-6">
+                    <button (click)="goBack()" class="flex items-center gap-2 text-gray-500 dark:text-gray-400
+                 hover:text-gray-800 dark:hover:text-gray-200 transition-colors cursor-pointer">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2.5">
+                            <polyline points="15 18 9 12 15 6" />
+                        </svg>
+                        <span class="text-sm font-semibold">Cofrinhos</span>
+                    </button>
+
+                    <div class="flex gap-2">
+                        <!-- Editar -->
+                        <button (click)="openEdit()" class="w-8 h-8 rounded-xl bg-t-light dark:bg-t-dark-lighter
+                   border border-t-light-dark dark:border-t-dark-light
+                   flex items-center justify-center text-gray-400
+                   hover:text-primary transition-colors cursor-pointer">
+                            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
+                                <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
+                            </svg>
+                        </button>
+                        <!-- Arquivar -->
+                        <button (click)="archiveConf.set(true)" class="w-8 h-8 rounded-xl bg-t-light dark:bg-t-dark-lighter
+                   border border-t-light-dark dark:border-t-dark-light
+                   flex items-center justify-center text-gray-400
+                   hover:text-red-400 transition-colors cursor-pointer">
+                            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <polyline points="3 6 5 6 21 6" />
+                                <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6" />
+                                <path d="M10 11v6" />
+                                <path d="M14 11v6" />
+                                <path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Emoji + nome + saldo -->
+                <div class="flex items-center gap-4 mb-5">
+                    <div class="w-16 h-16 rounded-2xl flex items-center justify-center text-3xl flex-shrink-0 shadow-lg"
+                        [style.background]="svc.colorBg(b.color, 0.2)">
+                        {{ b.emoji }}
+                    </div>
+                    <div>
+                        <p class="text-sm text-gray-500 dark:text-gray-400 font-medium mb-0.5">{{ b.name }}</p>
+                        <p class="text-3xl font-bold tracking-tight" [style.color]="b.color"
+                            style="letter-spacing:-0.02em">
+                            {{ b.balance | currency:'BRL':'symbol':'1.2-2' }}
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Barra de progresso com meta -->
+                <div *ngIf="b.goal" class="mb-2">
+                    <div class="flex justify-between items-center mb-1.5 text-[11px]">
+                        <span class="text-gray-500 dark:text-gray-400 font-medium">Progresso</span>
+                        <span class="font-bold" [style.color]="b.color">
+                            {{ svc.progress(b) | number:'1.0-1' }}% · meta {{ b.goal | currency:'BRL':'symbol':'1.0-0'
+                            }}
+                        </span>
+                    </div>
+                    <div class="h-2 rounded-full overflow-hidden" style="background:rgba(128,128,128,0.15)">
+                        <div class="h-full rounded-full transition-all duration-700"
+                            [style.width]="svc.progress(b) + '%'" [style.background]="b.color"></div>
+                    </div>
+                </div>
+
+                <!-- Tags de info -->
+                <div class="flex flex-wrap gap-2 mt-4">
+                    <span *ngIf="b.deadline" class="flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[11px] font-semibold
+                 bg-t-light dark:bg-t-dark-lighter border border-t-light-dark dark:border-t-dark-light" [ngClass]="(svc.daysLeft(b.deadline) ?? 999) <= 30
+            ? 'text-yellow-500' : 'text-gray-500 dark:text-gray-400'">
+                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <rect x="3" y="4" width="18" height="18" rx="2" />
+                            <line x1="16" y1="2" x2="16" y2="6" />
+                            <line x1="8" y1="2" x2="8" y2="6" />
+                            <line x1="3" y1="10" x2="21" y2="10" />
+                        </svg>
+                        {{ svc.formatDeadline(b.deadline) }}
+                        <span *ngIf="svc.daysLeft(b.deadline) !== null">({{ svc.daysLeft(b.deadline) }}d)</span>
+                    </span>
+
+                    <span class="flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[11px] font-semibold
+                     bg-t-light dark:bg-t-dark-lighter border border-t-light-dark dark:border-t-dark-light
+                     text-gray-500 dark:text-gray-400">
+                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <circle cx="12" cy="12" r="10" />
+                            <polyline points="12 6 12 12 16 14" />
+                        </svg>
+                        Criado {{ b.createdAt | date:'dd/MM/yyyy' }}
+                    </span>
+
+                    <span *ngIf="b.goal && b.balance >= b.goal" class="flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[11px] font-semibold
+                 bg-emerald-400/10 border border-emerald-400/20 text-emerald-400">
+                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2.5">
+                            <polyline points="20 6 9 17 4 12" />
+                        </svg>
+                        Meta atingida!
+                    </span>
+                </div>
+            </div>
+        </div>
+
+        <!-- ── Botões depositar / resgatar ───────────────────── -->
+        <div class="grid grid-cols-2 gap-3 px-5 -mt-4 relative z-10 mb-5">
+            <button (click)="openDeposit()" class="flex items-center justify-center gap-2 py-3 rounded-2xl text-sm font-bold
+             text-white shadow-lg transition-all hover:opacity-90 active:scale-[0.97] cursor-pointer"
+                [style.background]="b.color">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <line x1="12" y1="19" x2="12" y2="5" />
+                    <polyline points="5 12 12 5 19 12" />
+                </svg>
+                Depositar
+            </button>
+            <button (click)="openWithdraw()" class="flex items-center justify-center gap-2 py-3 rounded-2xl text-sm font-bold
+             border transition-all hover:border-opacity-70 active:scale-[0.97] cursor-pointer
+             bg-t-light-light dark:bg-t-dark-light border-t-light-dark dark:border-t-dark-light
+             text-gray-700 dark:text-gray-300 shadow">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <line x1="12" y1="5" x2="12" y2="19" />
+                    <polyline points="19 12 12 19 5 12" />
+                </svg>
+                Resgatar
+            </button>
+        </div>
+
+        <div class="px-5 flex flex-col gap-5 pb-8">
+
+            <!-- ── Gráfico de evolução ─────────────────────────── -->
+            <div *ngIf="chartPoints().length >= 2" class="rounded-2xl border bg-t-light-light dark:bg-t-dark-light
+                border-t-light-dark dark:border-t-dark-light overflow-hidden">
+                <div class="px-4 pt-4 pb-2">
+                    <p class="text-[10px] font-bold tracking-[0.15em] uppercase text-gray-400 dark:text-gray-500">
+                        Evolução do saldo
+                    </p>
+                </div>
+                <div class="px-2 pb-3">
+                    <svg viewBox="0 0 320 80" preserveAspectRatio="none" class="w-full h-20">
+                        <defs>
+                            <linearGradient [id]="'grad-' + b.id" x1="0" y1="0" x2="0" y2="1">
+                                <stop offset="0%" [attr.stop-color]="b.color" stop-opacity="0.25" />
+                                <stop offset="100%" [attr.stop-color]="b.color" stop-opacity="0" />
+                            </linearGradient>
+                        </defs>
+                        <path [attr.d]="svgArea()" [attr.fill]="'url(#grad-' + b.id + ')'" />
+                        <path [attr.d]="svgPath()" fill="none" [attr.stroke]="b.color" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                    <!-- Labels -->
+                    <div class="flex justify-between px-1 mt-1">
+                        <span *ngFor="let p of chartPoints(); let first=first; let last=last"
+                            [class.hidden]="!first && !last" class="text-[9px] text-gray-400 dark:text-gray-600">
+                            {{ p.label }}
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ── Histórico ───────────────────────────────────── -->
+            <div>
+                <div class="flex items-center justify-between mb-3">
+                    <p class="text-[10px] font-bold tracking-[0.15em] uppercase text-gray-400 dark:text-gray-500">
+                        Histórico
+                    </p>
+                    <span class="text-[10px] text-gray-400 dark:text-gray-600">
+                        {{ b.transactions.length }} movimentaç{{ b.transactions.length !== 1 ? 'ões' : 'ão' }}
+                    </span>
+                </div>
+
+                <div *ngIf="b.transactions.length > 0" class="flex flex-col gap-2">
+                    <div *ngFor="let tx of b.transactions" class="flex items-center gap-3 px-4 py-3 rounded-2xl
+                    bg-t-light-light dark:bg-t-dark-light
+                    border border-t-light-dark dark:border-t-dark-light">
+
+                        <!-- Ícone -->
+                        <div class="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0" [ngClass]="tx.type === 'deposit'
+                 ? 'bg-emerald-400/10' : 'bg-red-400/10'">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2.5"
+                                [ngClass]="tx.type === 'deposit' ? 'text-emerald-400' : 'text-red-400'">
+                                <ng-container *ngIf="tx.type === 'deposit'">
+                                    <line x1="12" y1="19" x2="12" y2="5" />
+                                    <polyline points="5 12 12 5 19 12" />
+                                </ng-container>
+                                <ng-container *ngIf="tx.type === 'withdraw'">
+                                    <line x1="12" y1="5" x2="12" y2="19" />
+                                    <polyline points="19 12 12 19 5 12" />
+                                </ng-container>
+                            </svg>
+                        </div>
+
+                        <!-- Info -->
+                        <div class="flex-1 min-w-0">
+                            <p class="text-xs font-bold text-gray-800 dark:text-gray-200">
+                                {{ tx.type === 'deposit' ? 'Depósito' : 'Resgate' }}
+                            </p>
+                            <p class="text-[10px] text-gray-400 dark:text-gray-600 truncate">
+                                {{ tx.note || (tx.date | date:'dd/MM/yyyy') }}
+                            </p>
+                        </div>
+
+                        <!-- Valor + data -->
+                        <div class="text-right flex-shrink-0">
+                            <p class="text-sm font-bold"
+                                [ngClass]="tx.type === 'deposit' ? 'text-emerald-400' : 'text-red-400'">
+                                {{ tx.type === 'deposit' ? '+' : '-' }}{{ tx.amount | currency:'BRL':'symbol':'1.2-2' }}
+                            </p>
+                            <p class="text-[9px] text-gray-400 dark:text-gray-600">
+                                {{ tx.date | date:'dd/MM/yy' }}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sem histórico -->
+                <div *ngIf="b.transactions.length === 0" class="flex flex-col items-center py-10 text-center
+                  rounded-2xl border border-dashed
+                  bg-t-light-light dark:bg-t-dark-light
+                  border-t-light-dark dark:border-t-dark-light">
+                    <span class="text-3xl mb-2">📭</span>
+                    <p class="text-xs text-gray-400 dark:text-gray-500">Nenhuma movimentação ainda</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</ng-container>
+
+<!-- 404 -->
+<ng-template #notFound>
+    <div class="flex flex-col items-center justify-center min-h-full py-20 text-center px-5">
+        <span class="text-5xl mb-4">🔍</span>
+        <p class="text-base font-bold text-gray-700 dark:text-gray-300 mb-2">Cofrinho não encontrado</p>
+        <button (click)="goBack()" class="text-sm text-primary font-semibold hover:underline cursor-pointer mt-2">
+            Voltar para cofrinhos
+        </button>
+    </div>
+</ng-template>
+
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- MODAIS                                                 -->
+<!-- ══════════════════════════════════════════════════════ -->
+<div *ngIf="modalMode() || archiveConf()"
+    class="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4"
+    (click)="closeModal(); archiveConf.set(false)">
+    <div class="absolute inset-0 bg-black/50 backdrop-blur-sm modal-backdrop"></div>
+
+    <!-- ── DEPOSITAR ─────────────────────────────────────── -->
+    <ng-container *ngIf="modalMode() === 'deposit' && box() as b">
+        <div class="relative z-10 w-full sm:max-w-sm modal-sheet rounded-t-3xl sm:rounded-2xl
+                bg-t-light-light dark:bg-t-dark-light
+                border border-t-light-dark dark:border-t-dark-light shadow-2xl" (click)="$event.stopPropagation()">
+            <div class="flex justify-center pt-3 pb-1 sm:hidden">
+                <div class="w-10 h-1 rounded-full bg-gray-300 dark:bg-gray-700"></div>
+            </div>
+            <div class="px-6 pt-5 pb-6">
+                <div class="flex items-center justify-between mb-5">
+                    <div class="flex items-center gap-3">
+                        <span class="text-2xl">{{ b.emoji }}</span>
+                        <div>
+                            <h2 class="text-sm font-bold text-gray-900 dark:text-gray-50">Depositar</h2>
+                            <p class="text-[11px] text-gray-400">{{ b.name }}</p>
+                        </div>
+                    </div>
+                    <button (click)="closeModal()" class="w-8 h-8 rounded-xl bg-t-light dark:bg-t-dark-lighter border border-t-light-dark dark:border-t-dark-light
+                   flex items-center justify-center text-gray-400 cursor-pointer">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2.5">
+                            <line x1="18" y1="6" x2="6" y2="18" />
+                            <line x1="6" y1="6" x2="18" y2="18" />
+                        </svg>
+                    </button>
+                </div>
+
+                <div class="text-center mb-5">
+                    <p class="text-[10px] text-gray-400 uppercase tracking-widest mb-1">Saldo atual</p>
+                    <p class="text-2xl font-bold" [style.color]="b.color">
+                        {{ b.balance | currency:'BRL':'symbol':'1.2-2' }}
+                    </p>
+                </div>
+
+                <div class="relative mb-4">
+                    <span class="absolute left-3.5 top-1/2 -translate-y-1/2 text-sm font-bold text-gray-400">R$</span>
+                    <input type="number" placeholder="0,00" min="0" [value]="opValue()"
+                        (input)="opValue.set($any($event.target).value)" class="w-full pl-10 pr-4 py-3 rounded-xl text-lg font-bold text-center
+                   bg-t-light dark:bg-t-dark-lighter border border-t-light-dark dark:border-t-dark-light
+                   text-gray-900 dark:text-gray-100 placeholder-gray-300 dark:placeholder-gray-700
+                   focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/20 transition-all" />
+                </div>
+
+                <div *ngIf="opValueNum > 0" class="flex justify-between items-center px-3 py-2 rounded-xl mb-4
+                    bg-t-light dark:bg-t-dark-lighter border border-t-light-dark dark:border-t-dark-light">
+                    <span class="text-[11px] text-gray-400">Novo saldo</span>
+                    <span class="text-sm font-bold" [style.color]="b.color">
+                        {{ (b.balance + opValueNum) | currency:'BRL':'symbol':'1.2-2' }}
+                    </span>
+                </div>
+
+                <button (click)="confirmDeposit()" [disabled]="opValueNum <= 0" class="w-full py-3 rounded-xl text-sm font-bold text-white transition-all cursor-pointer
+                 disabled:opacity-40 disabled:cursor-not-allowed active:scale-[0.98]" [style.background]="b.color">
+                    Confirmar depósito
+                </button>
+            </div>
+        </div>
+    </ng-container>
+
+    <!-- ── RESGATAR ──────────────────────────────────────── -->
+    <ng-container *ngIf="modalMode() === 'withdraw' && box() as b">
+        <div class="relative z-10 w-full sm:max-w-sm modal-sheet rounded-t-3xl sm:rounded-2xl
+                bg-t-light-light dark:bg-t-dark-light
+                border border-t-light-dark dark:border-t-dark-light shadow-2xl" (click)="$event.stopPropagation()">
+            <div class="flex justify-center pt-3 pb-1 sm:hidden">
+                <div class="w-10 h-1 rounded-full bg-gray-300 dark:bg-gray-700"></div>
+            </div>
+            <div class="px-6 pt-5 pb-6">
+                <div class="flex items-center justify-between mb-5">
+                    <div class="flex items-center gap-3">
+                        <span class="text-2xl">{{ b.emoji }}</span>
+                        <div>
+                            <h2 class="text-sm font-bold text-gray-900 dark:text-gray-50">Resgatar</h2>
+                            <p class="text-[11px] text-gray-400">{{ b.name }}</p>
+                        </div>
+                    </div>
+                    <button (click)="closeModal()" class="w-8 h-8 rounded-xl bg-t-light dark:bg-t-dark-lighter border border-t-light-dark dark:border-t-dark-light
+                   flex items-center justify-center text-gray-400 cursor-pointer">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2.5">
+                            <line x1="18" y1="6" x2="6" y2="18" />
+                            <line x1="6" y1="6" x2="18" y2="18" />
+                        </svg>
+                    </button>
+                </div>
+
+                <div class="text-center mb-5">
+                    <p class="text-[10px] text-gray-400 uppercase tracking-widest mb-1">Disponível</p>
+                    <p class="text-2xl font-bold" [style.color]="b.color">
+                        {{ b.balance | currency:'BRL':'symbol':'1.2-2' }}
+                    </p>
+                </div>
+
+                <div class="relative mb-4">
+                    <span class="absolute left-3.5 top-1/2 -translate-y-1/2 text-sm font-bold text-gray-400">R$</span>
+                    <input type="number" placeholder="0,00" min="0" [max]="b.balance" [value]="opValue()"
+                        (input)="opValue.set($any($event.target).value)" class="w-full pl-10 pr-4 py-3 rounded-xl text-lg font-bold text-center
+                   bg-t-light dark:bg-t-dark-lighter border border-t-light-dark dark:border-t-dark-light
+                   text-gray-900 dark:text-gray-100 placeholder-gray-300 dark:placeholder-gray-700
+                   focus:outline-none focus:border-red-400/50 focus:ring-1 focus:ring-red-400/20 transition-all" />
+                </div>
+
+                <div *ngIf="opValueNum > b.balance"
+                    class="flex items-center gap-2 px-3 py-2 rounded-xl mb-3 bg-red-400/10 border border-red-400/20">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#f87171" stroke-width="2">
+                        <circle cx="12" cy="12" r="10" />
+                        <line x1="12" y1="8" x2="12" y2="12" />
+                        <line x1="12" y1="16" x2="12.01" y2="16" />
+                    </svg>
+                    <span class="text-[11px] text-red-400 font-semibold">Saldo insuficiente</span>
+                </div>
+
+                <div *ngIf="opValueNum > 0 && opValueNum <= b.balance" class="flex justify-between items-center px-3 py-2 rounded-xl mb-4
+                    bg-t-light dark:bg-t-dark-lighter border border-t-light-dark dark:border-t-dark-light">
+                    <span class="text-[11px] text-gray-400">Novo saldo</span>
+                    <span class="text-sm font-bold text-red-400">
+                        {{ (b.balance - opValueNum) | currency:'BRL':'symbol':'1.2-2' }}
+                    </span>
+                </div>
+
+                <button (click)="confirmWithdraw()" [disabled]="opValueNum <= 0 || opValueNum > b.balance" class="w-full py-3 rounded-xl text-sm font-bold text-white transition-all cursor-pointer
+                 disabled:opacity-40 disabled:cursor-not-allowed active:scale-[0.98]
+                 bg-red-400 hover:bg-red-500">
+                    Confirmar resgate
+                </button>
+            </div>
+        </div>
+    </ng-container>
+
+    <!-- ── EDITAR ─────────────────────────────────────────── -->
+    <ng-container *ngIf="modalMode() === 'edit' && box() as b">
+        <div class="relative z-10 w-full sm:max-w-md modal-sheet rounded-t-3xl sm:rounded-2xl
+                bg-t-light-light dark:bg-t-dark-light
+                border border-t-light-dark dark:border-t-dark-light shadow-2xl" (click)="$event.stopPropagation()">
+            <div class="flex justify-center pt-3 pb-1 sm:hidden">
+                <div class="w-10 h-1 rounded-full bg-gray-300 dark:bg-gray-700"></div>
+            </div>
+            <div class="px-6 pt-5 pb-6">
+                <div class="flex items-center justify-between mb-5">
+                    <h2 class="text-base font-bold text-gray-900 dark:text-gray-50">Editar cofrinho</h2>
+                    <button (click)="closeModal()" class="w-8 h-8 rounded-xl bg-t-light dark:bg-t-dark-lighter border border-t-light-dark dark:border-t-dark-light
+                   flex items-center justify-center text-gray-400 cursor-pointer">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2.5">
+                            <line x1="18" y1="6" x2="6" y2="18" />
+                            <line x1="6" y1="6" x2="18" y2="18" />
+                        </svg>
+                    </button>
+                </div>
+
+                <div class="flex flex-col gap-4">
+                    <!-- Preview + Emojis -->
+                    <div class="flex items-center gap-4">
+                        <div class="w-14 h-14 rounded-2xl flex items-center justify-center text-2xl flex-shrink-0"
+                            [style.background]="svc.colorBg(form().color, 0.18)">
+                            {{ form().emoji }}
+                        </div>
+                        <div class="flex flex-wrap gap-1.5">
+                            <button *ngFor="let e of svc.emojiList" (click)="setField('emoji', e)"
+                                class="w-8 h-8 rounded-lg flex items-center justify-center text-base transition-all cursor-pointer"
+                                [ngClass]="form().emoji === e
+                  ? 'ring-2 ring-offset-1 ring-primary bg-primary/10 dark:ring-offset-t-dark-light'
+                  : 'bg-t-light dark:bg-t-dark-lighter hover:bg-t-light-dark dark:hover:bg-t-dark'">
+                                {{ e }}
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Nome -->
+                    <div>
+                        <label class="block text-[10px] font-bold tracking-[0.12em] uppercase
+                          text-gray-400 dark:text-gray-500 mb-1.5">Nome *</label>
+                        <input type="text" maxlength="30" [value]="form().name"
+                            (input)="setField('name', $any($event.target).value)" class="w-full px-3.5 py-2.5 rounded-xl text-sm
+                     bg-t-light dark:bg-t-dark-lighter border border-t-light-dark dark:border-t-dark-light
+                     text-gray-900 dark:text-gray-100
+                     focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/20 transition-all" />
+                    </div>
+
+                    <!-- Meta + Prazo -->
+                    <div class="grid grid-cols-2 gap-3">
+                        <div>
+                            <label class="block text-[10px] font-bold tracking-[0.12em] uppercase
+                            text-gray-400 dark:text-gray-500 mb-1.5">Meta (R$)</label>
+                            <input type="number" placeholder="0,00" min="0" [value]="form().goal"
+                                (input)="setField('goal', $any($event.target).value)" class="w-full px-3.5 py-2.5 rounded-xl text-sm
+                       bg-t-light dark:bg-t-dark-lighter border border-t-light-dark dark:border-t-dark-light
+                       text-gray-900 dark:text-gray-100
+                       focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/20 transition-all" />
+                        </div>
+                        <div>
+                            <label class="block text-[10px] font-bold tracking-[0.12em] uppercase
+                            text-gray-400 dark:text-gray-500 mb-1.5">Prazo</label>
+                            <input type="date" [value]="form().deadline"
+                                (change)="setField('deadline', $any($event.target).value)" class="w-full px-3 py-2.5 rounded-xl text-sm
+                       bg-t-light dark:bg-t-dark-lighter border border-t-light-dark dark:border-t-dark-light
+                       text-gray-700 dark:text-gray-300
+                       focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/20
+                       transition-all date-input" />
+                        </div>
+                    </div>
+
+                    <!-- Cor -->
+                    <div>
+                        <label class="block text-[10px] font-bold tracking-[0.12em] uppercase
+                          text-gray-400 dark:text-gray-500 mb-1.5">Cor</label>
+                        <div class="flex gap-2 flex-wrap">
+                            <button *ngFor="let c of svc.palette" (click)="setField('color', c)"
+                                class="w-7 h-7 rounded-lg transition-all cursor-pointer" [style.background]="c"
+                                [ngClass]="form().color === c
+                  ? 'ring-2 ring-offset-2 ring-offset-t-light dark:ring-offset-t-dark-lighter scale-110'
+                  : 'hover:scale-110'">
+                            </button>
+                        </div>
+                    </div>
+
+                    <button (click)="submitEdit()" [disabled]="!form().name.trim()" class="w-full py-3 rounded-xl text-sm font-bold text-white transition-all cursor-pointer
+                   disabled:opacity-40 disabled:cursor-not-allowed active:scale-[0.98]"
+                        [style.background]="form().color">
+                        Salvar alterações
+                    </button>
+                </div>
+            </div>
+        </div>
+    </ng-container>
+
+    <ng-container *ngIf="archiveConf()">
+        <div class="relative z-10 w-full sm:max-w-sm modal-sheet rounded-t-3xl sm:rounded-2xl
+                bg-t-light-light dark:bg-t-dark-light
+                border border-t-light-dark dark:border-t-dark-light shadow-2xl" (click)="$event.stopPropagation()">
+            <div class="flex justify-center pt-3 pb-1 sm:hidden">
+                <div class="w-10 h-1 rounded-full bg-gray-300 dark:bg-gray-700"></div>
+            </div>
+            <div class="px-6 pt-6 pb-6 text-center">
+                <div class="w-12 h-12 rounded-2xl bg-red-400/10 border border-red-400/20
+                    flex items-center justify-center mx-auto mb-4">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#f87171" stroke-width="2">
+                        <polyline points="3 6 5 6 21 6" />
+                        <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6" />
+                        <path d="M10 11v6" />
+                        <path d="M14 11v6" />
+                    </svg>
+                </div>
+                <h3 class="text-base font-bold text-gray-900 dark:text-gray-50 mb-1">Arquivar cofrinho?</h3>
+                <p class="text-sm text-gray-400 dark:text-gray-500 mb-5">
+                    O cofrinho e todo o histórico serão removidos. Essa ação não pode ser desfeita.
+                </p>
+                <div class="grid grid-cols-2 gap-3">
+                    <button (click)="archiveConf.set(false)" class="py-2.5 rounded-xl text-sm font-bold border
+                   border-t-light-dark dark:border-t-dark-light
+                   bg-t-light dark:bg-t-dark-lighter
+                   text-gray-600 dark:text-gray-400 cursor-pointer">
+                        Cancelar
+                    </button>
+                    <button (click)="confirmArchive()" class="py-2.5 rounded-xl text-sm font-bold text-white
+                   bg-red-400 hover:bg-red-500 transition-colors cursor-pointer">
+                        Arquivar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </ng-container>
+
+</div>

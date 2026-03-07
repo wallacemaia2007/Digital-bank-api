@@ -1,1 +1,237 @@
-<p>savings works!</p>
+<div class="block w-full min-h-full bg-t-light dark:bg-t-dark-lighter p-5 text-gray-900 dark:text-gray-100">
+
+  <!-- ── Header ────────────────────────────────────────── -->
+  <div class="flex items-center justify-between mb-6">
+    <div>
+      <p class="text-[10px] font-bold tracking-[0.2em] text-gray-400 dark:text-gray-500 uppercase mb-1">
+        Digital Bank
+      </p>
+      <h1 class="text-2xl font-bold text-gray-900 dark:text-gray-50 leading-tight tracking-tight">
+        Cofrinhos
+      </h1>
+    </div>
+    <button (click)="openCreate()" class="flex items-center gap-2 bg-primary hover:bg-primary-dark text-white
+             px-4 py-2 rounded-xl text-xs font-bold transition-all
+             active:scale-[0.97] shadow-md hover:shadow-lg cursor-pointer">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+        <line x1="12" y1="5" x2="12" y2="19" />
+        <line x1="5" y1="12" x2="19" y2="12" />
+      </svg>
+      Novo cofrinho
+    </button>
+  </div>
+
+  <!-- ── Grid ──────────────────────────────────────────── -->
+  <div *ngIf="svc.boxes().length > 0" class="grid grid-cols-2 gap-3">
+
+    <div *ngFor="let box of svc.boxes()" (click)="goToBox(box.id)" class="relative overflow-hidden rounded-2xl p-4 border cursor-pointer
+                transition-all hover:scale-[1.02] hover:shadow-lg active:scale-[0.98]
+                bg-t-light-light dark:bg-t-dark-light border-t-light-dark dark:border-t-dark-light"
+      [style.border-color]="svc.colorBg(box.color, 0.4)">
+
+      <div class="absolute inset-0 rounded-2xl pointer-events-none" [style.background]="svc.colorBg(box.color, 0.05)">
+      </div>
+      <div class="absolute -top-6 -right-6 w-20 h-20 rounded-full pointer-events-none"
+        [style.background]="'radial-gradient(circle,' + svc.colorBg(box.color, 0.2) + ' 0%,transparent 70%)'"></div>
+
+      <div class="relative z-10">
+        <!-- Emoji + check de meta -->
+        <div class="flex items-start justify-between mb-3">
+          <div class="w-10 h-10 rounded-xl flex items-center justify-center text-xl flex-shrink-0"
+            [style.background]="svc.colorBg(box.color, 0.15)">
+            {{ box.emoji }}
+          </div>
+          <div *ngIf="box.goal && box.balance >= box.goal" class="w-5 h-5 rounded-full flex items-center justify-center"
+            style="background:rgba(52,211,153,0.2)">
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="3">
+              <polyline points="20 6 9 17 4 12" />
+            </svg>
+          </div>
+        </div>
+
+        <p class="text-[13px] font-bold text-gray-900 dark:text-gray-100 leading-tight mb-0.5 truncate">
+          {{ box.name }}
+        </p>
+        <p class="text-base font-bold tracking-tight mb-2" [style.color]="box.color">
+          {{ box.balance | currency:'BRL':'symbol':'1.2-2' }}
+        </p>
+
+        <!-- Progresso -->
+        <div *ngIf="box.goal">
+          <div class="h-1 rounded-full overflow-hidden mb-1" style="background:rgba(128,128,128,0.15)">
+            <div class="h-full rounded-full transition-all duration-700" [style.width]="svc.progress(box) + '%'"
+              [style.background]="box.color"></div>
+          </div>
+          <div class="flex justify-between">
+            <span class="text-[10px] text-gray-400 dark:text-gray-600">{{ svc.progress(box) | number:'1.0-0' }}%</span>
+            <span class="text-[10px] text-gray-400 dark:text-gray-600 truncate">
+              meta {{ box.goal | currency:'BRL':'symbol':'1.0-0' }}
+            </span>
+          </div>
+        </div>
+        <div *ngIf="!box.goal">
+          <span class="text-[10px] text-gray-400 dark:text-gray-600">Sem meta definida</span>
+        </div>
+
+        <!-- Prazo -->
+        <div *ngIf="svc.daysLeft(box.deadline) !== null" class="mt-2 flex items-center gap-1">
+          <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            class="text-gray-400">
+            <rect x="3" y="4" width="18" height="18" rx="2" />
+            <line x1="16" y1="2" x2="16" y2="6" />
+            <line x1="8" y1="2" x2="8" y2="6" />
+            <line x1="3" y1="10" x2="21" y2="10" />
+          </svg>
+          <span class="text-[10px]" [ngClass]="(svc.daysLeft(box.deadline) ?? 999) <= 30
+              ? 'text-yellow-500 font-semibold' : 'text-gray-400 dark:text-gray-600'">
+            {{ svc.daysLeft(box.deadline) }}d
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card novo cofrinho -->
+    <div (click)="openCreate()" class="relative rounded-2xl p-4 border-2 border-dashed cursor-pointer
+                flex flex-col items-center justify-center gap-2 min-h-[160px]
+                border-t-light-dark dark:border-t-dark-light
+                bg-t-light-light dark:bg-t-dark-light
+                transition-all hover:border-primary/40 hover:bg-primary/5 group">
+      <div class="w-10 h-10 rounded-xl bg-t-light dark:bg-t-dark-lighter border
+                  border-t-light-dark dark:border-t-dark-light
+                  flex items-center justify-center
+                  group-hover:bg-primary/10 group-hover:border-primary/30 transition-colors">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+          class="text-gray-400 group-hover:text-primary transition-colors">
+          <line x1="12" y1="5" x2="12" y2="19" />
+          <line x1="5" y1="12" x2="19" y2="12" />
+        </svg>
+      </div>
+      <span class="text-[11px] font-semibold text-gray-400 dark:text-gray-500
+                   group-hover:text-primary transition-colors text-center">
+        Novo cofrinho
+      </span>
+    </div>
+  </div>
+
+  <!-- ── Estado vazio ───────────────────────────────────── -->
+  <div *ngIf="svc.boxes().length === 0" class="flex flex-col items-center justify-center py-20 text-center">
+    <div class="text-5xl mb-4">🐷</div>
+    <p class="text-base font-bold text-gray-700 dark:text-gray-300 mb-1">Nenhum cofrinho ainda</p>
+    <p class="text-sm text-gray-400 dark:text-gray-500 mb-5">Crie seu primeiro cofrinho e comece a guardar</p>
+    <button (click)="openCreate()" class="flex items-center gap-2 bg-primary hover:bg-primary-dark text-white
+             px-5 py-2.5 rounded-xl text-sm font-bold transition-all cursor-pointer">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+        <line x1="12" y1="5" x2="12" y2="19" />
+        <line x1="5" y1="12" x2="19" y2="12" />
+      </svg>
+      Criar primeiro cofrinho
+    </button>
+  </div>
+
+</div>
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- MODAL CRIAR COFRINHO                                   -->
+<!-- ══════════════════════════════════════════════════════ -->
+<div *ngIf="createOpen()" class="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4"
+  (click)="closeCreate()">
+  <div class="absolute inset-0 bg-black/50 backdrop-blur-sm modal-backdrop"></div>
+
+  <div class="relative z-10 w-full sm:max-w-md modal-sheet rounded-t-3xl sm:rounded-2xl
+              bg-t-light-light dark:bg-t-dark-light
+              border border-t-light-dark dark:border-t-dark-light shadow-2xl" (click)="$event.stopPropagation()">
+
+    <div class="flex justify-center pt-3 pb-1 sm:hidden">
+      <div class="w-10 h-1 rounded-full bg-gray-300 dark:bg-gray-700"></div>
+    </div>
+
+    <div class="px-6 pt-5 pb-6">
+      <div class="flex items-center justify-between mb-5">
+        <h2 class="text-base font-bold text-gray-900 dark:text-gray-50">Novo cofrinho</h2>
+        <button (click)="closeCreate()" class="w-8 h-8 rounded-xl bg-t-light dark:bg-t-dark-lighter
+                 border border-t-light-dark dark:border-t-dark-light
+                 flex items-center justify-center text-gray-400
+                 hover:text-gray-700 dark:hover:text-gray-200 transition-colors cursor-pointer">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <line x1="18" y1="6" x2="6" y2="18" />
+            <line x1="6" y1="6" x2="18" y2="18" />
+          </svg>
+        </button>
+      </div>
+
+      <div class="flex flex-col gap-4">
+
+        <!-- Preview + Emojis -->
+        <div class="flex items-center gap-4">
+          <div class="w-14 h-14 rounded-2xl flex items-center justify-center text-2xl flex-shrink-0"
+            [style.background]="svc.colorBg(form().color, 0.18)">
+            {{ form().emoji }}
+          </div>
+          <div class="flex flex-wrap gap-1.5">
+            <button *ngFor="let e of svc.emojiList" (click)="setField('emoji', e)"
+              class="w-8 h-8 rounded-lg flex items-center justify-center text-base transition-all cursor-pointer"
+              [ngClass]="form().emoji === e
+                ? 'ring-2 ring-offset-1 ring-primary bg-primary/10 dark:ring-offset-t-dark-light'
+                : 'bg-t-light dark:bg-t-dark-lighter hover:bg-t-light-dark dark:hover:bg-t-dark'">
+              {{ e }}
+            </button>
+          </div>
+        </div>
+
+        <!-- Nome -->
+        <div>
+          <label class="block text-[10px] font-bold tracking-[0.12em] uppercase
+                        text-gray-400 dark:text-gray-500 mb-1.5">
+            Nome do cofrinho *
+          </label>
+          <input type="text" placeholder="Ex: Viagem Europa" maxlength="30" [value]="form().name"
+            (input)="setField('name', $any($event.target).value)" class="w-full px-3.5 py-2.5 rounded-xl text-sm
+                   bg-t-light dark:bg-t-dark-lighter border border-t-light-dark dark:border-t-dark-light
+                   text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-600
+                   focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/20 transition-all" />
+        </div>
+
+        <!-- Meta + Prazo -->
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-[10px] font-bold tracking-[0.12em] uppercase
+                          text-gray-400 dark:text-gray-500 mb-1.5">Meta (R$)</label>
+            <input type="number" placeholder="0,00" min="0" [value]="form().goal"
+              (input)="setField('goal', $any($event.target).value)" class="w-full px-3.5 py-2.5 rounded-xl text-sm
+                     bg-t-light dark:bg-t-dark-lighter border border-t-light-dark dark:border-t-dark-light
+                     text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-600
+                     focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/20 transition-all" />
+          </div>
+          <div>
+            <label class="block text-[10px] font-bold tracking-[0.12em] uppercase
+                          text-gray-400 dark:text-gray-500 mb-1.5">Prazo</label>
+            <input type="date" [value]="form().deadline" (change)="setField('deadline', $any($event.target).value)"
+              class="w-full px-3 py-2.5 rounded-xl text-sm
+                     bg-t-light dark:bg-t-dark-lighter border border-t-light-dark dark:border-t-dark-light
+                     text-gray-700 dark:text-gray-300
+                     focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/20
+                     transition-all date-input" />
+          </div>
+        </div>
+
+        <!-- Cor -->
+        <div>
+          <label class="block text-[10px] font-bold tracking-[0.12em] uppercase
+                        text-gray-400 dark:text-gray-500 mb-1.5">Cor</label>
+          <div class="flex gap-2 flex-wrap">
+            <button *ngFor="let c of svc.palette" (click)="setField('color', c)"
+              class="w-7 h-7 rounded-lg transition-all cursor-pointer" [style.background]="c"
+              [ngClass]="form().color === c ? 'ring-2 ring-offset-2 ring-offset-t-light dark:ring-offset-t-dark-lighter scale-110' : 'hover:scale-110'">
+            </button>
+          </div>
+        </div>
+
+        <button (click)="submitCreate()" [disabled]="!form().name.trim()" class="w-full py-3 rounded-xl text-sm font-bold text-white transition-all cursor-pointer
+                 disabled:opacity-40 disabled:cursor-not-allowed active:scale-[0.98]"
+          [style.background]="form().color">
+          Criar cofrinho
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
