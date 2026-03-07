@@ -3,7 +3,6 @@ import { HomeComponent } from './home.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { AccountComponent } from './pages/account/account.component';
 import { TransfersComponent } from './pages/transfers/transfers.component';
-import { LoansComponent } from './pages/loans/loans.component';
 
 export const routes: Routes = [
   {
@@ -20,7 +19,6 @@ export const routes: Routes = [
             (m) => m.SAVINGS_ROUTES,
           ),
       },
-      { path: 'loans', component: LoansComponent },
       { path: 'account', component: AccountComponent },
     ],
   },

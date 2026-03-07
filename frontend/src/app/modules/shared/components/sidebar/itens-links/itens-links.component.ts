@@ -49,7 +49,6 @@ export class ItensLinksComponent {
     { label: 'Account', icon: 'account_circle', link: 'account' },
     { label: 'Transfers', icon: 'swap_horiz', link: 'transfers' },
     { label: 'Savings', icon: 'savings', link: 'savings' },
-    { label: 'Loans', icon: 'account_balance', link: 'loans' },
   ];
 
   isActive(link: string): boolean {
