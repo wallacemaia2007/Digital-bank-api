@@ -1,2 +1,26 @@
-<app-navbar></app-navbar>
-<app-user-card></app-user-card>
+<section class="min-h-screen bg-[#030714] p-3 text-white sm:p-4 lg:p-5">
+    <div
+        class="mx-auto grid h-[calc(100vh-24px)] max-w-[1450px] grid-cols-1 gap-4 rounded-[20px] border border-[#1b2640] bg-[#050c1f] p-4 shadow-[inset_0_0_0_1px_rgba(59,130,246,0.12)] lg:grid-cols-[220px_1fr] lg:gap-5 lg:p-5">
+        <aside class="flex h-full flex-col gap-4 rounded-2xl border border-[#1a2440] bg-[#06102a] p-3">
+            <div class="flex items-center gap-2 px-2 py-1 text-sm font-semibold text-[#d9e6ff]">
+                <span
+                    class="inline-flex h-7 w-7 items-center justify-center rounded-lg bg-[#234bff] text-white">✦</span>
+                <span>NeuroBank</span>
+            </div>
+
+            <app-user-card></app-user-card>
+
+            <app-navbar class="w-full"></app-navbar>
+
+            <div
+                class="mt-auto rounded-2xl border border-[#2a4696] bg-[linear-gradient(135deg,#163fb7_0%,#2c67ff_60%,#3d79ff_100%)] px-4 py-4 shadow-[0_8px_24px_rgba(41,98,255,0.35)]">
+                <p class="text-sm font-semibold text-white">Activate NeuroBank Pro</p>
+                <p class="mt-1 text-xs text-blue-100">Elevate finances with AI</p>
+            </div>
+        </aside>
+
+        <main class="h-full overflow-auto rounded-2xl border border-[#1a2440] bg-[#090f22]">
+            <app-dashboard class="block"></app-dashboard>
+        </main>
+    </div>
+</section>

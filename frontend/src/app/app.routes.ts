@@ -16,7 +16,6 @@ export const routes: Routes = [
     path: 'home',
     loadChildren: () =>
       import('./modules/home/home.routes').then((m) => m.routes),
-    canActivate: [userGuard],
   },
   {
     path: 'gerencial',
