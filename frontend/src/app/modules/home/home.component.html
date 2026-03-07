@@ -1,9 +1,11 @@
-<main>
-  <div class="flex h-[calc(100vh-80px)]">
-    <app-sidebar></app-sidebar>
-    <div
-      class="flex-1 overflow-x-hidden overflow-y-auto bg-t-dark [scrollbar-color:#1e2a45_transparent] [scrollbar-width:thin] [&::-webkit-scrollbar-thumb]:rounded [&::-webkit-scrollbar-thumb]:bg-[#1e2a45] [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar]:w-[5px] sm:h-screen">
-      <router-outlet />
+<main class="flex h-screen w-screen overflow-hidden bg-light dark:bg-t-dark-light">
+
+  <app-sidebar></app-sidebar>
+
+  <section class="flex-1 overflow-y-auto p-5 bg-t-light-light dark:bg-t-dark-light ">
+    <div class="rounded-2xl overflow-hidden h-full">
+      <router-outlet></router-outlet>
     </div>
-  </div>
+  </section>
+
 </main>

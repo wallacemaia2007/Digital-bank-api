@@ -1,21 +1,24 @@
-<div
-    class="flex h-screen w-full flex-col overflow-hidden bg-t-light dark:bg-t-dark font-['Poppins'] text-gray-900 dark:text-gray-100 sm:flex-row">
-    <aside
-        class="flex h-auto w-full flex-row flex-wrap gap-2.5 overflow-x-hidden overflow-y-auto border-b border-t-light-dark bg-t-light-light p-3 [scrollbar-width:none] [&::-webkit-scrollbar]:w-0 dark:border-t-dark-light dark:bg-t-dark-light sm:h-screen sm:w-[200px] sm:min-w-[200px] sm:flex-col sm:gap-4 sm:border-b-0 sm:border-r sm:px-[10px] sm:py-4 md:w-[240px] md:min-w-[240px] md:px-[14px] md:py-5">
+<aside
+    class="flex h-screen w-[240px] min-w-[240px] flex-col gap-4 bg-t-light-light px-[14px] py-5 dark:bg-t-dark-light">
 
-        <app-logo class="w-full"></app-logo>
+    <app-logo></app-logo>
 
-        <app-user-card class="w-full"></app-user-card>
+    <app-user-card></app-user-card>
 
-        <app-itens-links class="w-full"></app-itens-links>
+    <app-itens-links class="flex-1"></app-itens-links>
 
-        <div
-            class="mt-auto flex-shrink-0 cursor-pointer rounded-2xl border border-primary-dark bg-[linear-gradient(135deg,#163fb7_0%,#2c67ff_60%,#3d79ff_100%)] px-4 py-3.5 shadow-[0_8px_24px_rgba(41,98,255,0.35)]">
-            <div class="mb-1 flex items-center gap-[7px]">
-                <span class="text-[13px] text-white">✦</span>
-                <p class="m-0 text-[13px] font-semibold text-white">Ficou com dúvidas?</p>
-            </div>
-            <p class="m-0 pl-5 text-[11px] text-white/75">Está com dúvidas? Entre em contato com nosso suporte.</p>
+    <div
+        class="cursor-pointer rounded-2xl border border-primary-dark bg-[linear-gradient(135deg,#163fb7_0%,#2c67ff_60%,#3d79ff_100%)] px-4 py-3.5 shadow-[0_8px_24px_rgba(41,98,255,0.35)]">
+
+        <div class="mb-1 flex items-center gap-[7px]">
+            <span class="text-[13px] text-white">✦</span>
+            <p class="text-[13px] font-semibold text-white">Ficou com dúvidas?</p>
         </div>
-    </aside>
-</div>
+
+        <p class="pl-5 text-[11px] text-white/75">
+            Está com dúvidas? Entre em contato com nosso suporte.
+        </p>
+
+    </div>
+
+</aside>
