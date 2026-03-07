@@ -1,1 +1,284 @@
-<p>transfers works!</p>
+<div class="block w-full min-h-full bg-t-light dark:bg-t-dark-lighter p-5 text-gray-900 dark:text-gray-100">
+
+  <!-- ── Header ─────────────────────────────────────────── -->
+  <div class="flex items-center justify-between mb-6">
+    <div>
+      <p class="text-[10px] font-bold tracking-[0.2em] text-gray-400 dark:text-gray-500 uppercase mb-1">Digital Bank</p>
+      <h1 class="text-2xl font-bold text-gray-900 dark:text-gray-50 leading-tight tracking-tight">Transações</h1>
+    </div>
+    <span class="text-xs text-gray-400 dark:text-gray-500 font-medium">
+      {{ filtered().length }} resultado{{ filtered().length !== 1 ? 's' : '' }}
+    </span>
+  </div>
+
+  <!-- ── Resumo entrada / saída ─────────────────────────── -->
+  <div class="grid grid-cols-2 gap-3 mb-5">
+    <div class="bg-t-light-light dark:bg-t-dark-light border border-t-light-dark dark:border-t-dark-light
+                rounded-2xl px-4 py-3.5 flex items-center gap-3">
+      <div class="w-8 h-8 rounded-xl flex items-center justify-center flex-shrink-0"
+           style="background: rgba(52,211,153,0.12)">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="2.5">
+          <line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/>
+        </svg>
+      </div>
+      <div>
+        <p class="text-[10px] text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-0.5">Entradas</p>
+        <p class="text-sm font-bold text-accent">{{ totalIn() | currency:'BRL':'symbol':'1.2-2' }}</p>
+      </div>
+    </div>
+    <div class="bg-t-light-light dark:bg-t-dark-light border border-t-light-dark dark:border-t-dark-light
+                rounded-2xl px-4 py-3.5 flex items-center gap-3">
+      <div class="w-8 h-8 rounded-xl flex items-center justify-center flex-shrink-0"
+           style="background: rgba(239,68,68,0.10)">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#f87171" stroke-width="2.5">
+          <line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/>
+        </svg>
+      </div>
+      <div>
+        <p class="text-[10px] text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-0.5">Saídas</p>
+        <p class="text-sm font-bold text-red-400">{{ totalOut() | currency:'BRL':'symbol':'1.2-2' }}</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Busca + botão filtros ──────────────────────────── -->
+  <div class="flex gap-2 mb-3">
+    <div class="relative flex-1">
+      <svg class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none"
+           width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+      </svg>
+      <input type="text" placeholder="Buscar transação..."
+        [value]="searchQuery()"
+        (input)="setSearch($any($event.target).value)"
+        class="w-full pl-9 pr-4 py-2.5 rounded-xl text-sm
+               bg-t-light-light dark:bg-t-dark-light
+               border border-t-light-dark dark:border-t-dark-light
+               text-gray-900 dark:text-gray-100
+               placeholder-gray-400 dark:placeholder-gray-600
+               focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/20
+               transition-all" />
+    </div>
+
+    <button (click)="toggleFilters()"
+      class="relative flex items-center gap-2 px-3.5 py-2.5 rounded-xl text-sm font-medium
+             border transition-all cursor-pointer"
+      [ngClass]="showFilters()
+        ? 'bg-primary text-white border-primary'
+        : 'bg-t-light-light dark:bg-t-dark-light border-t-light-dark dark:border-t-dark-light text-gray-600 dark:text-gray-400 hover:border-primary/40'">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <line x1="4" y1="6" x2="20" y2="6"/>
+        <line x1="8" y1="12" x2="16" y2="12"/>
+        <line x1="11" y1="18" x2="13" y2="18"/>
+      </svg>
+      Filtros
+      <span *ngIf="activeFiltersCount() > 0"
+        class="absolute -top-1.5 -right-1.5 w-4 h-4 rounded-full bg-primary-dark text-white
+               text-[9px] font-bold flex items-center justify-center
+               border-2 border-t-light dark:border-t-dark-lighter">
+        {{ activeFiltersCount() }}
+      </span>
+    </button>
+  </div>
+
+  <!-- ── Painel de filtros ──────────────────────────────── -->
+  <div *ngIf="showFilters()"
+    class="mb-4 p-4 rounded-2xl bg-t-light-light dark:bg-t-dark-light
+           border border-t-light-dark dark:border-t-dark-light flex flex-col gap-4 filter-panel">
+
+    <div>
+      <p class="text-[10px] font-bold tracking-[0.15em] uppercase text-gray-400 dark:text-gray-500 mb-2">Período</p>
+      <div class="flex gap-2 flex-wrap">
+        <button *ngFor="let p of periods" (click)="setPeriod(p.value)"
+          class="px-3.5 py-1.5 rounded-lg text-xs font-semibold border transition-all cursor-pointer"
+          [ngClass]="periodFilter() === p.value
+            ? 'bg-primary text-white border-primary'
+            : 'bg-t-light dark:bg-t-dark-lighter border-t-light-dark dark:border-t-dark-light text-gray-600 dark:text-gray-400 hover:border-primary/40'">
+          {{ p.label }}
+        </button>
+      </div>
+    </div>
+
+    <div>
+      <p class="text-[10px] font-bold tracking-[0.15em] uppercase text-gray-400 dark:text-gray-500 mb-2">Tipo</p>
+      <div class="flex gap-2 flex-wrap">
+        <button *ngFor="let t of typeOptions" (click)="setType(t.value)"
+          class="px-3.5 py-1.5 rounded-lg text-xs font-semibold border transition-all cursor-pointer"
+          [ngClass]="typeFilter() === t.value
+            ? 'bg-primary text-white border-primary'
+            : 'bg-t-light dark:bg-t-dark-lighter border-t-light-dark dark:border-t-dark-light text-gray-600 dark:text-gray-400 hover:border-primary/40'">
+          {{ t.label }}
+        </button>
+      </div>
+    </div>
+
+    <div>
+      <p class="text-[10px] font-bold tracking-[0.15em] uppercase text-gray-400 dark:text-gray-500 mb-2">Status</p>
+      <div class="flex gap-2 flex-wrap">
+        <button *ngFor="let s of statusOptions" (click)="setStatus(s.value)"
+          class="px-3.5 py-1.5 rounded-lg text-xs font-semibold border transition-all cursor-pointer"
+          [ngClass]="statusFilter() === s.value
+            ? 'bg-primary text-white border-primary'
+            : 'bg-t-light dark:bg-t-dark-lighter border-t-light-dark dark:border-t-dark-light text-gray-600 dark:text-gray-400 hover:border-primary/40'">
+          {{ s.label }}
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Estado vazio ───────────────────────────────────── -->
+  <div *ngIf="grouped().length === 0"
+    class="flex flex-col items-center justify-center py-16 text-center">
+    <div class="w-14 h-14 rounded-2xl bg-t-light-light dark:bg-t-dark-light
+                border border-t-light-dark dark:border-t-dark-light
+                flex items-center justify-center mb-4">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
+           class="text-gray-400">
+        <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+      </svg>
+    </div>
+    <p class="text-sm font-semibold text-gray-600 dark:text-gray-400 mb-1">Nenhuma transação encontrada</p>
+    <p class="text-xs text-gray-400 dark:text-gray-500">Tente ajustar os filtros ou a busca</p>
+  </div>
+
+  <!-- ── Grupos por data ────────────────────────────────── -->
+  <div *ngFor="let group of grouped(); let gi = index"
+       [ngClass]="gi > 0 ? 'mt-6' : ''">
+
+    <!-- Label do grupo -->
+    <div class="flex items-center justify-between px-1 mb-2">
+      <div class="flex items-center gap-2">
+        <span class="text-[11px] font-bold tracking-[0.12em] uppercase text-gray-500 dark:text-gray-400">
+          {{ group.label }}
+        </span>
+        <span class="text-[10px] text-gray-400 dark:text-gray-600">
+          · {{ group.transactions.length }}
+          transaç{{ group.transactions.length > 1 ? 'ões' : 'ão' }}
+        </span>
+      </div>
+      <!-- Mini resumo do dia -->
+      <div class="flex items-center gap-1.5 text-[11px]">
+        <span *ngIf="group.totalIn > 0" class="text-accent font-semibold">
+          +{{ group.totalIn | currency:'BRL':'symbol':'1.0-0' }}
+        </span>
+        <span *ngIf="group.totalIn > 0 && group.totalOut > 0"
+              class="text-gray-400 dark:text-gray-600">·</span>
+        <span *ngIf="group.totalOut > 0" class="text-red-400 font-semibold">
+          −{{ group.totalOut | currency:'BRL':'symbol':'1.0-0' }}
+        </span>
+      </div>
+    </div>
+
+    <!-- Cards do grupo -->
+    <div class="bg-t-light-light dark:bg-t-dark-light
+                border border-t-light-dark dark:border-t-dark-light rounded-2xl overflow-hidden">
+
+      <div *ngFor="let tx of group.transactions; let last = last">
+
+        <!-- Linha clicável -->
+        <div (click)="toggleExpand(tx.id)"
+          class="flex items-center justify-between px-4 py-3.5 cursor-pointer
+                 transition-colors select-none hover:bg-t-light dark:hover:bg-t-dark-lighter"
+          [ngClass]="{
+            'border-b border-t-light-dark dark:border-t-dark-light': !last || expandedId() === tx.id,
+            'bg-t-light dark:bg-t-dark-lighter': expandedId() === tx.id
+          }">
+
+          <div class="flex items-center gap-3.5 min-w-0">
+            <div class="w-9 h-9 rounded-xl flex items-center justify-center text-[16px] flex-shrink-0"
+                 [style.background]="tx.iconBg">
+              {{ tx.icon }}
+            </div>
+            <div class="min-w-0">
+              <p class="text-[13px] font-semibold text-gray-900 dark:text-gray-100 leading-tight truncate">
+                {{ tx.name }}
+              </p>
+              <div class="flex items-center gap-1.5 mt-0.5">
+                <span class="text-[10px] px-1.5 py-0.5 rounded-md font-medium
+                             bg-t-light dark:bg-t-dark-lighter text-gray-500 dark:text-gray-500">
+                  {{ tx.category }}
+                </span>
+                <span class="text-[10px] text-gray-400 dark:text-gray-600">{{ formatTime(tx.date) }}</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="flex items-center gap-3 flex-shrink-0 ml-3">
+            <div class="text-right">
+              <p class="text-[13px] font-bold"
+                 [ngClass]="tx.type === 'entrada' ? 'text-accent' : 'text-gray-900 dark:text-gray-100'">
+                {{ tx.type === 'entrada' ? '+' : '−' }}{{ tx.amount | currency:'BRL':'symbol':'1.2-2' }}
+              </p>
+              <div class="flex items-center justify-end gap-1 mt-0.5">
+                <span class="w-1.5 h-1.5 rounded-full"
+                  [ngClass]="{
+                    'bg-accent':     tx.status === 'Concluído',
+                    'bg-yellow-400': tx.status === 'Pendente',
+                    'bg-red-400':    tx.status === 'Recusado'
+                  }"></span>
+                <span class="text-[10px] text-gray-400 dark:text-gray-600">{{ tx.status }}</span>
+              </div>
+            </div>
+            <!-- Chevron rotacionável -->
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                 class="text-gray-400 dark:text-gray-600 flex-shrink-0 transition-transform duration-200"
+                 [ngClass]="expandedId() === tx.id ? 'rotate-90' : ''">
+              <polyline points="9 18 15 12 9 6"/>
+            </svg>
+          </div>
+        </div>
+
+        <!-- Painel de detalhes expandido -->
+        <div *ngIf="expandedId() === tx.id"
+          class="px-4 py-4 bg-t-light dark:bg-t-dark-lighter expand-panel"
+          [ngClass]="!last ? 'border-b border-t-light-dark dark:border-t-dark-light' : ''">
+
+          <div class="grid grid-cols-2 gap-y-3 gap-x-4 mb-3">
+            <div>
+              <p class="text-[9px] font-bold tracking-[0.15em] uppercase text-gray-400 dark:text-gray-500 mb-0.5">
+                Data completa
+              </p>
+              <p class="text-xs text-gray-700 dark:text-gray-300 font-medium">
+                {{ tx.date | date:'dd/MM/yyyy · HH:mm' }}
+              </p>
+            </div>
+            <div>
+              <p class="text-[9px] font-bold tracking-[0.15em] uppercase text-gray-400 dark:text-gray-500 mb-0.5">
+                Tipo
+              </p>
+              <p class="text-xs font-semibold"
+                 [ngClass]="tx.type === 'entrada' ? 'text-accent' : 'text-red-400'">
+                {{ tx.type === 'entrada' ? '↓ Entrada' : '↑ Saída' }}
+              </p>
+            </div>
+            <div>
+              <p class="text-[9px] font-bold tracking-[0.15em] uppercase text-gray-400 dark:text-gray-500 mb-0.5">
+                Categoria
+              </p>
+              <p class="text-xs text-gray-700 dark:text-gray-300 font-medium">{{ tx.category }}</p>
+            </div>
+            <div>
+              <p class="text-[9px] font-bold tracking-[0.15em] uppercase text-gray-400 dark:text-gray-500 mb-0.5">
+                ID
+              </p>
+              <p class="text-xs text-gray-500 dark:text-gray-500 font-mono">
+                #{{ tx.id.toString().padStart(6, '0') }}
+              </p>
+            </div>
+          </div>
+
+          <div *ngIf="tx.description"
+            class="p-3 rounded-xl bg-t-light-light dark:bg-t-dark-light
+                   border border-t-light-dark dark:border-t-dark-light">
+            <p class="text-[9px] font-bold tracking-[0.15em] uppercase text-gray-400 dark:text-gray-500 mb-1">
+              Descrição
+            </p>
+            <p class="text-xs text-gray-600 dark:text-gray-400 leading-relaxed">{{ tx.description }}</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+</div>
