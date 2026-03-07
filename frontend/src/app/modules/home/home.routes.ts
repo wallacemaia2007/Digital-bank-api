@@ -7,10 +7,8 @@ export const routes: Routes = [
     path: '',
     component: HomeComponent,
     children: [
-      {
-        path: 'dashboard',
-        component: DashboardComponent,
-      },
+      { path: '', pathMatch: 'full', redirectTo: 'dashboard' },
+      { path: 'dashboard', component: DashboardComponent },
     ],
   },
 ];

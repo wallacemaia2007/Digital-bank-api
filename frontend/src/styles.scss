@@ -13,8 +13,7 @@ $my-app-primary: (
   700: #294153,
   800: #294153,
   900: #294153,
-  contrast: (
-    50: white,
+  contrast: (50: white,
     100: white,
     200: white,
     300: white,
@@ -38,8 +37,7 @@ $my-app-accent: (
   700: #399D30,
   800: #399D30,
   900: #399D30,
-  contrast: (
-    50: white,
+  contrast: (50: white,
     100: white,
     200: white,
     300: white,
@@ -54,12 +52,9 @@ $my-app-accent: (
 
 $my-app-primary: mat.define-palette($my-app-primary);
 $my-app-accent: mat.define-palette($my-app-accent);
-$my-app-theme: mat.define-light-theme((
-  color: (
-    primary: $my-app-primary,
-    accent: $my-app-accent,
-  )
-));
+$my-app-theme: mat.define-light-theme((color: (primary: $my-app-primary,
+        accent: $my-app-accent,
+      )));
 
 @include mat.all-component-themes($my-app-theme);
 
@@ -67,8 +62,30 @@ $my-app-theme: mat.define-light-theme((
 @tailwind components;
 @tailwind utilities;
 
-html, body { height: 100%; }
-body { margin: 0; font-family: "Poppins", sans-serif; }
+// ── Reset crítico para layout full-screen ──────────────
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  font-family: 'Poppins', sans-serif;
+  background: #030714;
+}
+
+// app-root precisa preencher tudo
+app-root {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
 
 .mdc-notched-outline__notch {
   border-right: none;

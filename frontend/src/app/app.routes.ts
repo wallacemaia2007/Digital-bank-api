@@ -1,11 +1,11 @@
 import { Routes } from '@angular/router';
-import { adminGuard, userGuard } from './core/auth/auth.guard';
+import { adminGuard } from './core/auth/auth.guard';
 
 export const routes: Routes = [
   {
     path: '',
     pathMatch: 'full',
-    redirectTo: 'public',
+    redirectTo: 'home',
   },
   {
     path: 'public',

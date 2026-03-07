@@ -12,7 +12,7 @@ interface UserCardData {
 @Component({
   selector: 'app-user-card',
   standalone: true,
-  imports: [CommonModule, MatTooltip],
+  imports: [CommonModule],
   templateUrl: './user-card.component.html',
 })
 export class UserCardComponent implements OnInit {

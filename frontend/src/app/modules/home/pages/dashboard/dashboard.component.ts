@@ -27,7 +27,6 @@ interface SpendingCategory {
   styleUrl: './dashboard.component.scss',
 })
 export class DashboardComponent {
-
   public transactions: Transaction[] = [
     {
       name: 'PlayStation',
@@ -78,10 +77,10 @@ export class DashboardComponent {
   ];
 
   public categories: SpendingCategory[] = [
-    { label: 'Clothing',  value: 34, height: '70px', colorClass: 'bar-blue' },
+    { label: 'Clothing', value: 34, height: '70px', colorClass: 'bar-blue' },
     { label: 'Groceries', value: 16, height: '35px', colorClass: 'bar-gray-1' },
-    { label: 'Pets',      value: 8,  height: '20px', colorClass: 'bar-gray-2' },
-    { label: 'Bills',     value: 6,  height: '14px', colorClass: 'bar-gray-3' },
+    { label: 'Pets', value: 8, height: '20px', colorClass: 'bar-gray-2' },
+    { label: 'Bills', value: 6, height: '14px', colorClass: 'bar-gray-3' },
   ];
 
   public spendingIcons: string[] = ['👕', '🛒', '🐾', '💡'];

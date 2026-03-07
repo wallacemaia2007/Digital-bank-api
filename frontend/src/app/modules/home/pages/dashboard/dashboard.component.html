@@ -1,229 +1,286 @@
-<div class="dashboard-wrapper">
-  <!-- Top Bar -->
-  <div class="top-bar">
-    <button class="month-btn">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
-        <line x1="16" y1="2" x2="16" y2="6"></line>
-        <line x1="8" y1="2" x2="8" y2="6"></line>
-        <line x1="3" y1="10" x2="21" y2="10"></line>
-      </svg>
-      This Month
-    </button>
-    <div class="top-bar-actions">
-      <button class="manage-btn">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <rect x="3" y="3" width="7" height="7"></rect>
-          <rect x="14" y="3" width="7" height="7"></rect>
-          <rect x="3" y="14" width="7" height="7"></rect>
-          <rect x="14" y="14" width="7" height="7"></rect>
-        </svg>
-        Manage Widgets
-      </button>
-      <button class="add-btn">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <line x1="12" y1="5" x2="12" y2="19"></line>
-          <line x1="5" y1="12" x2="19" y2="12"></line>
-        </svg>
-        Add new Widget
-      </button>
-    </div>
-  </div>
-
-  <!-- Main Grid -->
-  <div class="dashboard-grid">
-
-    <!-- AI Insights Card -->
-    <div class="card ai-insights-card">
-      <div class="ai-badge">AI Insights</div>
-      <div class="ai-glow"></div>
-      <div class="ai-content">
-        <div class="ai-dots">
-          <span class="dot active"></span>
-          <span class="dot"></span>
-          <span class="dot"></span>
-          <span class="dot"></span>
-        </div>
-        <p class="ai-text">Your Transaction Volume has increased by 5% Since last Month</p>
-      </div>
-      <button class="card-link-btn">
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-          <path d="M7 17L17 7M17 7H7M17 7v10"/>
-        </svg>
-      </button>
-    </div>
-
-    <!-- Balance Overview Card -->
-    <div class="card balance-card">
-      <div class="card-header">
-        <span class="card-title">Balance Overview</span>
-        <button class="card-link-btn">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-            <path d="M7 17L17 7M17 7H7M17 7v10"/>
-          </svg>
-        </button>
-      </div>
-      <div class="balance-amount">
-        $68484
-        <span class="change-badge positive">
-          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
-            <polyline points="18 15 12 9 6 15"></polyline>
-          </svg>
-          12% From last month
-        </span>
-      </div>
-      <div class="balance-tags">
-        <span class="tag">
-          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <polyline points="17 1 21 5 17 9"></polyline>
-            <path d="M3 11V9a4 4 0 0 1 4-4h14"></path>
-            <polyline points="7 23 3 19 7 15"></polyline>
-            <path d="M21 13v2a4 4 0 0 1-4 4H3"></path>
-          </svg>
-          44 transactions
-        </span>
-        <span class="tag">
-          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path>
-            <line x1="7" y1="7" x2="7.01" y2="7"></line>
-          </svg>
-          12 categories
-        </span>
-      </div>
-      <div class="chart-area">
-        <svg class="line-chart" viewBox="0 0 280 80" preserveAspectRatio="none">
-          <defs>
-            <linearGradient id="chartGradient" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stop-color="#3b82f6" stop-opacity="0.3"/>
-              <stop offset="100%" stop-color="#3b82f6" stop-opacity="0"/>
-            </linearGradient>
-          </defs>
-          <path d="M0,65 C20,60 35,70 50,55 C65,40 80,30 100,45 C120,60 130,35 150,20 C170,5 190,25 210,30 C230,35 250,20 280,15" stroke="#3b82f6" stroke-width="2.5" fill="none" stroke-linecap="round"/>
-          <path d="M0,65 C20,60 35,70 50,55 C65,40 80,30 100,45 C120,60 130,35 150,20 C170,5 190,25 210,30 C230,35 250,20 280,15 L280,80 L0,80 Z" fill="url(#chartGradient)"/>
-        </svg>
-        <div class="chart-labels">
-          <span>5</span><span>16</span><span>17</span><span>18</span><span>19</span>
-          <span>20</span><span class="active">21</span><span class="active">22</span>
-          <span class="active">23</span><span>24</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- Earnings Card -->
-    <div class="card earnings-card">
-      <div class="card-header">
-        <span class="card-title">Earnings</span>
-        <button class="card-link-btn">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-            <path d="M7 17L17 7M17 7H7M17 7v10"/>
-          </svg>
-        </button>
-      </div>
-      <div class="balance-amount">
-        $68484
-        <span class="change-badge positive">
-          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
-            <polyline points="18 15 12 9 6 15"></polyline>
-          </svg>
-          7% From last month
-        </span>
-      </div>
-      <div class="gauge-container">
-        <svg class="gauge-svg" viewBox="0 0 200 120">
-          <defs>
-            <linearGradient id="gaugeGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%" stop-color="#3b82f6"/>
-              <stop offset="100%" stop-color="#6366f1"/>
-            </linearGradient>
-          </defs>
-          <!-- Background arc -->
-          <path d="M 20 100 A 80 80 0 0 1 180 100" stroke="#2a2f3e" stroke-width="16" fill="none" stroke-linecap="round"/>
-          <!-- Progress arc (58% = ~0.58 * 180deg = ~104.4deg) -->
-          <path d="M 20 100 A 80 80 0 0 1 180 100" stroke="url(#gaugeGradient)" stroke-width="16" fill="none" stroke-linecap="round"
-                stroke-dasharray="251.2" stroke-dashoffset="105.5"/>
-          <text x="100" y="88" text-anchor="middle" class="gauge-label-small">Percentage</text>
-          <text x="100" y="108" text-anchor="middle" class="gauge-value">58%</text>
-        </svg>
-        <div class="gauge-legend">
-          <span class="legend-item"><span class="legend-dot blue"></span> Current</span>
-          <span class="legend-item"><span class="legend-dot gray"></span> Month goal</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- Transactions Card -->
-    <div class="card transactions-card">
-      <div class="card-header">
-        <span class="card-title">Transactions</span>
-        <div class="card-actions">
-          <button class="icon-btn">
+<div class="block w-full min-h-screen bg-t-light dark:bg-t-dark p-5 text-gray-900 dark:text-gray-100">
+    <!-- Top Bar -->
+    <div class="flex items-center justify-between mb-5">
+        <button
+            class="flex items-center gap-1.5 bg-t-light-light dark:bg-t-dark-lighter border border-t-light-dark dark:border-t-dark-light text-gray-700 dark:text-gray-400 px-3.5 py-1.5 rounded-lg text-xs cursor-pointer transition-colors hover:bg-gray-100 dark:hover:bg-t-dark-light">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <line x1="4" y1="6" x2="20" y2="6"></line>
-              <line x1="4" y1="12" x2="14" y2="12"></line>
-              <line x1="4" y1="18" x2="11" y2="18"></line>
+                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                <line x1="16" y1="2" x2="16" y2="6"></line>
+                <line x1="8" y1="2" x2="8" y2="6"></line>
+                <line x1="3" y1="10" x2="21" y2="10"></line>
             </svg>
-          </button>
-          <button class="icon-btn">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-              <path d="M7 17L17 7M17 7H7M17 7v10"/>
-            </svg>
-          </button>
-        </div>
-      </div>
-
-      <div class="transactions-list">
-        <div class="transaction-item" *ngFor="let tx of transactions">
-          <div class="tx-left">
-            <div class="tx-icon" [style.background]="tx.iconBg">
-              <span>{{ tx.icon }}</span>
-            </div>
-            <span class="tx-name">{{ tx.name }}</span>
-          </div>
-          <div class="tx-middle">
-            <span class="tx-card">
-              <span class="card-brand" [class]="tx.cardType">{{ tx.cardType === 'visa' ? 'VISA' : '●●' }}</span>
-              **** {{ tx.last4 }}
-            </span>
-            <span class="tx-date">{{ tx.date }}</span>
-          </div>
-          <span class="tx-amount" [class.positive]="tx.positive">{{ tx.amount }}</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- Spending Card -->
-    <div class="card spending-card">
-      <div class="card-header">
-        <span class="card-title">Spending</span>
-        <button class="card-link-btn">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-            <path d="M7 17L17 7M17 7H7M17 7v10"/>
-          </svg>
+            This Month
         </button>
-      </div>
-      <div class="spending-amount">
-        78118
-        <span class="change-badge negative">
-          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
-            <polyline points="6 9 12 15 18 9"></polyline>
-          </svg>
-          2 From last month
-        </span>
-      </div>
-      <div class="spending-categories">
-        <div class="category-bar" *ngFor="let cat of categories">
-          <div class="bar-fill" [style.height]="cat.height" [class]="cat.colorClass"></div>
-          <span class="bar-value">{{ cat.value }}</span>
-          <span class="bar-label">{{ cat.label }}</span>
+        <div class="flex gap-2.5">
+            <button
+                class="flex items-center gap-1.5 bg-t-light-light dark:bg-t-dark-lighter border border-t-light-dark dark:border-t-dark-light text-gray-700 dark:text-gray-400 px-3.5 py-1.5 rounded-lg text-xs cursor-pointer transition-colors hover:bg-gray-100 dark:hover:bg-t-dark-light">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="3" y="3" width="7" height="7"></rect>
+                    <rect x="14" y="3" width="7" height="7"></rect>
+                    <rect x="3" y="14" width="7" height="7"></rect>
+                    <rect x="14" y="14" width="7" height="7"></rect>
+                </svg>
+                Manage Widgets
+            </button>
+            <button
+                class="flex items-center gap-1.5 bg-primary border-none text-white px-3.5 py-1.5 rounded-lg text-xs font-medium cursor-pointer transition-colors hover:bg-primary-dark">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="12" y1="5" x2="12" y2="19"></line>
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                </svg>
+                Add new Widget
+            </button>
         </div>
-      </div>
-      <div class="spending-icons">
-        <div class="spending-icon-btn" *ngFor="let icon of spendingIcons">
-          <span>{{ icon }}</span>
-        </div>
-        <div class="spending-icon-btn more">+8</div>
-      </div>
     </div>
 
-  </div>
+    <!-- Main Grid -->
+    <div class="grid grid-cols-1 lg:grid-cols-[1fr_1.4fr_1fr] auto-rows-auto gap-4">
+
+        <!-- AI Insights Card -->
+        <div
+            class="relative overflow-hidden bg-gradient-to-br from-[#0f1629] to-t-dark-lighter dark:to-t-dark-lighter border border-t-light-dark dark:border-t-dark-light rounded-2xl p-5 min-h-[200px] flex flex-col justify-between cursor-pointer transition-colors hover:border-primary/30">
+            <div
+                class="inline-flex items-center self-start bg-primary/15 border border-primary/30 text-primary-light text-[11px] font-semibold px-2.5 py-1 rounded-md tracking-wide">
+                AI Insights</div>
+            <div
+                class="absolute -top-5 -right-5 w-[140px] h-[140px] bg-[radial-gradient(circle,rgba(59,130,246,0.2)_0%,transparent_70%)] pointer-events-none animate-pulse">
+            </div>
+            <div class="flex-1 flex flex-col justify-end pt-4">
+                <div class="flex gap-1.5 mb-2.5">
+                    <span class="w-1.5 h-1.5 rounded-full bg-primary shadow-[0_0_6px_rgba(59,130,246,0.6)]"></span>
+                    <span class="w-1.5 h-1.5 rounded-full bg-gray-600 dark:bg-gray-700"></span>
+                    <span class="w-1.5 h-1.5 rounded-full bg-gray-600 dark:bg-gray-700"></span>
+                    <span class="w-1.5 h-1.5 rounded-full bg-gray-600 dark:bg-gray-700"></span>
+                </div>
+                <p class="text-[15px] font-semibold text-gray-900 dark:text-gray-100 leading-[1.4] m-0">Your Transaction
+                    Volume has increased by 5% Since last Month</p>
+            </div>
+            <button
+                class="absolute bottom-[18px] right-[18px] w-7 h-7 rounded-lg bg-t-light-light dark:bg-t-dark-lighter border border-t-light-dark dark:border-t-dark-light text-gray-500 dark:text-gray-500 flex items-center justify-center cursor-pointer transition-all hover:bg-gray-100 dark:hover:bg-t-dark-light hover:text-gray-700 dark:hover:text-gray-400">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <path d="M7 17L17 7M17 7H7M17 7v10" />
+                </svg>
+            </button>
+        </div>
+
+        <!-- Balance Overview Card -->
+        <div
+            class="bg-t-light-light dark:bg-t-dark-lighter border border-t-light-dark dark:border-t-dark-light rounded-2xl p-5 relative overflow-hidden transition-colors hover:border-primary/20">
+            <div class="flex justify-between items-center mb-3">
+                <span class="text-sm font-semibold text-gray-900 dark:text-gray-100 tracking-tight">Balance
+                    Overview</span>
+                <button
+                    class="w-7 h-7 rounded-lg bg-t-light dark:bg-t-dark-light border border-t-light-dark dark:border-t-dark-light text-gray-500 flex items-center justify-center cursor-pointer transition-all hover:bg-gray-100 dark:hover:bg-t-dark hover:text-gray-700 dark:hover:text-gray-400">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2.5">
+                        <path d="M7 17L17 7M17 7H7M17 7v10" />
+                    </svg>
+                </button>
+            </div>
+            <div class="balance-amount">
+                $68484
+                <span class="change-badge positive">
+                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                        <polyline points="18 15 12 9 6 15"></polyline>
+                    </svg>
+                    12% From last month
+                </span>
+            </div>
+            <div class="flex gap-2 mb-3.5 flex-wrap">
+                <span
+                    class="inline-flex items-center gap-1.5 bg-t-light dark:bg-t-dark-light border border-t-light-dark dark:border-t-dark-light text-gray-600 dark:text-gray-400 text-[11px] px-2.5 py-1 rounded-md">
+                    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="17 1 21 5 17 9"></polyline>
+                        <path d="M3 11V9a4 4 0 0 1 4-4h14"></path>
+                        <polyline points="7 23 3 19 7 15"></polyline>
+                        <path d="M21 13v2a4 4 0 0 1-4 4H3"></path>
+                    </svg>
+                    44 transactions
+                </span>
+                <span
+                    class="inline-flex items-center gap-1.5 bg-t-light dark:bg-t-dark-light border border-t-light-dark dark:border-t-dark-light text-gray-600 dark:text-gray-400 text-[11px] px-2.5 py-1 rounded-md">
+                    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path>
+                        <line x1="7" y1="7" x2="7.01" y2="7"></line>
+                    </svg>
+                    12 categories
+                </span>
+            </div>
+            <div class="relative">
+                <svg class="line-chart" viewBox="0 0 280 80" preserveAspectRatio="none">
+                    <defs>
+                        <linearGradient id="chartGradient" x1="0" y1="0" x2="0" y2="1">
+                            <stop offset="0%" stop-color="#3b82f6" stop-opacity="0.3" />
+                            <stop offset="100%" stop-color="#3b82f6" stop-opacity="0" />
+                        </linearGradient>
+                    </defs>
+                    <path
+                        d="M0,65 C20,60 35,70 50,55 C65,40 80,30 100,45 C120,60 130,35 150,20 C170,5 190,25 210,30 C230,35 250,20 280,15"
+                        stroke="#3b82f6" stroke-width="2.5" fill="none" stroke-linecap="round" />
+                    <path
+                        d="M0,65 C20,60 35,70 50,55 C65,40 80,30 100,45 C120,60 130,35 150,20 C170,5 190,25 210,30 C230,35 250,20 280,15 L280,80 L0,80 Z"
+                        fill="url(#chartGradient)" />
+                </svg>
+                <div class="flex justify-between mt-1.5 px-1">
+                    <span class="text-[10px] text-gray-500 dark:text-gray-600">5</span><span
+                        class="text-[10px] text-gray-500 dark:text-gray-600">16</span><span
+                        class="text-[10px] text-gray-500 dark:text-gray-600">17</span><span
+                        class="text-[10px] text-gray-500 dark:text-gray-600">18</span><span
+                        class="text-[10px] text-gray-500 dark:text-gray-600">19</span>
+                    <span class="text-[10px] text-gray-500 dark:text-gray-600">20</span><span
+                        class="text-[10px] font-semibold text-primary">21</span><span
+                        class="text-[10px] font-semibold text-primary">22</span>
+                    <span class="text-[10px] font-semibold text-primary">23</span><span
+                        class="text-[10px] text-gray-500 dark:text-gray-600">24</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Earnings Card -->
+        <div
+            class="bg-t-light-light dark:bg-t-dark-lighter border border-t-light-dark dark:border-t-dark-light rounded-2xl p-5 relative overflow-hidden flex flex-col transition-colors hover:border-primary/20">
+            <div class="flex justify-between items-center mb-3">
+                <span class="text-sm font-semibold text-gray-900 dark:text-gray-100 tracking-tight">Earnings</span>
+                <button
+                    class="w-7 h-7 rounded-lg bg-t-light dark:bg-t-dark-light border border-t-light-dark dark:border-t-dark-light text-gray-500 flex items-center justify-center cursor-pointer transition-all hover:bg-gray-100 dark:hover:bg-t-dark hover:text-gray-700 dark:hover:text-gray-400">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2.5">
+                        <path d="M7 17L17 7M17 7H7M17 7v10" />
+                    </svg>
+                </button>
+            </div>
+            <div class="balance-amount">
+                $68484
+                <span class="change-badge positive">
+                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                        <polyline points="18 15 12 9 6 15"></polyline>
+                    </svg>
+                    7% From last month
+                </span>
+            </div>
+            <div class="flex flex-col items-center mt-2">
+                <svg class="gauge-svg" viewBox="0 0 200 120">
+                    <defs>
+                        <linearGradient id="gaugeGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                            <stop offset="0%" stop-color="#3b82f6" />
+                            <stop offset="100%" stop-color="#6366f1" />
+                        </linearGradient>
+                    </defs>
+                    <!-- Background arc -->
+                    <path d="M 20 100 A 80 80 0 0 1 180 100" stroke="#2a2f3e" stroke-width="16" fill="none"
+                        stroke-linecap="round" />
+                    <!-- Progress arc (58% = ~0.58 * 180deg = ~104.4deg) -->
+                    <path d="M 20 100 A 80 80 0 0 1 180 100" stroke="url(#gaugeGradient)" stroke-width="16" fill="none"
+                        stroke-linecap="round" stroke-dasharray="251.2" stroke-dashoffset="105.5" />
+                    <text x="100" y="88" text-anchor="middle"
+                        class="text-[10px] fill-gray-500 dark:fill-gray-600">Percentage</text>
+                    <text x="100" y="108" text-anchor="middle"
+                        class="text-base font-bold fill-gray-900 dark:fill-gray-100">58%</text>
+                </svg>
+                <div class="flex gap-3.5 text-[11px] text-gray-500 dark:text-gray-600">
+                    <span class="flex items-center gap-1.5"><span
+                            class="w-[7px] h-[7px] rounded-full bg-primary"></span> Current</span>
+                    <span class="flex items-center gap-1.5"><span
+                            class="w-[7px] h-[7px] rounded-full bg-gray-600 dark:bg-gray-700"></span> Month goal</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Transactions Card -->
+        <div
+            class="lg:col-span-2 bg-t-light-light dark:bg-t-dark-lighter border border-t-light-dark dark:border-t-dark-light rounded-2xl p-5 relative overflow-hidden transition-colors hover:border-primary/20">
+            <div class="flex justify-between items-center mb-3">
+                <span class="text-sm font-semibold text-gray-900 dark:text-gray-100 tracking-tight">Transactions</span>
+                <div class="flex gap-1.5">
+                    <button
+                        class="w-7 h-7 rounded-lg bg-t-light dark:bg-t-dark-light border border-t-light-dark dark:border-t-dark-light text-gray-500 flex items-center justify-center cursor-pointer transition-all hover:bg-gray-100 dark:hover:bg-t-dark hover:text-gray-700 dark:hover:text-gray-400">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <line x1="4" y1="6" x2="20" y2="6"></line>
+                            <line x1="4" y1="12" x2="14" y2="12"></line>
+                            <line x1="4" y1="18" x2="11" y2="18"></line>
+                        </svg>
+                    </button>
+                    <button
+                        class="w-7 h-7 rounded-lg bg-t-light dark:bg-t-dark-light border border-t-light-dark dark:border-t-dark-light text-gray-500 flex items-center justify-center cursor-pointer transition-all hover:bg-gray-100 dark:hover:bg-t-dark hover:text-gray-700 dark:hover:text-gray-400">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2.5">
+                            <path d="M7 17L17 7M17 7H7M17 7v10" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <div class="flex flex-col gap-0.5">
+                <div class="flex items-center justify-between px-2 py-2.5 rounded-[10px] cursor-pointer transition-colors hover:bg-t-light dark:hover:bg-t-dark-light"
+                    *ngFor="let tx of transactions">
+                    <div class="flex items-center gap-3 min-w-[120px]">
+                        <div class="w-8 h-8 rounded-lg flex items-center justify-center text-base flex-shrink-0"
+                            [style.background]="tx.iconBg">
+                            <span>{{ tx.icon }}</span>
+                        </div>
+                        <span class="text-[13px] font-medium text-gray-900 dark:text-gray-100 whitespace-nowrap">{{
+                            tx.name }}</span>
+                    </div>
+                    <div class="flex flex-col items-center gap-0.5 flex-1 px-5">
+                        <span class="flex items-center gap-1.5 text-[11px] text-gray-500 dark:text-gray-600">
+                            <span class="font-bold text-[10px]"
+                                [ngClass]="tx.cardType === 'visa' ? 'text-primary-light' : 'text-red-400'">{{
+                                tx.cardType === 'visa' ? 'VISA' : '●●'
+                                }}</span>
+                            **** {{ tx.last4 }}
+                        </span>
+                        <span class="text-[11px] text-gray-500 dark:text-gray-600">{{ tx.date }}</span>
+                    </div>
+                    <span class="text-[13px] font-semibold text-right min-w-[60px]"
+                        [ngClass]="tx.positive ? 'text-accent' : 'text-gray-900 dark:text-gray-100'">{{ tx.amount
+                        }}</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Spending Card -->
+        <div
+            class="bg-t-light-light dark:bg-t-dark-lighter border border-t-light-dark dark:border-t-dark-light rounded-2xl p-5 relative overflow-hidden flex flex-col transition-colors hover:border-primary/20">
+            <div class="flex justify-between items-center mb-3">
+                <span class="text-sm font-semibold text-gray-900 dark:text-gray-100 tracking-tight">Spending</span>
+                <button
+                    class="w-7 h-7 rounded-lg bg-t-light dark:bg-t-dark-light border border-t-light-dark dark:border-t-dark-light text-gray-500 flex items-center justify-center cursor-pointer transition-all hover:bg-gray-100 dark:hover:bg-t-dark hover:text-gray-700 dark:hover:text-gray-400">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2.5">
+                        <path d="M7 17L17 7M17 7H7M17 7v10" />
+                    </svg>
+                </button>
+            </div>
+            <div
+                class="text-[22px] font-bold text-gray-900 dark:text-gray-50 flex items-center gap-2.5 mb-3.5 flex-wrap">
+                78118
+                <span
+                    class="inline-flex items-center gap-1 text-[11px] font-medium px-2 py-0.5 rounded-full text-red-400 bg-red-400/10">
+                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                        <polyline points="6 9 12 15 18 9"></polyline>
+                    </svg>
+                    2 From last month
+                </span>
+            </div>
+            <div class="flex gap-2 items-end h-20 mb-3">
+                <div class="flex flex-col items-center gap-1 flex-1" *ngFor="let cat of categories">
+                    <div class="w-full rounded-t-md min-h-[6px]" [style.height]="cat.height"
+                        [ngClass]="cat.colorClass === 'bar-blue' ? 'bg-primary' : 'bg-gray-600 dark:bg-gray-700'"></div>
+                    <span class="text-[11px] font-semibold text-gray-900 dark:text-gray-100">{{ cat.value }}</span>
+                    <span class="text-[10px] text-gray-500 dark:text-gray-600">{{ cat.label }}</span>
+                </div>
+            </div>
+            <div class="flex gap-1.5 flex-wrap mt-auto">
+                <div class="w-8 h-8 rounded-lg bg-t-light dark:bg-t-dark-light border border-t-light-dark dark:border-t-dark-light flex items-center justify-center text-sm cursor-pointer transition-colors hover:bg-gray-100 dark:hover:bg-t-dark"
+                    *ngFor="let icon of spendingIcons">
+                    <span>{{ icon }}</span>
+                </div>
+                <div
+                    class="w-auto h-8 px-2 rounded-lg bg-t-light dark:bg-t-dark-light border border-t-light-dark dark:border-t-dark-light flex items-center justify-center text-[10px] font-semibold text-gray-500 dark:text-gray-600 cursor-pointer transition-colors hover:bg-gray-100 dark:hover:bg-t-dark">
+                    +8</div>
+            </div>
+        </div>
+
+    </div>
 </div>
