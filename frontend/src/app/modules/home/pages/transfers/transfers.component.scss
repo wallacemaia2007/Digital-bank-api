@@ -4,20 +4,29 @@
     font-family: 'Poppins', sans-serif;
 }
 
-// Painel de filtros desliza para baixo
-.filter-panel {
-    animation: slideDown 0.2s ease-out both;
+// ── Modal animations ───────────────────────────────────
+.modal-backdrop {
+    animation: fadeIn 0.2s ease-out both;
 }
 
-// Painel de detalhes expande suavemente
-.expand-panel {
-    animation: expandIn 0.18s ease-out both;
+.modal-sheet {
+    animation: slideUp 0.25s cubic-bezier(0.32, 0.72, 0, 1) both;
 }
 
-@keyframes slideDown {
+@keyframes fadeIn {
     from {
         opacity: 0;
-        transform: translateY(-8px);
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(24px);
     }
 
     to {
@@ -26,14 +35,32 @@
     }
 }
 
-@keyframes expandIn {
-    from {
-        opacity: 0;
-        transform: translateY(-4px);
+// ── Date input cross-browser ───────────────────────────
+.date-input {
+
+    // Remove o ícone padrão do browser e deixa o input limpo
+    &::-webkit-calendar-picker-indicator {
+        opacity: 0.4;
+        cursor: pointer;
+        filter: invert(0.5);
+
+        &:hover {
+            opacity: 0.8;
+        }
     }
 
-    to {
-        opacity: 1;
-        transform: translateY(0);
+    // Firefox
+    &::-moz-focus-inner {
+        border: 0;
+    }
+}
+
+// Dark mode: date input fica legível
+.dark .date-input {
+    color-scheme: dark;
+
+    &::-webkit-calendar-picker-indicator {
+        filter: invert(1);
+        opacity: 0.4;
     }
 }
