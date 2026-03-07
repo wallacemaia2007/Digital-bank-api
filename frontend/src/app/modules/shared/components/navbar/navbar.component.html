@@ -1,0 +1,13 @@
+<nav
+	class="inline-block w-[180px] rounded-2xl bg-[#0a1023] px-[10px] py-3 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.03)]">
+	<ul class="m-0 flex list-none flex-col gap-[3px] p-0">
+		<li *ngFor="let item of items">
+			<button type="button" (click)="navigate(item.link)"
+				class="flex w-full cursor-pointer items-center gap-2 rounded-[10px] border-none bg-transparent px-2 py-[7px] text-left text-[13px] font-medium leading-[1.2] text-[#9ba1b1] transition-colors duration-200 ease-in-out hover:bg-[#141c31] hover:text-[#e1e6f5]"
+				[ngClass]="item.active ? 'bg-[#1a2238] text-[#eef1f7]' : ''">
+				<mat-icon class="!h-4 !w-4 !text-base">{{ item.icon }}</mat-icon>
+				<span>{{ item.label }}</span>
+			</button>
+		</li>
+	</ul>
+</nav>
