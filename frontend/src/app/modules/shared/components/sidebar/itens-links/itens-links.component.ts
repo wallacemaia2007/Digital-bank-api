@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
 
@@ -42,20 +42,18 @@ type NavItem = {
 })
 export class ItensLinksComponent {
   private router = inject(Router);
+  private activatedRoute = inject(ActivatedRoute);
 
   readonly items: NavItem[] = [
-    { label: 'Dashboard', icon: 'grid_view', link: '/dashboard' },
-    { label: 'Neuro AI', icon: 'auto_awesome', link: '/neuro-ai' },
-    { label: 'Accounts', icon: 'account_balance_wallet', link: '/accounts' },
-    { label: 'Transactions', icon: 'sync_alt', link: '/transactions' },
-    { label: 'Reports', icon: 'pie_chart_outline', link: '/reports' },
-    { label: 'Investments', icon: 'show_chart', link: '/investments' },
-    { label: 'Loans', icon: 'account_balance', link: '/loans' },
-    { label: 'Taxes', icon: 'request_quote', link: '/taxes' },
+    { label: 'Dashboard', icon: 'grid_view', link: 'dashboard' },
+    { label: 'Account', icon: 'account_circle', link: 'account' },
+    { label: 'Transfers', icon: 'swap_horiz', link: 'transfers' },
+    { label: 'Savings', icon: 'savings', link: 'savings' },
+    { label: 'Loans', icon: 'account_balance', link: 'loans' },
   ];
 
   isActive(link: string): boolean {
-    return this.router.isActive(link, {
+    return this.router.isActive(`/home/${link}`, {
       paths: 'exact',
       queryParams: 'ignored',
       fragment: 'ignored',
@@ -64,6 +62,6 @@ export class ItensLinksComponent {
   }
 
   navigate(link: string) {
-    this.router.navigate([link]);
+    this.router.navigate([link], { relativeTo: this.activatedRoute });
   }
 }
